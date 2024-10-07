@@ -18,13 +18,17 @@ from .._utils import (
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
     StreamedBinaryAPIResponse,
     AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
+    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
     to_custom_streamed_response_wrapper,
+    async_to_custom_raw_response_wrapper,
     async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
@@ -65,7 +69,7 @@ class SpeechResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> BinaryAPIResponse:
         """
         Synthesize
 
@@ -78,6 +82,7 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
         return self._post(
             "/v1/speech",
             body=maybe_transform(
@@ -95,7 +100,7 @@ class SpeechResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
             ),
-            cast_to=object,
+            cast_to=BinaryAPIResponse,
         )
 
     def transcibe(
@@ -179,7 +184,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> AsyncBinaryAPIResponse:
         """
         Synthesize
 
@@ -192,6 +197,7 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
         return await self._post(
             "/v1/speech",
             body=await async_maybe_transform(
@@ -209,7 +215,7 @@ class AsyncSpeechResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
             ),
-            cast_to=object,
+            cast_to=AsyncBinaryAPIResponse,
         )
 
     async def transcibe(
@@ -264,8 +270,9 @@ class SpeechResourceWithRawResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_raw_response_wrapper(
+        self.generate = to_custom_raw_response_wrapper(
             speech.generate,
+            BinaryAPIResponse,
         )
         self.transcibe = to_raw_response_wrapper(
             speech.transcibe,
@@ -276,8 +283,9 @@ class AsyncSpeechResourceWithRawResponse:
     def __init__(self, speech: AsyncSpeechResource) -> None:
         self._speech = speech
 
-        self.generate = async_to_raw_response_wrapper(
+        self.generate = async_to_custom_raw_response_wrapper(
             speech.generate,
+            AsyncBinaryAPIResponse,
         )
         self.transcibe = async_to_raw_response_wrapper(
             speech.transcibe,
