@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import speech_get_params, speech_generate_params, speech_transcibe_params
+from ..types import speech_generate_params, speech_transcibe_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
 from .._utils import (
     maybe_transform,
@@ -88,41 +88,6 @@ class SpeechResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
-            ),
-            cast_to=object,
-        )
-
-    def get(
-        self,
-        *,
-        file_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """
-        Get Speech
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return self._get(
-            "/v1/speech",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"file_id": file_id}, speech_get_params.SpeechGetParams),
             ),
             cast_to=object,
         )
@@ -235,41 +200,6 @@ class AsyncSpeechResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def get(
-        self,
-        *,
-        file_id: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """
-        Get Speech
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        return await self._get(
-            "/v1/speech",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"file_id": file_id}, speech_get_params.SpeechGetParams),
-            ),
-            cast_to=object,
-        )
-
     async def transcibe(
         self,
         *,
@@ -319,9 +249,6 @@ class SpeechResourceWithRawResponse:
         self.generate = to_raw_response_wrapper(
             speech.generate,
         )
-        self.get = to_raw_response_wrapper(
-            speech.get,
-        )
         self.transcibe = to_raw_response_wrapper(
             speech.transcibe,
         )
@@ -333,9 +260,6 @@ class AsyncSpeechResourceWithRawResponse:
 
         self.generate = async_to_raw_response_wrapper(
             speech.generate,
-        )
-        self.get = async_to_raw_response_wrapper(
-            speech.get,
         )
         self.transcibe = async_to_raw_response_wrapper(
             speech.transcibe,
@@ -349,9 +273,6 @@ class SpeechResourceWithStreamingResponse:
         self.generate = to_streamed_response_wrapper(
             speech.generate,
         )
-        self.get = to_streamed_response_wrapper(
-            speech.get,
-        )
         self.transcibe = to_streamed_response_wrapper(
             speech.transcibe,
         )
@@ -363,9 +284,6 @@ class AsyncSpeechResourceWithStreamingResponse:
 
         self.generate = async_to_streamed_response_wrapper(
             speech.generate,
-        )
-        self.get = async_to_streamed_response_wrapper(
-            speech.get,
         )
         self.transcibe = async_to_streamed_response_wrapper(
             speech.transcibe,
