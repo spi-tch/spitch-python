@@ -286,6 +286,7 @@ class SpeechResourceWithStreamingResponse:
 
         self.generate = to_streamed_response_wrapper(
             speech.generate,
+            StreamedBinaryAPIResponse
         )
         self.transcibe = to_streamed_response_wrapper(
             speech.transcibe,
@@ -298,6 +299,7 @@ class AsyncSpeechResourceWithStreamingResponse:
 
         self.generate = async_to_streamed_response_wrapper(
             speech.generate,
+            AsyncStreamedBinaryAPIResponse
         )
         self.transcibe = async_to_streamed_response_wrapper(
             speech.transcibe,
