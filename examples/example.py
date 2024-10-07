@@ -9,7 +9,7 @@ client = Spitch(api_key=os.getenv('SPITCH_API_KEY'))
 speech_file_path = Path(__file__).parent / "speech.mp3"
 
 
-def main():
+def main() -> None:
     start_time = time.time()
     with client.speech.with_streaming_response.generate(
         language="yo",
