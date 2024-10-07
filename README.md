@@ -27,7 +27,7 @@ The full API of this library can be found in [api.md](api.md).
 from spitch import Spitch
 
 client = Spitch(
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 
 response = client.speech.transcibe(
@@ -44,7 +44,7 @@ import asyncio
 from spitch import AsyncSpitch
 
 client = AsyncSpitch(
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 
 
@@ -82,7 +82,7 @@ import spitch
 from spitch import Spitch
 
 client = Spitch(
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 
 try:
@@ -128,7 +128,7 @@ from spitch import Spitch
 client = Spitch(
     # default is 2
     max_retries=0,
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 
 # Or, configure per-request:
@@ -149,13 +149,13 @@ from spitch import Spitch
 client = Spitch(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 
 # More granular control:
 client = Spitch(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 
 # Override per-request:
@@ -200,7 +200,7 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from spitch import Spitch
 
 client = Spitch(
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 response = client.speech.with_raw_response.transcibe(
     language="yo",
@@ -286,7 +286,7 @@ client = Spitch(
         proxies="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
-    auth_token="My Auth Token",
+    api_key="My API Key",
 )
 ```
 
