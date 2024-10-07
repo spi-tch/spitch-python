@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0 (2024-10-07)
+
+Full Changelog: [v1.0.0...v1.1.0](https://github.com/spi-tch/spitch-python/compare/v1.0.0...v1.1.0)
+
+### Features
+
+* commits ([e741720](https://github.com/spi-tch/spitch-python/commit/e74172090c8a263621ef44d67d4aa8db973526f8))
+* commits ([f3fecf7](https://github.com/spi-tch/spitch-python/commit/f3fecf7635f8d20747c4f7ed09687a3d0050dd67))
+* commits ([50e3396](https://github.com/spi-tch/spitch-python/commit/50e339659a24e1c9c74f604301992fc6071c31f6))
+* commits ([ce1277c](https://github.com/spi-tch/spitch-python/commit/ce1277c1c951918182e1b7f79408287a96f974c9))
+* commits ([d623a03](https://github.com/spi-tch/spitch-python/commit/d623a03efb0eb839fc17e10069d4238f14994c59))
+* commits ([b3eb065](https://github.com/spi-tch/spitch-python/commit/b3eb06504bd4b81fb269df7b2cb2b97b70579c47))
+* commits ([b79d3d2](https://github.com/spi-tch/spitch-python/commit/b79d3d24dd3679f94079b963a809f62342513e23))
+* commits ([c546c4b](https://github.com/spi-tch/spitch-python/commit/c546c4bafe7fc28df4e22b423d7aae0d0d2ddc95))
+
 ## 1.0.0 (2024-10-07)
 
 Full Changelog: [v0.0.1-alpha.0...v1.0.0](https://github.com/spi-tch/spitch-python/compare/v0.0.1-alpha.0...v1.0.0)
