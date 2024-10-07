@@ -29,11 +29,7 @@ The full API of this library can be found in [api.md](api.md).
 ```python
 from spitch import Spitch
 
-client = Spitch(
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
-)
+client = Spitch()
 
 transcription = client.transcriptions.create(
     language="yo",
@@ -48,11 +44,7 @@ Simply import `AsyncSpitch` instead of `Spitch` and use `await` with each API ca
 import asyncio
 from spitch import AsyncSpitch
 
-client = AsyncSpitch(
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
-)
+client = AsyncSpitch()
 
 
 async def main() -> None:
@@ -88,11 +80,7 @@ All errors inherit from `spitch.APIError`.
 import spitch
 from spitch import Spitch
 
-client = Spitch(
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
-)
+client = Spitch()
 
 try:
     client.transcriptions.create(
@@ -137,9 +125,6 @@ from spitch import Spitch
 client = Spitch(
     # default is 2
     max_retries=0,
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
 )
 
 # Or, configure per-request:
@@ -160,17 +145,11 @@ from spitch import Spitch
 client = Spitch(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
 )
 
 # More granular control:
 client = Spitch(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
 )
 
 # Override per-request:
@@ -214,11 +193,7 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 ```py
 from spitch import Spitch
 
-client = Spitch(
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
-)
+client = Spitch()
 response = client.transcriptions.with_raw_response.create(
     language="yo",
 )
@@ -303,9 +278,6 @@ client = Spitch(
         proxies="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
-    client_id="My Client ID",
-    client_secret="My Client Secret",
-    token_url="My Token URL",
 )
 ```
 
