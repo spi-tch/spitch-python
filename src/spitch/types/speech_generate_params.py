@@ -12,6 +12,4 @@ class SpeechGenerateParams(TypedDict, total=False):
 
     text: Required[str]
 
-    stream: bool
-
     voice: Literal["sade", "segun", "femi", "funmi"]

@@ -44,7 +44,6 @@ class TestSpeech:
         speech = client.speech.generate(
             language="yo",
             text="text",
-            stream=True,
             voice="sade",
         )
         assert speech.is_closed
@@ -148,7 +147,6 @@ class TestAsyncSpeech:
         speech = await async_client.speech.generate(
             language="yo",
             text="text",
-            stream=True,
             voice="sade",
         )
         assert speech.is_closed
