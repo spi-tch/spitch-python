@@ -28,7 +28,7 @@ from spitch import Spitch
 
 client = Spitch()
 
-transcription = client.transcriptions.create(
+response = client.speech.transcibe(
     language="yo",
 )
 ```
@@ -45,7 +45,7 @@ client = AsyncSpitch()
 
 
 async def main() -> None:
-    transcription = await client.transcriptions.create(
+    response = await client.speech.transcibe(
         language="yo",
     )
 
@@ -80,7 +80,7 @@ from spitch import Spitch
 client = Spitch()
 
 try:
-    client.transcriptions.create(
+    client.speech.transcibe(
         language="yo",
     )
 except spitch.APIConnectionError as e:
@@ -125,7 +125,7 @@ client = Spitch(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).transcriptions.create(
+client.with_options(max_retries=5).speech.transcibe(
     language="yo",
 )
 ```
@@ -150,7 +150,7 @@ client = Spitch(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).transcriptions.create(
+client.with_options(timeout=5.0).speech.transcibe(
     language="yo",
 )
 ```
@@ -191,13 +191,13 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from spitch import Spitch
 
 client = Spitch()
-response = client.transcriptions.with_raw_response.create(
+response = client.speech.with_raw_response.transcibe(
     language="yo",
 )
 print(response.headers.get('X-My-Header'))
 
-transcription = response.parse()  # get the object that `transcriptions.create()` would have returned
-print(transcription)
+speech = response.parse()  # get the object that `speech.transcibe()` would have returned
+print(speech)
 ```
 
 These methods return an [`APIResponse`](https://github.com/spi-tch/spitch-python/tree/main/src/spitch/_response.py) object.
@@ -211,7 +211,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.transcriptions.with_streaming_response.create(
+with client.speech.with_streaming_response.transcibe(
     language="yo",
 ) as response:
     print(response.headers.get("X-My-Header"))

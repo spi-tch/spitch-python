@@ -2,17 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Mapping, cast
 from typing_extensions import Literal
 
 import httpx
 
-from ..types import transcription_create_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
+from ..types import text_tone_mark_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
-    extract_files,
     maybe_transform,
-    deepcopy_minimal,
     async_maybe_transform,
 )
 from .._compat import cached_property
@@ -25,35 +22,34 @@ from .._response import (
 )
 from .._base_client import make_request_options
 
-__all__ = ["TranscriptionsResource", "AsyncTranscriptionsResource"]
+__all__ = ["TextResource", "AsyncTextResource"]
 
 
-class TranscriptionsResource(SyncAPIResource):
+class TextResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> TranscriptionsResourceWithRawResponse:
+    def with_raw_response(self) -> TextResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/spi-tch/spitch-python#accessing-raw-response-data-eg-headers
         """
-        return TranscriptionsResourceWithRawResponse(self)
+        return TextResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> TranscriptionsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> TextResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/spi-tch/spitch-python#with_streaming_response
         """
-        return TranscriptionsResourceWithStreamingResponse(self)
+        return TextResourceWithStreamingResponse(self)
 
-    def create(
+    def tone_mark(
         self,
         *,
-        language: Literal["yo", "en"],
-        content: FileTypes | NotGiven = NOT_GIVEN,
-        url: str | NotGiven = NOT_GIVEN,
+        language: Literal["yo", "en", "ha", "ig"],
+        text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -62,7 +58,7 @@ class TranscriptionsResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Transcribe
+        Tone Mark
 
         Args:
           extra_headers: Send extra headers
@@ -73,22 +69,15 @@ class TranscriptionsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
-            {
-                "language": language,
-                "content": content,
-                "url": url,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
-            "/v1/transcriptions",
-            body=maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
-            files=files,
+            "/v1/diacritics",
+            body=maybe_transform(
+                {
+                    "language": language,
+                    "text": text,
+                },
+                text_tone_mark_params.TextToneMarkParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -96,32 +85,31 @@ class TranscriptionsResource(SyncAPIResource):
         )
 
 
-class AsyncTranscriptionsResource(AsyncAPIResource):
+class AsyncTextResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncTranscriptionsResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncTextResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/spi-tch/spitch-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncTranscriptionsResourceWithRawResponse(self)
+        return AsyncTextResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncTranscriptionsResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncTextResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/spi-tch/spitch-python#with_streaming_response
         """
-        return AsyncTranscriptionsResourceWithStreamingResponse(self)
+        return AsyncTextResourceWithStreamingResponse(self)
 
-    async def create(
+    async def tone_mark(
         self,
         *,
-        language: Literal["yo", "en"],
-        content: FileTypes | NotGiven = NOT_GIVEN,
-        url: str | NotGiven = NOT_GIVEN,
+        language: Literal["yo", "en", "ha", "ig"],
+        text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -130,7 +118,7 @@ class AsyncTranscriptionsResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Transcribe
+        Tone Mark
 
         Args:
           extra_headers: Send extra headers
@@ -141,22 +129,15 @@ class AsyncTranscriptionsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
-            {
-                "language": language,
-                "content": content,
-                "url": url,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
-            "/v1/transcriptions",
-            body=await async_maybe_transform(body, transcription_create_params.TranscriptionCreateParams),
-            files=files,
+            "/v1/diacritics",
+            body=await async_maybe_transform(
+                {
+                    "language": language,
+                    "text": text,
+                },
+                text_tone_mark_params.TextToneMarkParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -164,37 +145,37 @@ class AsyncTranscriptionsResource(AsyncAPIResource):
         )
 
 
-class TranscriptionsResourceWithRawResponse:
-    def __init__(self, transcriptions: TranscriptionsResource) -> None:
-        self._transcriptions = transcriptions
+class TextResourceWithRawResponse:
+    def __init__(self, text: TextResource) -> None:
+        self._text = text
 
-        self.create = to_raw_response_wrapper(
-            transcriptions.create,
+        self.tone_mark = to_raw_response_wrapper(
+            text.tone_mark,
         )
 
 
-class AsyncTranscriptionsResourceWithRawResponse:
-    def __init__(self, transcriptions: AsyncTranscriptionsResource) -> None:
-        self._transcriptions = transcriptions
+class AsyncTextResourceWithRawResponse:
+    def __init__(self, text: AsyncTextResource) -> None:
+        self._text = text
 
-        self.create = async_to_raw_response_wrapper(
-            transcriptions.create,
+        self.tone_mark = async_to_raw_response_wrapper(
+            text.tone_mark,
         )
 
 
-class TranscriptionsResourceWithStreamingResponse:
-    def __init__(self, transcriptions: TranscriptionsResource) -> None:
-        self._transcriptions = transcriptions
+class TextResourceWithStreamingResponse:
+    def __init__(self, text: TextResource) -> None:
+        self._text = text
 
-        self.create = to_streamed_response_wrapper(
-            transcriptions.create,
+        self.tone_mark = to_streamed_response_wrapper(
+            text.tone_mark,
         )
 
 
-class AsyncTranscriptionsResourceWithStreamingResponse:
-    def __init__(self, transcriptions: AsyncTranscriptionsResource) -> None:
-        self._transcriptions = transcriptions
+class AsyncTextResourceWithStreamingResponse:
+    def __init__(self, text: AsyncTextResource) -> None:
+        self._text = text
 
-        self.create = async_to_streamed_response_wrapper(
-            transcriptions.create,
+        self.tone_mark = async_to_streamed_response_wrapper(
+            text.tone_mark,
         )
