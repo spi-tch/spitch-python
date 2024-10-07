@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.6.0 (2024-10-07)
+
+Full Changelog: [v1.5.0...v1.6.0](https://github.com/spi-tch/spitch-python/compare/v1.5.0...v1.6.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#29](https://github.com/spi-tch/spitch-python/issues/29)) ([1dae398](https://github.com/spi-tch/spitch-python/commit/1dae398c9f7ba96bc45d59f4faa2934b2cad59e4))
+
+
+### Bug Fixes
+
+* **client:** avoid OverflowError with very large retry counts ([#30](https://github.com/spi-tch/spitch-python/issues/30)) ([1e63664](https://github.com/spi-tch/spitch-python/commit/1e63664f64fa1f38f2294df8e06bd60a17885d2f))
+
+
+### Chores
+
+* add repr to PageInfo class ([#32](https://github.com/spi-tch/spitch-python/issues/32)) ([ea3c95d](https://github.com/spi-tch/spitch-python/commit/ea3c95d2ce4a9fdd1e558931f8a92904a9394321))
+
 ## 1.5.0 (2024-10-07)
 
 Full Changelog: [v1.4.0...v1.5.0](https://github.com/spi-tch/spitch-python/compare/v1.4.0...v1.5.0)
