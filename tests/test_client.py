@@ -20,7 +20,7 @@ from spitch import Spitch, AsyncSpitch, APIResponseValidationError
 from spitch._types import Omit
 from spitch._models import BaseModel, FinalRequestOptions
 from spitch._constants import RAW_RESPONSE_HEADER
-from spitch._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
+from spitch._exceptions import SpitchError, APIStatusError, APITimeoutError, APIResponseValidationError
 from spitch._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
 
 from .utils import update_env
@@ -321,6 +321,16 @@ class TestSpitch:
         request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+
+    def test_validate_headers(self) -> None:
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
+        with pytest.raises(SpitchError):
+            with update_env(**{"SPITCH_API_KEY": Omit()}):
+                client2 = Spitch(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
 
     def test_default_query_option(self) -> None:
         client = Spitch(
@@ -1067,6 +1077,16 @@ class TestAsyncSpitch:
         request = client2._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
+
+    def test_validate_headers(self) -> None:
+        client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
+        with pytest.raises(SpitchError):
+            with update_env(**{"SPITCH_API_KEY": Omit()}):
+                client2 = AsyncSpitch(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
 
     def test_default_query_option(self) -> None:
         client = AsyncSpitch(
