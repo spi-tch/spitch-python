@@ -704,7 +704,7 @@ class TestSpitch:
         with pytest.raises(APITimeoutError):
             self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text")),
+                body=cast(object, dict(language="yo", text="text", voice="sade")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -719,7 +719,7 @@ class TestSpitch:
         with pytest.raises(APIStatusError):
             self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text")),
+                body=cast(object, dict(language="yo", text="text", voice="sade")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -743,7 +743,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/speech").mock(side_effect=retry_handler)
 
-        response = client.speech.with_raw_response.generate(language="yo", text="text")
+        response = client.speech.with_raw_response.generate(language="yo", text="text", voice="sade")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -768,7 +768,7 @@ class TestSpitch:
         respx_mock.post("/v1/speech").mock(side_effect=retry_handler)
 
         response = client.speech.with_raw_response.generate(
-            language="yo", text="text", extra_headers={"x-stainless-retry-count": Omit()}
+            language="yo", text="text", voice="sade", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -793,7 +793,7 @@ class TestSpitch:
         respx_mock.post("/v1/speech").mock(side_effect=retry_handler)
 
         response = client.speech.with_raw_response.generate(
-            language="yo", text="text", extra_headers={"x-stainless-retry-count": "42"}
+            language="yo", text="text", voice="sade", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1474,7 +1474,7 @@ class TestAsyncSpitch:
         with pytest.raises(APITimeoutError):
             await self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text")),
+                body=cast(object, dict(language="yo", text="text", voice="sade")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1489,7 +1489,7 @@ class TestAsyncSpitch:
         with pytest.raises(APIStatusError):
             await self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text")),
+                body=cast(object, dict(language="yo", text="text", voice="sade")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1516,7 +1516,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/speech").mock(side_effect=retry_handler)
 
-        response = await client.speech.with_raw_response.generate(language="yo", text="text")
+        response = await client.speech.with_raw_response.generate(language="yo", text="text", voice="sade")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1542,7 +1542,7 @@ class TestAsyncSpitch:
         respx_mock.post("/v1/speech").mock(side_effect=retry_handler)
 
         response = await client.speech.with_raw_response.generate(
-            language="yo", text="text", extra_headers={"x-stainless-retry-count": Omit()}
+            language="yo", text="text", voice="sade", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1568,7 +1568,7 @@ class TestAsyncSpitch:
         respx_mock.post("/v1/speech").mock(side_effect=retry_handler)
 
         response = await client.speech.with_raw_response.generate(
-            language="yo", text="text", extra_headers={"x-stainless-retry-count": "42"}
+            language="yo", text="text", voice="sade", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
