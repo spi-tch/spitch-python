@@ -52,12 +52,12 @@ class Spitch(SyncAPIClient):
     with_streaming_response: SpitchWithStreamedResponse
 
     # client options
-    auth_token: str
+    api_key: str
 
     def __init__(
         self,
         *,
-        auth_token: str | None = None,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -79,15 +79,15 @@ class Spitch(SyncAPIClient):
     ) -> None:
         """Construct a new synchronous spitch client instance.
 
-        This automatically infers the `auth_token` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
         """
-        if auth_token is None:
-            auth_token = os.environ.get("SPITCH_API_KEY")
-        if auth_token is None:
+        if api_key is None:
+            api_key = os.environ.get("SPITCH_API_KEY")
+        if api_key is None:
             raise SpitchError(
-                "The auth_token client option must be set either by passing auth_token to the client or by setting the SPITCH_API_KEY environment variable"
+                "The api_key client option must be set either by passing api_key to the client or by setting the SPITCH_API_KEY environment variable"
             )
-        self.auth_token = auth_token
+        self.api_key = api_key
 
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
@@ -127,7 +127,7 @@ class Spitch(SyncAPIClient):
     def copy(
         self,
         *,
-        auth_token: str | None = None,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -161,7 +161,7 @@ class Spitch(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            auth_token=auth_token or self.auth_token,
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -216,12 +216,12 @@ class AsyncSpitch(AsyncAPIClient):
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
     # client options
-    auth_token: str
+    api_key: str
 
     def __init__(
         self,
         *,
-        auth_token: str | None = None,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -243,15 +243,15 @@ class AsyncSpitch(AsyncAPIClient):
     ) -> None:
         """Construct a new async spitch client instance.
 
-        This automatically infers the `auth_token` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
+        This automatically infers the `api_key` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
         """
-        if auth_token is None:
-            auth_token = os.environ.get("SPITCH_API_KEY")
-        if auth_token is None:
+        if api_key is None:
+            api_key = os.environ.get("SPITCH_API_KEY")
+        if api_key is None:
             raise SpitchError(
-                "The auth_token client option must be set either by passing auth_token to the client or by setting the SPITCH_API_KEY environment variable"
+                "The api_key client option must be set either by passing api_key to the client or by setting the SPITCH_API_KEY environment variable"
             )
-        self.auth_token = auth_token
+        self.api_key = api_key
 
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
@@ -291,7 +291,7 @@ class AsyncSpitch(AsyncAPIClient):
     def copy(
         self,
         *,
-        auth_token: str | None = None,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -325,7 +325,7 @@ class AsyncSpitch(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            auth_token=auth_token or self.auth_token,
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
