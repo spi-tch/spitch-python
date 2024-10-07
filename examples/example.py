@@ -18,6 +18,10 @@ def main():
         print(f"Time to first byte: {int((time.time() - start_time) * 1000)}ms")
         speech.stream_to_file(speech_file_path)
 
+    # transcribe
+    response = client.speech.transcibe(language="yo", content=speech_file_path)
+
+
 
 if __name__ == "__main__":
     main()

@@ -19,7 +19,7 @@ from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
-    async_to_streamed_response_wrapper,
+    async_to_streamed_response_wrapper, to_custom_streamed_response_wrapper, StreamedBinaryAPIResponse,
 )
 from .._base_client import make_request_options
 
@@ -270,8 +270,9 @@ class SpeechResourceWithStreamingResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_streamed_response_wrapper(
+        self.generate = to_custom_streamed_response_wrapper(
             speech.generate,
+            StreamedBinaryAPIResponse
         )
         self.transcibe = to_streamed_response_wrapper(
             speech.transcibe,
