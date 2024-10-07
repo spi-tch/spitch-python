@@ -31,19 +31,6 @@ class TestSpeech:
         speech = client.speech.generate(
             language="yo",
             text="text",
-        )
-        assert speech.is_closed
-        assert speech.json() == {"foo": "bar"}
-        assert cast(Any, speech.is_closed) is True
-        assert isinstance(speech, BinaryAPIResponse)
-
-    @parametrize
-    @pytest.mark.respx(base_url=base_url)
-    def test_method_generate_with_all_params(self, client: Spitch, respx_mock: MockRouter) -> None:
-        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        speech = client.speech.generate(
-            language="yo",
-            text="text",
             voice="sade",
         )
         assert speech.is_closed
@@ -59,6 +46,7 @@ class TestSpeech:
         speech = client.speech.with_raw_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         )
 
         assert speech.is_closed is True
@@ -73,6 +61,7 @@ class TestSpeech:
         with client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         ) as speech:
             assert not speech.is_closed
             assert speech.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -134,19 +123,6 @@ class TestAsyncSpeech:
         speech = await async_client.speech.generate(
             language="yo",
             text="text",
-        )
-        assert speech.is_closed
-        assert await speech.json() == {"foo": "bar"}
-        assert cast(Any, speech.is_closed) is True
-        assert isinstance(speech, AsyncBinaryAPIResponse)
-
-    @parametrize
-    @pytest.mark.respx(base_url=base_url)
-    async def test_method_generate_with_all_params(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
-        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        speech = await async_client.speech.generate(
-            language="yo",
-            text="text",
             voice="sade",
         )
         assert speech.is_closed
@@ -162,6 +138,7 @@ class TestAsyncSpeech:
         speech = await async_client.speech.with_raw_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         )
 
         assert speech.is_closed is True
@@ -176,6 +153,7 @@ class TestAsyncSpeech:
         async with async_client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         ) as speech:
             assert not speech.is_closed
             assert speech.http_request.headers.get("X-Stainless-Lang") == "python"

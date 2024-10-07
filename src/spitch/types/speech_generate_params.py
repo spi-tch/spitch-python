@@ -12,4 +12,4 @@ class SpeechGenerateParams(TypedDict, total=False):
 
     text: Required[str]
 
-    voice: Literal["sade", "segun", "femi", "funmi"]
+    voice: Required[Literal["sade", "segun", "femi", "funmi"]]
