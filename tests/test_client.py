@@ -20,12 +20,13 @@ from spitch import Spitch, AsyncSpitch, APIResponseValidationError
 from spitch._types import Omit
 from spitch._models import BaseModel, FinalRequestOptions
 from spitch._constants import RAW_RESPONSE_HEADER
-from spitch._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
+from spitch._exceptions import SpitchError, APIStatusError, APITimeoutError, APIResponseValidationError
 from spitch._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
 
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+api_key = "My API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -47,7 +48,7 @@ def _get_open_connections(client: Spitch | AsyncSpitch) -> int:
 
 
 class TestSpitch:
-    client = Spitch(base_url=base_url, _strict_response_validation=True)
+    client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -73,6 +74,10 @@ class TestSpitch:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
+
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
         copied = self.client.copy(max_retries=7)
@@ -90,7 +95,9 @@ class TestSpitch:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = Spitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         assert client.default_headers["X-Foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -122,7 +129,9 @@ class TestSpitch:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True, default_query={"foo": "bar"})
+        client = Spitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+        )
         assert _get_params(client)["foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -245,7 +254,7 @@ class TestSpitch:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True, timeout=httpx.Timeout(0))
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0))
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -254,7 +263,9 @@ class TestSpitch:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = Spitch(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = Spitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -262,7 +273,9 @@ class TestSpitch:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = Spitch(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = Spitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -270,7 +283,9 @@ class TestSpitch:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = Spitch(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = Spitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -279,16 +294,24 @@ class TestSpitch:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                Spitch(base_url=base_url, _strict_response_validation=True, http_client=cast(Any, http_client))
+                Spitch(
+                    base_url=base_url,
+                    api_key=api_key,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = Spitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
         client2 = Spitch(
             base_url=base_url,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -299,8 +322,20 @@ class TestSpitch:
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
+    def test_validate_headers(self) -> None:
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
+        with pytest.raises(SpitchError):
+            with update_env(**{"SPITCH_API_KEY": Omit()}):
+                client2 = Spitch(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
+
     def test_default_query_option(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True, default_query={"query_param": "bar"})
+        client = Spitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
         assert dict(url.params) == {"query_param": "bar"}
@@ -499,7 +534,7 @@ class TestSpitch:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = Spitch(base_url="https://example.com/from_init", _strict_response_validation=True)
+        client = Spitch(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -508,15 +543,16 @@ class TestSpitch:
 
     def test_base_url_env(self) -> None:
         with update_env(SPITCH_BASE_URL="http://localhost:5000/from/env"):
-            client = Spitch(_strict_response_validation=True)
+            client = Spitch(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            Spitch(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
+            Spitch(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Spitch(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -536,9 +572,10 @@ class TestSpitch:
     @pytest.mark.parametrize(
         "client",
         [
-            Spitch(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
+            Spitch(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Spitch(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -558,9 +595,10 @@ class TestSpitch:
     @pytest.mark.parametrize(
         "client",
         [
-            Spitch(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
+            Spitch(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
             Spitch(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -578,7 +616,7 @@ class TestSpitch:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True)
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -589,7 +627,7 @@ class TestSpitch:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True)
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -610,7 +648,7 @@ class TestSpitch:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            Spitch(base_url=base_url, _strict_response_validation=True, max_retries=cast(Any, None))
+            Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -619,12 +657,12 @@ class TestSpitch:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = Spitch(base_url=base_url, _strict_response_validation=True)
+        strict_client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = Spitch(base_url=base_url, _strict_response_validation=False)
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -651,7 +689,7 @@ class TestSpitch:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = Spitch(base_url=base_url, _strict_response_validation=True)
+        client = Spitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -705,7 +743,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = client.transcriptions.with_raw_response.create(language="yo")
+        response = client.speech.with_raw_response.transcibe(language="yo")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -729,7 +767,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = client.transcriptions.with_raw_response.create(
+        response = client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -754,7 +792,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = client.transcriptions.with_raw_response.create(
+        response = client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": "42"}
         )
 
@@ -762,7 +800,7 @@ class TestSpitch:
 
 
 class TestAsyncSpitch:
-    client = AsyncSpitch(base_url=base_url, _strict_response_validation=True)
+    client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -790,6 +828,10 @@ class TestAsyncSpitch:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
+
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
         copied = self.client.copy(max_retries=7)
@@ -807,7 +849,9 @@ class TestAsyncSpitch:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = AsyncSpitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         assert client.default_headers["X-Foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -839,7 +883,9 @@ class TestAsyncSpitch:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, default_query={"foo": "bar"})
+        client = AsyncSpitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+        )
         assert _get_params(client)["foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -962,7 +1008,9 @@ class TestAsyncSpitch:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, timeout=httpx.Timeout(0))
+        client = AsyncSpitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+        )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -971,7 +1019,9 @@ class TestAsyncSpitch:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = AsyncSpitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -979,7 +1029,9 @@ class TestAsyncSpitch:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = AsyncSpitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -987,7 +1039,9 @@ class TestAsyncSpitch:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = AsyncSpitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -996,16 +1050,24 @@ class TestAsyncSpitch:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncSpitch(base_url=base_url, _strict_response_validation=True, http_client=cast(Any, http_client))
+                AsyncSpitch(
+                    base_url=base_url,
+                    api_key=api_key,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = AsyncSpitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
         client2 = AsyncSpitch(
             base_url=base_url,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1016,8 +1078,20 @@ class TestAsyncSpitch:
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
+    def test_validate_headers(self) -> None:
+        client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
+        with pytest.raises(SpitchError):
+            with update_env(**{"SPITCH_API_KEY": Omit()}):
+                client2 = AsyncSpitch(base_url=base_url, api_key=None, _strict_response_validation=True)
+            _ = client2
+
     def test_default_query_option(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True, default_query={"query_param": "bar"})
+        client = AsyncSpitch(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
         assert dict(url.params) == {"query_param": "bar"}
@@ -1216,7 +1290,9 @@ class TestAsyncSpitch:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = AsyncSpitch(base_url="https://example.com/from_init", _strict_response_validation=True)
+        client = AsyncSpitch(
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+        )
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -1225,15 +1301,18 @@ class TestAsyncSpitch:
 
     def test_base_url_env(self) -> None:
         with update_env(SPITCH_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncSpitch(_strict_response_validation=True)
+            client = AsyncSpitch(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncSpitch(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
+            AsyncSpitch(
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+            ),
             AsyncSpitch(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1253,9 +1332,12 @@ class TestAsyncSpitch:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncSpitch(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
+            AsyncSpitch(
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+            ),
             AsyncSpitch(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1275,9 +1357,12 @@ class TestAsyncSpitch:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncSpitch(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
+            AsyncSpitch(
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+            ),
             AsyncSpitch(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1295,7 +1380,7 @@ class TestAsyncSpitch:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True)
+        client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1307,7 +1392,7 @@ class TestAsyncSpitch:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True)
+        client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1329,7 +1414,9 @@ class TestAsyncSpitch:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncSpitch(base_url=base_url, _strict_response_validation=True, max_retries=cast(Any, None))
+            AsyncSpitch(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+            )
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -1339,12 +1426,12 @@ class TestAsyncSpitch:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncSpitch(base_url=base_url, _strict_response_validation=True)
+        strict_client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=False)
+        client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1372,7 +1459,7 @@ class TestAsyncSpitch:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncSpitch(base_url=base_url, _strict_response_validation=True)
+        client = AsyncSpitch(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -1429,7 +1516,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = await client.transcriptions.with_raw_response.create(language="yo")
+        response = await client.speech.with_raw_response.transcibe(language="yo")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1454,7 +1541,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = await client.transcriptions.with_raw_response.create(
+        response = await client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -1480,7 +1567,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = await client.transcriptions.with_raw_response.create(
+        response = await client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": "42"}
         )
 

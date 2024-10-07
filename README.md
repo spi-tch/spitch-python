@@ -10,45 +10,55 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.spitch.com](https://docs.spitch.com). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.spi-tch.com](https://docs.spi-tch.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
-# install from this staging repo
-pip install git+ssh://git@github.com/stainless-sdks/spitch-python.git
+# install from PyPI
+pip install spitch
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre spitch`
 
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from spitch import Spitch
 
-client = Spitch()
+client = Spitch(
+    # This is the default and can be omitted
+    api_key=os.environ.get("SPITCH_API_KEY"),
+)
 
-transcription = client.transcriptions.create(
+response = client.speech.transcibe(
     language="yo",
 )
 ```
+
+While you can provide an `api_key` keyword argument,
+we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
+to add `SPITCH_API_KEY="My API Key"` to your `.env` file
+so that your API Key is not stored in source control.
 
 ## Async usage
 
 Simply import `AsyncSpitch` instead of `Spitch` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from spitch import AsyncSpitch
 
-client = AsyncSpitch()
+client = AsyncSpitch(
+    # This is the default and can be omitted
+    api_key=os.environ.get("SPITCH_API_KEY"),
+)
 
 
 async def main() -> None:
-    transcription = await client.transcriptions.create(
+    response = await client.speech.transcibe(
         language="yo",
     )
 
@@ -83,7 +93,7 @@ from spitch import Spitch
 client = Spitch()
 
 try:
-    client.transcriptions.create(
+    client.speech.transcibe(
         language="yo",
     )
 except spitch.APIConnectionError as e:
@@ -128,7 +138,7 @@ client = Spitch(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).transcriptions.create(
+client.with_options(max_retries=5).speech.transcibe(
     language="yo",
 )
 ```
@@ -153,7 +163,7 @@ client = Spitch(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).transcriptions.create(
+client.with_options(timeout=5.0).speech.transcibe(
     language="yo",
 )
 ```
@@ -194,18 +204,18 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from spitch import Spitch
 
 client = Spitch()
-response = client.transcriptions.with_raw_response.create(
+response = client.speech.with_raw_response.transcibe(
     language="yo",
 )
 print(response.headers.get('X-My-Header'))
 
-transcription = response.parse()  # get the object that `transcriptions.create()` would have returned
-print(transcription)
+speech = response.parse()  # get the object that `speech.transcibe()` would have returned
+print(speech)
 ```
 
-These methods return an [`APIResponse`](https://github.com/stainless-sdks/spitch-python/tree/main/src/spitch/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/spi-tch/spitch-python/tree/main/src/spitch/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/stainless-sdks/spitch-python/tree/main/src/spitch/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/spi-tch/spitch-python/tree/main/src/spitch/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -214,7 +224,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.transcriptions.with_streaming_response.create(
+with client.speech.with_streaming_response.transcibe(
     language="yo",
 ) as response:
     print(response.headers.get("X-My-Header"))
@@ -301,7 +311,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/spitch-python/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/spi-tch/spitch-python/issues) with questions, bugs, or suggestions.
 
 ### Determining the installed version
 

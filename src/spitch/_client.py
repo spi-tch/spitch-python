@@ -25,7 +25,7 @@ from ._utils import (
 )
 from ._version import __version__
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError
+from ._exceptions import SpitchError, APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -46,15 +46,18 @@ __all__ = [
 
 
 class Spitch(SyncAPIClient):
-    transcriptions: resources.TranscriptionsResource
+    speech: resources.SpeechResource
+    text: resources.TextResource
     with_raw_response: SpitchWithRawResponse
     with_streaming_response: SpitchWithStreamedResponse
 
     # client options
+    api_key: str
 
     def __init__(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -74,7 +77,18 @@ class Spitch(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous spitch client instance."""
+        """Construct a new synchronous spitch client instance.
+
+        This automatically infers the `api_key` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
+        """
+        if api_key is None:
+            api_key = os.environ.get("SPITCH_API_KEY")
+        if api_key is None:
+            raise SpitchError(
+                "The api_key client option must be set either by passing api_key to the client or by setting the SPITCH_API_KEY environment variable"
+            )
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
         if base_url is None:
@@ -91,7 +105,8 @@ class Spitch(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.transcriptions = resources.TranscriptionsResource(self)
+        self.speech = resources.SpeechResource(self)
+        self.text = resources.TextResource(self)
         self.with_raw_response = SpitchWithRawResponse(self)
         self.with_streaming_response = SpitchWithStreamedResponse(self)
 
@@ -99,6 +114,12 @@ class Spitch(SyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
+
+    @property
+    @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -112,6 +133,7 @@ class Spitch(SyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -145,6 +167,7 @@ class Spitch(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -193,15 +216,18 @@ class Spitch(SyncAPIClient):
 
 
 class AsyncSpitch(AsyncAPIClient):
-    transcriptions: resources.AsyncTranscriptionsResource
+    speech: resources.AsyncSpeechResource
+    text: resources.AsyncTextResource
     with_raw_response: AsyncSpitchWithRawResponse
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
     # client options
+    api_key: str
 
     def __init__(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -221,7 +247,18 @@ class AsyncSpitch(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async spitch client instance."""
+        """Construct a new async spitch client instance.
+
+        This automatically infers the `api_key` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
+        """
+        if api_key is None:
+            api_key = os.environ.get("SPITCH_API_KEY")
+        if api_key is None:
+            raise SpitchError(
+                "The api_key client option must be set either by passing api_key to the client or by setting the SPITCH_API_KEY environment variable"
+            )
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
         if base_url is None:
@@ -238,7 +275,8 @@ class AsyncSpitch(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.transcriptions = resources.AsyncTranscriptionsResource(self)
+        self.speech = resources.AsyncSpeechResource(self)
+        self.text = resources.AsyncTextResource(self)
         self.with_raw_response = AsyncSpitchWithRawResponse(self)
         self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
 
@@ -246,6 +284,12 @@ class AsyncSpitch(AsyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
+
+    @property
+    @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -259,6 +303,7 @@ class AsyncSpitch(AsyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -292,6 +337,7 @@ class AsyncSpitch(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -341,22 +387,26 @@ class AsyncSpitch(AsyncAPIClient):
 
 class SpitchWithRawResponse:
     def __init__(self, client: Spitch) -> None:
-        self.transcriptions = resources.TranscriptionsResourceWithRawResponse(client.transcriptions)
+        self.speech = resources.SpeechResourceWithRawResponse(client.speech)
+        self.text = resources.TextResourceWithRawResponse(client.text)
 
 
 class AsyncSpitchWithRawResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.transcriptions = resources.AsyncTranscriptionsResourceWithRawResponse(client.transcriptions)
+        self.speech = resources.AsyncSpeechResourceWithRawResponse(client.speech)
+        self.text = resources.AsyncTextResourceWithRawResponse(client.text)
 
 
 class SpitchWithStreamedResponse:
     def __init__(self, client: Spitch) -> None:
-        self.transcriptions = resources.TranscriptionsResourceWithStreamingResponse(client.transcriptions)
+        self.speech = resources.SpeechResourceWithStreamingResponse(client.speech)
+        self.text = resources.TextResourceWithStreamingResponse(client.text)
 
 
 class AsyncSpitchWithStreamedResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.transcriptions = resources.AsyncTranscriptionsResourceWithStreamingResponse(client.transcriptions)
+        self.speech = resources.AsyncSpeechResourceWithStreamingResponse(client.speech)
+        self.text = resources.AsyncTextResourceWithStreamingResponse(client.text)
 
 
 Client = Spitch
