@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .misc import (
-    MiscResource,
-    AsyncMiscResource,
-    MiscResourceWithRawResponse,
-    AsyncMiscResourceWithRawResponse,
-    MiscResourceWithStreamingResponse,
-    AsyncMiscResourceWithStreamingResponse,
-)
 from .text import (
     TextResource,
     AsyncTextResource,
@@ -38,10 +30,4 @@ __all__ = [
     "AsyncTextResourceWithRawResponse",
     "TextResourceWithStreamingResponse",
     "AsyncTextResourceWithStreamingResponse",
-    "MiscResource",
-    "AsyncMiscResource",
-    "MiscResourceWithRawResponse",
-    "AsyncMiscResourceWithRawResponse",
-    "MiscResourceWithStreamingResponse",
-    "AsyncMiscResourceWithStreamingResponse",
 ]

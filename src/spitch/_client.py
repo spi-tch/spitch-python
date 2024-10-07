@@ -48,7 +48,6 @@ __all__ = [
 class Spitch(SyncAPIClient):
     speech: resources.SpeechResource
     text: resources.TextResource
-    misc: resources.MiscResource
     with_raw_response: SpitchWithRawResponse
     with_streaming_response: SpitchWithStreamedResponse
 
@@ -108,7 +107,6 @@ class Spitch(SyncAPIClient):
 
         self.speech = resources.SpeechResource(self)
         self.text = resources.TextResource(self)
-        self.misc = resources.MiscResource(self)
         self.with_raw_response = SpitchWithRawResponse(self)
         self.with_streaming_response = SpitchWithStreamedResponse(self)
 
@@ -220,7 +218,6 @@ class Spitch(SyncAPIClient):
 class AsyncSpitch(AsyncAPIClient):
     speech: resources.AsyncSpeechResource
     text: resources.AsyncTextResource
-    misc: resources.AsyncMiscResource
     with_raw_response: AsyncSpitchWithRawResponse
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
@@ -280,7 +277,6 @@ class AsyncSpitch(AsyncAPIClient):
 
         self.speech = resources.AsyncSpeechResource(self)
         self.text = resources.AsyncTextResource(self)
-        self.misc = resources.AsyncMiscResource(self)
         self.with_raw_response = AsyncSpitchWithRawResponse(self)
         self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
 
@@ -393,28 +389,24 @@ class SpitchWithRawResponse:
     def __init__(self, client: Spitch) -> None:
         self.speech = resources.SpeechResourceWithRawResponse(client.speech)
         self.text = resources.TextResourceWithRawResponse(client.text)
-        self.misc = resources.MiscResourceWithRawResponse(client.misc)
 
 
 class AsyncSpitchWithRawResponse:
     def __init__(self, client: AsyncSpitch) -> None:
         self.speech = resources.AsyncSpeechResourceWithRawResponse(client.speech)
         self.text = resources.AsyncTextResourceWithRawResponse(client.text)
-        self.misc = resources.AsyncMiscResourceWithRawResponse(client.misc)
 
 
 class SpitchWithStreamedResponse:
     def __init__(self, client: Spitch) -> None:
         self.speech = resources.SpeechResourceWithStreamingResponse(client.speech)
         self.text = resources.TextResourceWithStreamingResponse(client.text)
-        self.misc = resources.MiscResourceWithStreamingResponse(client.misc)
 
 
 class AsyncSpitchWithStreamedResponse:
     def __init__(self, client: AsyncSpitch) -> None:
         self.speech = resources.AsyncSpeechResourceWithStreamingResponse(client.speech)
         self.text = resources.AsyncTextResourceWithStreamingResponse(client.text)
-        self.misc = resources.AsyncMiscResourceWithStreamingResponse(client.misc)
 
 
 Client = Spitch
