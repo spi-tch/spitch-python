@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .speech_get_params import SpeechGetParams as SpeechGetParams
 from .text_tone_mark_params import TextToneMarkParams as TextToneMarkParams
 from .speech_generate_params import SpeechGenerateParams as SpeechGenerateParams
 from .speech_transcibe_params import SpeechTranscibeParams as SpeechTranscibeParams

@@ -61,6 +61,37 @@ class TestSpeech:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
+    def test_method_get(self, client: Spitch) -> None:
+        speech = client.speech.get(
+            file_id="file_id",
+        )
+        assert_matches_type(object, speech, path=["response"])
+
+    @parametrize
+    def test_raw_response_get(self, client: Spitch) -> None:
+        response = client.speech.with_raw_response.get(
+            file_id="file_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        speech = response.parse()
+        assert_matches_type(object, speech, path=["response"])
+
+    @parametrize
+    def test_streaming_response_get(self, client: Spitch) -> None:
+        with client.speech.with_streaming_response.get(
+            file_id="file_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            speech = response.parse()
+            assert_matches_type(object, speech, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     def test_method_transcibe(self, client: Spitch) -> None:
         speech = client.speech.transcibe(
             language="yo",
@@ -139,6 +170,37 @@ class TestAsyncSpeech:
         async with async_client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            speech = await response.parse()
+            assert_matches_type(object, speech, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_method_get(self, async_client: AsyncSpitch) -> None:
+        speech = await async_client.speech.get(
+            file_id="file_id",
+        )
+        assert_matches_type(object, speech, path=["response"])
+
+    @parametrize
+    async def test_raw_response_get(self, async_client: AsyncSpitch) -> None:
+        response = await async_client.speech.with_raw_response.get(
+            file_id="file_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        speech = await response.parse()
+        assert_matches_type(object, speech, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_get(self, async_client: AsyncSpitch) -> None:
+        async with async_client.speech.with_streaming_response.get(
+            file_id="file_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
