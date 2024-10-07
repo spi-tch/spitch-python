@@ -705,7 +705,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = client.transcriptions.with_raw_response.create(language="yo")
+        response = client.speech.with_raw_response.transcibe(language="yo")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -729,7 +729,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = client.transcriptions.with_raw_response.create(
+        response = client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -754,7 +754,7 @@ class TestSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = client.transcriptions.with_raw_response.create(
+        response = client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": "42"}
         )
 
@@ -1429,7 +1429,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = await client.transcriptions.with_raw_response.create(language="yo")
+        response = await client.speech.with_raw_response.transcibe(language="yo")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1454,7 +1454,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = await client.transcriptions.with_raw_response.create(
+        response = await client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -1480,7 +1480,7 @@ class TestAsyncSpitch:
 
         respx_mock.post("/v1/transcriptions").mock(side_effect=retry_handler)
 
-        response = await client.transcriptions.with_raw_response.create(
+        response = await client.speech.with_raw_response.transcibe(
             language="yo", extra_headers={"x-stainless-retry-count": "42"}
         )
 
