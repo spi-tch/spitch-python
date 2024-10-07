@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.spi-tch.com](https://docs.spi-t
 
 ```sh
 # install from PyPI
-pip install --pre spitch
+pip install spitch
 ```
 
 ## Usage
