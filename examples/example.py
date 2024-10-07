@@ -16,7 +16,7 @@ def main():
         text="Bawo ni ololufe?"
     ) as speech:
         print(f"Time to first byte: {int((time.time() - start_time) * 1000)}ms")
-        speech.stream_to_file()
+        speech.stream_to_file(speech_file_path)
 
 
 if __name__ == "__main__":
