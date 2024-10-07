@@ -23,3 +23,15 @@ from spitch.types import TextToneMarkResponse
 Methods:
 
 - <code title="post /v1/diacritics">client.text.<a href="./src/spitch/resources/text.py">tone_mark</a>(\*\*<a href="src/spitch/types/text_tone_mark_params.py">params</a>) -> <a href="./src/spitch/types/text_tone_mark_response.py">object</a></code>
+
+# Misc
+
+Types:
+
+```python
+from spitch.types import MiscPingResponse
+```
+
+Methods:
+
+- <code title="get /v1/ping">client.misc.<a href="./src/spitch/resources/misc.py">ping</a>() -> <a href="./src/spitch/types/misc_ping_response.py">object</a></code>
