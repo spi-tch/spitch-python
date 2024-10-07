@@ -20,7 +20,7 @@ def main():
 
     # transcribe
     response = client.speech.transcibe(language="yo", content=speech_file_path)
-
+    print(type(response))
 
 
 if __name__ == "__main__":
