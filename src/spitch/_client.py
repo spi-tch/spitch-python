@@ -46,7 +46,8 @@ __all__ = [
 
 
 class Spitch(SyncAPIClient):
-    transcriptions: resources.TranscriptionsResource
+    speech: resources.SpeechResource
+    text: resources.TextResource
     with_raw_response: SpitchWithRawResponse
     with_streaming_response: SpitchWithStreamedResponse
 
@@ -91,7 +92,8 @@ class Spitch(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.transcriptions = resources.TranscriptionsResource(self)
+        self.speech = resources.SpeechResource(self)
+        self.text = resources.TextResource(self)
         self.with_raw_response = SpitchWithRawResponse(self)
         self.with_streaming_response = SpitchWithStreamedResponse(self)
 
@@ -193,7 +195,8 @@ class Spitch(SyncAPIClient):
 
 
 class AsyncSpitch(AsyncAPIClient):
-    transcriptions: resources.AsyncTranscriptionsResource
+    speech: resources.AsyncSpeechResource
+    text: resources.AsyncTextResource
     with_raw_response: AsyncSpitchWithRawResponse
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
@@ -238,7 +241,8 @@ class AsyncSpitch(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.transcriptions = resources.AsyncTranscriptionsResource(self)
+        self.speech = resources.AsyncSpeechResource(self)
+        self.text = resources.AsyncTextResource(self)
         self.with_raw_response = AsyncSpitchWithRawResponse(self)
         self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
 
@@ -341,22 +345,26 @@ class AsyncSpitch(AsyncAPIClient):
 
 class SpitchWithRawResponse:
     def __init__(self, client: Spitch) -> None:
-        self.transcriptions = resources.TranscriptionsResourceWithRawResponse(client.transcriptions)
+        self.speech = resources.SpeechResourceWithRawResponse(client.speech)
+        self.text = resources.TextResourceWithRawResponse(client.text)
 
 
 class AsyncSpitchWithRawResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.transcriptions = resources.AsyncTranscriptionsResourceWithRawResponse(client.transcriptions)
+        self.speech = resources.AsyncSpeechResourceWithRawResponse(client.speech)
+        self.text = resources.AsyncTextResourceWithRawResponse(client.text)
 
 
 class SpitchWithStreamedResponse:
     def __init__(self, client: Spitch) -> None:
-        self.transcriptions = resources.TranscriptionsResourceWithStreamingResponse(client.transcriptions)
+        self.speech = resources.SpeechResourceWithStreamingResponse(client.speech)
+        self.text = resources.TextResourceWithStreamingResponse(client.text)
 
 
 class AsyncSpitchWithStreamedResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.transcriptions = resources.AsyncTranscriptionsResourceWithStreamingResponse(client.transcriptions)
+        self.speech = resources.AsyncSpeechResourceWithStreamingResponse(client.speech)
+        self.text = resources.AsyncTextResourceWithStreamingResponse(client.text)
 
 
 Client = Spitch
