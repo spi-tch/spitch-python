@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import speech_generate_params, speech_transcibe_params
+from ..types import speech_generate_params, speech_transcribe_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
 from .._utils import (
     extract_files,
@@ -98,7 +98,7 @@ class SpeechResource(SyncAPIResource):
             cast_to=BinaryAPIResponse,
         )
 
-    def transcibe(
+    def transcribe(
         self,
         *,
         language: Literal["yo", "en", "ha", "ig"],
@@ -137,7 +137,7 @@ class SpeechResource(SyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/transcriptions",
-            body=maybe_transform(body, speech_transcibe_params.SpeechTranscibeParams),
+            body=maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -208,7 +208,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             cast_to=AsyncBinaryAPIResponse,
         )
 
-    async def transcibe(
+    async def transcribe(
         self,
         *,
         language: Literal["yo", "en", "ha", "ig"],
@@ -247,7 +247,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/transcriptions",
-            body=await async_maybe_transform(body, speech_transcibe_params.SpeechTranscibeParams),
+            body=await async_maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
             files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
@@ -264,8 +264,8 @@ class SpeechResourceWithRawResponse:
             speech.generate,
             BinaryAPIResponse,
         )
-        self.transcibe = to_raw_response_wrapper(
-            speech.transcibe,
+        self.transcribe = to_raw_response_wrapper(
+            speech.transcribe,
         )
 
 
@@ -277,8 +277,8 @@ class AsyncSpeechResourceWithRawResponse:
             speech.generate,
             AsyncBinaryAPIResponse,
         )
-        self.transcibe = async_to_raw_response_wrapper(
-            speech.transcibe,
+        self.transcribe = async_to_raw_response_wrapper(
+            speech.transcribe,
         )
 
 
@@ -290,8 +290,8 @@ class SpeechResourceWithStreamingResponse:
             speech.generate,
             StreamedBinaryAPIResponse,
         )
-        self.transcibe = to_streamed_response_wrapper(
-            speech.transcibe,
+        self.transcribe = to_streamed_response_wrapper(
+            speech.transcribe,
         )
 
 
@@ -303,6 +303,6 @@ class AsyncSpeechResourceWithStreamingResponse:
             speech.generate,
             AsyncStreamedBinaryAPIResponse,
         )
-        self.transcibe = async_to_streamed_response_wrapper(
-            speech.transcibe,
+        self.transcribe = async_to_streamed_response_wrapper(
+            speech.transcribe,
         )

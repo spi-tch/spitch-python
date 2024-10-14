@@ -73,15 +73,15 @@ class TestSpeech:
         assert cast(Any, speech.is_closed) is True
 
     @parametrize
-    def test_method_transcibe(self, client: Spitch) -> None:
-        speech = client.speech.transcibe(
+    def test_method_transcribe(self, client: Spitch) -> None:
+        speech = client.speech.transcribe(
             language="yo",
         )
         assert_matches_type(object, speech, path=["response"])
 
     @parametrize
-    def test_method_transcibe_with_all_params(self, client: Spitch) -> None:
-        speech = client.speech.transcibe(
+    def test_method_transcribe_with_all_params(self, client: Spitch) -> None:
+        speech = client.speech.transcribe(
             language="yo",
             content=b"raw file contents",
             url="url",
@@ -89,8 +89,8 @@ class TestSpeech:
         assert_matches_type(object, speech, path=["response"])
 
     @parametrize
-    def test_raw_response_transcibe(self, client: Spitch) -> None:
-        response = client.speech.with_raw_response.transcibe(
+    def test_raw_response_transcribe(self, client: Spitch) -> None:
+        response = client.speech.with_raw_response.transcribe(
             language="yo",
         )
 
@@ -100,8 +100,8 @@ class TestSpeech:
         assert_matches_type(object, speech, path=["response"])
 
     @parametrize
-    def test_streaming_response_transcibe(self, client: Spitch) -> None:
-        with client.speech.with_streaming_response.transcibe(
+    def test_streaming_response_transcribe(self, client: Spitch) -> None:
+        with client.speech.with_streaming_response.transcribe(
             language="yo",
         ) as response:
             assert not response.is_closed
@@ -165,15 +165,15 @@ class TestAsyncSpeech:
         assert cast(Any, speech.is_closed) is True
 
     @parametrize
-    async def test_method_transcibe(self, async_client: AsyncSpitch) -> None:
-        speech = await async_client.speech.transcibe(
+    async def test_method_transcribe(self, async_client: AsyncSpitch) -> None:
+        speech = await async_client.speech.transcribe(
             language="yo",
         )
         assert_matches_type(object, speech, path=["response"])
 
     @parametrize
-    async def test_method_transcibe_with_all_params(self, async_client: AsyncSpitch) -> None:
-        speech = await async_client.speech.transcibe(
+    async def test_method_transcribe_with_all_params(self, async_client: AsyncSpitch) -> None:
+        speech = await async_client.speech.transcribe(
             language="yo",
             content=b"raw file contents",
             url="url",
@@ -181,8 +181,8 @@ class TestAsyncSpeech:
         assert_matches_type(object, speech, path=["response"])
 
     @parametrize
-    async def test_raw_response_transcibe(self, async_client: AsyncSpitch) -> None:
-        response = await async_client.speech.with_raw_response.transcibe(
+    async def test_raw_response_transcribe(self, async_client: AsyncSpitch) -> None:
+        response = await async_client.speech.with_raw_response.transcribe(
             language="yo",
         )
 
@@ -192,8 +192,8 @@ class TestAsyncSpeech:
         assert_matches_type(object, speech, path=["response"])
 
     @parametrize
-    async def test_streaming_response_transcibe(self, async_client: AsyncSpitch) -> None:
-        async with async_client.speech.with_streaming_response.transcibe(
+    async def test_streaming_response_transcribe(self, async_client: AsyncSpitch) -> None:
+        async with async_client.speech.with_streaming_response.transcribe(
             language="yo",
         ) as response:
             assert not response.is_closed
