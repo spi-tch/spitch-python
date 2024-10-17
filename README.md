@@ -35,7 +35,6 @@ client = Spitch(
 response = client.speech.generate(
     language="yo",
     text="text",
-    voice="sade",
 )
 ```
 
@@ -63,7 +62,6 @@ async def main() -> None:
     response = await client.speech.generate(
         language="yo",
         text="text",
-        voice="sade",
     )
 
 
@@ -100,7 +98,6 @@ try:
     client.speech.generate(
         language="yo",
         text="text",
-        voice="sade",
     )
 except spitch.APIConnectionError as e:
     print("The server could not be reached")
@@ -147,7 +144,6 @@ client = Spitch(
 client.with_options(max_retries=5).speech.generate(
     language="yo",
     text="text",
-    voice="sade",
 )
 ```
 
@@ -174,7 +170,6 @@ client = Spitch(
 client.with_options(timeout=5.0).speech.generate(
     language="yo",
     text="text",
-    voice="sade",
 )
 ```
 
@@ -217,7 +212,6 @@ client = Spitch()
 response = client.speech.with_raw_response.generate(
     language="yo",
     text="text",
-    voice="sade",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -239,7 +233,6 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 with client.speech.with_streaming_response.generate(
     language="yo",
     text="text",
-    voice="sade",
 ) as response:
     print(response.headers.get("X-My-Header"))
 

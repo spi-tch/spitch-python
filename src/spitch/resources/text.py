@@ -6,7 +6,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..types import text_tone_mark_params
+from ..types import text_tone_mark_params, text_translate_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
@@ -84,6 +84,47 @@ class TextResource(SyncAPIResource):
             cast_to=object,
         )
 
+    def translate(
+        self,
+        *,
+        source: Literal["yo", "en", "ha", "ig"],
+        target: Literal["yo", "en", "ha", "ig"],
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Translate
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self._post(
+            "/v1/translate",
+            body=maybe_transform(
+                {
+                    "source": source,
+                    "target": target,
+                    "text": text,
+                },
+                text_translate_params.TextTranslateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
 
 class AsyncTextResource(AsyncAPIResource):
     @cached_property
@@ -144,6 +185,47 @@ class AsyncTextResource(AsyncAPIResource):
             cast_to=object,
         )
 
+    async def translate(
+        self,
+        *,
+        source: Literal["yo", "en", "ha", "ig"],
+        target: Literal["yo", "en", "ha", "ig"],
+        text: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> object:
+        """
+        Translate
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self._post(
+            "/v1/translate",
+            body=await async_maybe_transform(
+                {
+                    "source": source,
+                    "target": target,
+                    "text": text,
+                },
+                text_translate_params.TextTranslateParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=object,
+        )
+
 
 class TextResourceWithRawResponse:
     def __init__(self, text: TextResource) -> None:
@@ -151,6 +233,9 @@ class TextResourceWithRawResponse:
 
         self.tone_mark = to_raw_response_wrapper(
             text.tone_mark,
+        )
+        self.translate = to_raw_response_wrapper(
+            text.translate,
         )
 
 
@@ -161,6 +246,9 @@ class AsyncTextResourceWithRawResponse:
         self.tone_mark = async_to_raw_response_wrapper(
             text.tone_mark,
         )
+        self.translate = async_to_raw_response_wrapper(
+            text.translate,
+        )
 
 
 class TextResourceWithStreamingResponse:
@@ -170,6 +258,9 @@ class TextResourceWithStreamingResponse:
         self.tone_mark = to_streamed_response_wrapper(
             text.tone_mark,
         )
+        self.translate = to_streamed_response_wrapper(
+            text.translate,
+        )
 
 
 class AsyncTextResourceWithStreamingResponse:
@@ -178,4 +269,7 @@ class AsyncTextResourceWithStreamingResponse:
 
         self.tone_mark = async_to_streamed_response_wrapper(
             text.tone_mark,
+        )
+        self.translate = async_to_streamed_response_wrapper(
+            text.translate,
         )

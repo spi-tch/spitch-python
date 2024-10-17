@@ -18,18 +18,10 @@ from .._utils import (
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
-    BinaryAPIResponse,
-    AsyncBinaryAPIResponse,
-    StreamedBinaryAPIResponse,
-    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
-    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
-    to_custom_streamed_response_wrapper,
-    async_to_custom_raw_response_wrapper,
-    async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
 
@@ -61,14 +53,15 @@ class SpeechResource(SyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig"],
         text: str,
-        voice: Literal["sade", "segun", "femi", "funmi"],
+        stream: bool | NotGiven = NOT_GIVEN,
+        voice: Literal["sade", "segun", "femi", "funmi"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BinaryAPIResponse:
+    ) -> object:
         """
         Synthesize
 
@@ -81,7 +74,6 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
         return self._post(
             "/v1/speech",
             body=maybe_transform(
@@ -93,9 +85,13 @@ class SpeechResource(SyncAPIResource):
                 speech_generate_params.SpeechGenerateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
             ),
-            cast_to=BinaryAPIResponse,
+            cast_to=object,
         )
 
     def transcribe(
@@ -103,6 +99,8 @@ class SpeechResource(SyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig"],
         content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
+        multispeaker: Optional[bool] | NotGiven = NOT_GIVEN,
+        timestamp: Optional[bool] | NotGiven = NOT_GIVEN,
         url: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -127,6 +125,8 @@ class SpeechResource(SyncAPIResource):
             {
                 "language": language,
                 "content": content,
+                "multispeaker": multispeaker,
+                "timestamp": timestamp,
                 "url": url,
             }
         )
@@ -171,14 +171,15 @@ class AsyncSpeechResource(AsyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig"],
         text: str,
-        voice: Literal["sade", "segun", "femi", "funmi"],
+        stream: bool | NotGiven = NOT_GIVEN,
+        voice: Literal["sade", "segun", "femi", "funmi"] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncBinaryAPIResponse:
+    ) -> object:
         """
         Synthesize
 
@@ -191,7 +192,6 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
         return await self._post(
             "/v1/speech",
             body=await async_maybe_transform(
@@ -203,9 +203,13 @@ class AsyncSpeechResource(AsyncAPIResource):
                 speech_generate_params.SpeechGenerateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
             ),
-            cast_to=AsyncBinaryAPIResponse,
+            cast_to=object,
         )
 
     async def transcribe(
@@ -213,6 +217,8 @@ class AsyncSpeechResource(AsyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig"],
         content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
+        multispeaker: Optional[bool] | NotGiven = NOT_GIVEN,
+        timestamp: Optional[bool] | NotGiven = NOT_GIVEN,
         url: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -237,6 +243,8 @@ class AsyncSpeechResource(AsyncAPIResource):
             {
                 "language": language,
                 "content": content,
+                "multispeaker": multispeaker,
+                "timestamp": timestamp,
                 "url": url,
             }
         )
@@ -260,9 +268,8 @@ class SpeechResourceWithRawResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_custom_raw_response_wrapper(
+        self.generate = to_raw_response_wrapper(
             speech.generate,
-            BinaryAPIResponse,
         )
         self.transcribe = to_raw_response_wrapper(
             speech.transcribe,
@@ -273,9 +280,8 @@ class AsyncSpeechResourceWithRawResponse:
     def __init__(self, speech: AsyncSpeechResource) -> None:
         self._speech = speech
 
-        self.generate = async_to_custom_raw_response_wrapper(
+        self.generate = async_to_raw_response_wrapper(
             speech.generate,
-            AsyncBinaryAPIResponse,
         )
         self.transcribe = async_to_raw_response_wrapper(
             speech.transcribe,
@@ -286,7 +292,7 @@ class SpeechResourceWithStreamingResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_custom_streamed_response_wrapper(
+        self.generate = to_streamed_response_wrapper(
             speech.generate,
             StreamedBinaryAPIResponse
         )
@@ -299,7 +305,7 @@ class AsyncSpeechResourceWithStreamingResponse:
     def __init__(self, speech: AsyncSpeechResource) -> None:
         self._speech = speech
 
-        self.generate = async_to_custom_streamed_response_wrapper(
+        self.generate = async_to_streamed_response_wrapper(
             speech.generate,
             AsyncStreamedBinaryAPIResponse
         )
