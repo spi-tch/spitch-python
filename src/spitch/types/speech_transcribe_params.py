@@ -15,4 +15,8 @@ class SpeechTranscribeParams(TypedDict, total=False):
 
     content: Optional[FileTypes]
 
+    multispeaker: Optional[bool]
+
+    timestamp: Optional[bool]
+
     url: Optional[str]
