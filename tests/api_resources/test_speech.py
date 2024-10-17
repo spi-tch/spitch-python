@@ -96,6 +96,8 @@ class TestSpeech:
         speech = client.speech.transcribe(
             language="yo",
             content=b"raw file contents",
+            multispeaker=True,
+            timestamp=True,
             url="url",
         )
         assert_matches_type(object, speech, path=["response"])
@@ -200,6 +202,8 @@ class TestAsyncSpeech:
         speech = await async_client.speech.transcribe(
             language="yo",
             content=b"raw file contents",
+            multispeaker=True,
+            timestamp=True,
             url="url",
         )
         assert_matches_type(object, speech, path=["response"])
