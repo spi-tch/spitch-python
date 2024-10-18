@@ -32,6 +32,7 @@ from .._response import (
     async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.speech_transcribe_response import SpeechTranscribeResponse
 
 __all__ = ["SpeechResource", "AsyncSpeechResource"]
 
@@ -117,7 +118,7 @@ class SpeechResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> SpeechTranscribeResponse:
         """
         Transcribe
 
@@ -151,7 +152,7 @@ class SpeechResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=SpeechTranscribeResponse,
         )
 
 
@@ -236,7 +237,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> SpeechTranscribeResponse:
         """
         Transcribe
 
@@ -270,7 +271,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=SpeechTranscribeResponse,
         )
 
 
