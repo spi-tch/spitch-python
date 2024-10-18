@@ -20,6 +20,6 @@ class Segment(BaseModel):
 class SpeechTranscribeResponse(BaseModel):
     request_id: str
 
-    segment: Optional[List[Optional[Segment]]] = None
+    segments: Optional[List[Optional[Segment]]] = None
 
     text: Optional[str] = None
