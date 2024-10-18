@@ -32,6 +32,7 @@ class TestSpeech:
         speech = client.speech.generate(
             language="yo",
             text="text",
+            voice="sade",
         )
         assert speech.is_closed
         assert speech.json() == {"foo": "bar"}
@@ -45,8 +46,8 @@ class TestSpeech:
         speech = client.speech.generate(
             language="yo",
             text="text",
-            stream=True,
             voice="sade",
+            stream=True,
         )
         assert speech.is_closed
         assert speech.json() == {"foo": "bar"}
@@ -61,6 +62,7 @@ class TestSpeech:
         speech = client.speech.with_raw_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         )
 
         assert speech.is_closed is True
@@ -75,6 +77,7 @@ class TestSpeech:
         with client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         ) as speech:
             assert not speech.is_closed
             assert speech.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -138,6 +141,7 @@ class TestAsyncSpeech:
         speech = await async_client.speech.generate(
             language="yo",
             text="text",
+            voice="sade",
         )
         assert speech.is_closed
         assert await speech.json() == {"foo": "bar"}
@@ -151,8 +155,8 @@ class TestAsyncSpeech:
         speech = await async_client.speech.generate(
             language="yo",
             text="text",
-            stream=True,
             voice="sade",
+            stream=True,
         )
         assert speech.is_closed
         assert await speech.json() == {"foo": "bar"}
@@ -167,6 +171,7 @@ class TestAsyncSpeech:
         speech = await async_client.speech.with_raw_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         )
 
         assert speech.is_closed is True
@@ -181,6 +186,7 @@ class TestAsyncSpeech:
         async with async_client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
+            voice="sade",
         ) as speech:
             assert not speech.is_closed
             assert speech.http_request.headers.get("X-Stainless-Lang") == "python"

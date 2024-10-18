@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.13.0 (2024-10-18)
+
+Full Changelog: [v1.12.0...v1.13.0](https://github.com/spi-tch/spitch-python/compare/v1.12.0...v1.13.0)
+
+### Features
+
+* **api:** api update ([#55](https://github.com/spi-tch/spitch-python/issues/55)) ([f987e48](https://github.com/spi-tch/spitch-python/commit/f987e48d65d4ef24a650bfc3d01757a565766c18))
+
 ## 1.12.0 (2024-10-18)
 
 Full Changelog: [v1.11.0...v1.12.0](https://github.com/spi-tch/spitch-python/compare/v1.11.0...v1.12.0)
