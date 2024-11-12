@@ -28,8 +28,7 @@ import os
 from spitch import Spitch
 
 client = Spitch(
-    # This is the default and can be omitted
-    api_key=os.environ.get("SPITCH_API_KEY"),
+    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
 )
 
 response = client.speech.generate(
@@ -54,8 +53,7 @@ import asyncio
 from spitch import AsyncSpitch
 
 client = AsyncSpitch(
-    # This is the default and can be omitted
-    api_key=os.environ.get("SPITCH_API_KEY"),
+    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
 )
 
 
