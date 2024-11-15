@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/spitch.svg)](https://pypi.org/project/spitch/)
 
-The Spitch Python library provides convenient access to the Spitch REST API from any Python 3.7+
+The Spitch Python library provides convenient access to the Spitch REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -28,8 +28,7 @@ import os
 from spitch import Spitch
 
 client = Spitch(
-    # This is the default and can be omitted
-    api_key=os.environ.get("SPITCH_API_KEY"),
+    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
 )
 
 response = client.speech.generate(
@@ -54,8 +53,7 @@ import asyncio
 from spitch import AsyncSpitch
 
 client = AsyncSpitch(
-    # This is the default and can be omitted
-    api_key=os.environ.get("SPITCH_API_KEY"),
+    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
 )
 
 
@@ -340,7 +338,7 @@ print(spitch.__version__)
 
 ## Requirements
 
-Python 3.7 or higher.
+Python 3.8 or higher.
 
 ## Contributing
 

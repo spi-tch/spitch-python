@@ -20,7 +20,7 @@ def main() -> None:
         speech.stream_to_file(speech_file_path)
 
     # transcribe
-    response = client.speech.transcibe(language="yo", content=speech_file_path)
+    response = client.speech.transcribe(language="yo", content=speech_file_path)
     print(type(response))
 
 
