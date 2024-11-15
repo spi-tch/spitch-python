@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.15.0 (2024-11-15)
+
+Full Changelog: [v1.14.0...v1.15.0](https://github.com/spi-tch/spitch-python/compare/v1.14.0...v1.15.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#65](https://github.com/spi-tch/spitch-python/issues/65)) ([75d0335](https://github.com/spi-tch/spitch-python/commit/75d0335fa27259e3c41e2591f0f8a89773f5ff02))
+
+
+### Chores
+
+* rebuild project due to codegen change ([#61](https://github.com/spi-tch/spitch-python/issues/61)) ([7041078](https://github.com/spi-tch/spitch-python/commit/70410787cb6255e839e3633b0732295f0d98f2bb))
+* rebuild project due to codegen change ([#63](https://github.com/spi-tch/spitch-python/issues/63)) ([1761ce9](https://github.com/spi-tch/spitch-python/commit/1761ce946924b818037c3d055f422020814119a1))
+* rebuild project due to codegen change ([#64](https://github.com/spi-tch/spitch-python/issues/64)) ([99cc2fc](https://github.com/spi-tch/spitch-python/commit/99cc2fcfe79bbc09242230a5dcdbce085107fed9))
+
 ## 1.14.0 (2024-10-18)
 
 Full Changelog: [v1.13.0...v1.14.0](https://github.com/spi-tch/spitch-python/compare/v1.13.0...v1.14.0)
