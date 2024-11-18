@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.1 (2024-11-18)
+
+Full Changelog: [v1.15.0...v1.15.1](https://github.com/spi-tch/spitch-python/compare/v1.15.0...v1.15.1)
+
+### Chores
+
+* rebuild project due to codegen change ([#67](https://github.com/spi-tch/spitch-python/issues/67)) ([4b6aa68](https://github.com/spi-tch/spitch-python/commit/4b6aa6839c2aeba8e4a4fbe20786b69634c3c5bc))
+
 ## 1.15.0 (2024-11-15)
 
 Full Changelog: [v1.14.0...v1.15.0](https://github.com/spi-tch/spitch-python/compare/v1.14.0...v1.15.0)
