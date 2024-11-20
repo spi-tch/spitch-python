@@ -34,7 +34,7 @@ class TextResource(SyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/spi-tch/spitch-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/spitch-python#accessing-raw-response-data-eg-headers
         """
         return TextResourceWithRawResponse(self)
 
@@ -43,7 +43,7 @@ class TextResource(SyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/spi-tch/spitch-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/spitch-python#with_streaming_response
         """
         return TextResourceWithStreamingResponse(self)
 
@@ -135,7 +135,7 @@ class AsyncTextResource(AsyncAPIResource):
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
-        For more information, see https://www.github.com/spi-tch/spitch-python#accessing-raw-response-data-eg-headers
+        For more information, see https://www.github.com/stainless-sdks/spitch-python#accessing-raw-response-data-eg-headers
         """
         return AsyncTextResourceWithRawResponse(self)
 
@@ -144,7 +144,7 @@ class AsyncTextResource(AsyncAPIResource):
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
-        For more information, see https://www.github.com/spi-tch/spitch-python#with_streaming_response
+        For more information, see https://www.github.com/stainless-sdks/spitch-python#with_streaming_response
         """
         return AsyncTextResourceWithStreamingResponse(self)
 
