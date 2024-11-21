@@ -20,7 +20,7 @@ or products provided by Spitch please follow the respective company's security r
 
 ### Spitch Terms and Policies
 
-Please contact admin@spi-tch.com for any questions or concerns regarding security of our services.
+Please contact hello@spi-tch.com for any questions or concerns regarding security of our services.
 
 ---
 
