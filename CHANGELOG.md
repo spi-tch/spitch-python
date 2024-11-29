@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.16.0 (2024-11-21)
+
+Full Changelog: [v1.15.1...v1.16.0](https://github.com/spi-tch/spitch-python/compare/v1.15.1...v1.16.0)
+
+### Features
+
+* **api:** update via SDK Studio ([1fd8e69](https://github.com/spi-tch/spitch-python/commit/1fd8e69e19951c5c08b2620a187b02c83e65a6fd))
+* **api:** update via SDK Studio ([9edba8c](https://github.com/spi-tch/spitch-python/commit/9edba8c215b16905ac04b11f151e8c04f556727e))
+* **api:** update via SDK Studio ([#71](https://github.com/spi-tch/spitch-python/issues/71)) ([38389b4](https://github.com/spi-tch/spitch-python/commit/38389b4341e7e8dc76ff4d2561ddda848ac30f84))
+* **api:** update via SDK Studio ([#72](https://github.com/spi-tch/spitch-python/issues/72)) ([d015bdc](https://github.com/spi-tch/spitch-python/commit/d015bdc2571612e8a202cf5aa610d870c7009f5c))
+* **api:** update via SDK Studio ([#73](https://github.com/spi-tch/spitch-python/issues/73)) ([616bdb1](https://github.com/spi-tch/spitch-python/commit/616bdb1edfd9e2a70f09101de19563a82a8ea7b7))
+* **api:** update via SDK Studio ([#74](https://github.com/spi-tch/spitch-python/issues/74)) ([462077d](https://github.com/spi-tch/spitch-python/commit/462077d3057796ceefae2e5ba4c36191294bd7a0))
+* **api:** update via SDK Studio ([#75](https://github.com/spi-tch/spitch-python/issues/75)) ([9a53106](https://github.com/spi-tch/spitch-python/commit/9a531068e9033ade5bf1fbdfd2123e29092f370f))
+* **api:** update via SDK Studio ([#76](https://github.com/spi-tch/spitch-python/issues/76)) ([84a921c](https://github.com/spi-tch/spitch-python/commit/84a921c58ca2ee0876f2ab47997d508eaf89ce7f))
+* **api:** update via SDK Studio ([#77](https://github.com/spi-tch/spitch-python/issues/77)) ([521f8ef](https://github.com/spi-tch/spitch-python/commit/521f8efb93d7f35a26dd66176e6f8f275c7f7868))
+* **api:** update via SDK Studio ([#78](https://github.com/spi-tch/spitch-python/issues/78)) ([0b1d2f6](https://github.com/spi-tch/spitch-python/commit/0b1d2f63b38571f3514e5bc2debb29b41784bbd2))
+
+
+### Chores
+
+* configure new SDK language ([b2c715e](https://github.com/spi-tch/spitch-python/commit/b2c715ecc0f6656bd21a6817d2371d1721e19f89))
+
 ## 1.15.1 (2024-11-18)
 
 Full Changelog: [v1.15.0...v1.15.1](https://github.com/spi-tch/spitch-python/compare/v1.15.0...v1.15.1)
