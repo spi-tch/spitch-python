@@ -6,7 +6,7 @@ from pathlib import Path
 from spitch import Spitch
 
 client = Spitch(api_key=os.getenv('SPITCH_API_KEY'))
-speech_file_path = Path(__file__).parent / "speech.mp3"
+speech_file_path = Path(__file__).parent / "audio.mp3"
 
 
 def main() -> None:
