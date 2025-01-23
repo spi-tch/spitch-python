@@ -130,6 +130,8 @@ class BaseAPIResponse(Generic[R]):
         if to and is_annotated_type(to):
             to = extract_type_arg(to, 0)
 
+        origin = get_origin(cast_to) or cast_to
+
         if self._is_sse_stream:
             if to:
                 if not is_stream_class_type(to):
@@ -194,8 +196,6 @@ class BaseAPIResponse(Generic[R]):
 
         if cast_to == bool:
             return cast(R, response.text.lower() == "true")
-
-        origin = get_origin(cast_to) or cast_to
 
         if origin == APIResponse:
             raise RuntimeError("Unexpected state - cast_to is `APIResponse`")
