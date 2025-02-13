@@ -23,10 +23,12 @@ from pydantic import ValidationError
 
 from spitch import Spitch, AsyncSpitch, APIResponseValidationError
 from spitch._types import Omit
+from spitch._utils import maybe_transform
 from spitch._models import BaseModel, FinalRequestOptions
 from spitch._constants import RAW_RESPONSE_HEADER
 from spitch._exceptions import SpitchError, APIStatusError, APITimeoutError, APIResponseValidationError
 from spitch._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
+from spitch.types.speech_generate_params import SpeechGenerateParams
 
 from .utils import update_env
 
@@ -710,7 +712,9 @@ class TestSpitch:
         with pytest.raises(APITimeoutError):
             self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -725,7 +729,9 @@ class TestSpitch:
         with pytest.raises(APIStatusError):
             self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1490,7 +1496,9 @@ class TestAsyncSpitch:
         with pytest.raises(APITimeoutError):
             await self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1505,7 +1513,9 @@ class TestAsyncSpitch:
         with pytest.raises(APIStatusError):
             await self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
