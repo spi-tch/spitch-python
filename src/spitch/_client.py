@@ -77,7 +77,7 @@ class Spitch(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous spitch client instance.
+        """Construct a new synchronous Spitch client instance.
 
         This automatically infers the `api_key` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
         """
@@ -247,7 +247,7 @@ class AsyncSpitch(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async spitch client instance.
+        """Construct a new async AsyncSpitch client instance.
 
         This automatically infers the `api_key` argument from the `SPITCH_API_KEY` environment variable if it is not provided.
         """
