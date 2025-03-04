@@ -79,6 +79,8 @@ class SpeechResource(SyncAPIResource):
             "lina",
             "john",
             "jude",
+            "henry",
+            "kani",
         ],
         stream: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -215,6 +217,8 @@ class AsyncSpeechResource(AsyncAPIResource):
             "lina",
             "john",
             "jude",
+            "henry",
+            "kani",
         ],
         stream: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
