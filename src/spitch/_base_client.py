@@ -808,7 +808,6 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         custom_query: Mapping[str, object] | None = None,
         _strict_response_validation: bool,
     ) -> None:
-        kwargs: dict[str, Any] = {}
         if limits is not None:
             warnings.warn(
                 "The `connection_pool_limits` argument is deprecated. The `http_client` argument should be passed instead",
@@ -821,7 +820,6 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             limits = DEFAULT_CONNECTION_LIMITS
 
         if transport is not None:
-            kwargs["transport"] = transport
             warnings.warn(
                 "The `transport` argument is deprecated. The `http_client` argument should be passed instead",
                 category=DeprecationWarning,
@@ -831,7 +829,6 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
                 raise ValueError("The `http_client` argument is mutually exclusive with `transport`")
 
         if proxies is not None:
-            kwargs["proxies"] = proxies
             warnings.warn(
                 "The `proxies` argument is deprecated. The `http_client` argument should be passed instead",
                 category=DeprecationWarning,
@@ -875,9 +872,10 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
+            proxies=proxies,
+            transport=transport,
             limits=limits,
             follow_redirects=True,
-            **kwargs,  # type: ignore
         )
 
     def is_closed(self) -> bool:
@@ -1379,7 +1377,6 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         custom_headers: Mapping[str, str] | None = None,
         custom_query: Mapping[str, object] | None = None,
     ) -> None:
-        kwargs: dict[str, Any] = {}
         if limits is not None:
             warnings.warn(
                 "The `connection_pool_limits` argument is deprecated. The `http_client` argument should be passed instead",
@@ -1392,7 +1389,6 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             limits = DEFAULT_CONNECTION_LIMITS
 
         if transport is not None:
-            kwargs["transport"] = transport
             warnings.warn(
                 "The `transport` argument is deprecated. The `http_client` argument should be passed instead",
                 category=DeprecationWarning,
@@ -1402,7 +1398,6 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
                 raise ValueError("The `http_client` argument is mutually exclusive with `transport`")
 
         if proxies is not None:
-            kwargs["proxies"] = proxies
             warnings.warn(
                 "The `proxies` argument is deprecated. The `http_client` argument should be passed instead",
                 category=DeprecationWarning,
@@ -1446,9 +1441,10 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
+            proxies=proxies,
+            transport=transport,
             limits=limits,
             follow_redirects=True,
-            **kwargs,  # type: ignore
         )
 
     def is_closed(self) -> bool:
