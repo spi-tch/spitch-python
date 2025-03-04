@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.21.0 (2025-03-04)
+
+Full Changelog: [v1.20.0...v1.21.0](https://github.com/spi-tch/spitch-python/compare/v1.20.0...v1.21.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#114](https://github.com/spi-tch/spitch-python/issues/114)) ([2cb4f31](https://github.com/spi-tch/spitch-python/commit/2cb4f316c23ec0ea1ca0388681e1b0ae20d8d160))
+
 ## 1.20.0 (2025-03-04)
 
 Full Changelog: [v1.19.0...v1.20.0](https://github.com/spi-tch/spitch-python/compare/v1.19.0...v1.20.0)
