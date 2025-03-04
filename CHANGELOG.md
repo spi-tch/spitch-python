@@ -1,5 +1,46 @@
 # Changelog
 
+## 1.20.0 (2025-03-04)
+
+Full Changelog: [v1.19.0...v1.20.0](https://github.com/spi-tch/spitch-python/compare/v1.19.0...v1.20.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#109](https://github.com/spi-tch/spitch-python/issues/109)) ([6e29edd](https://github.com/spi-tch/spitch-python/commit/6e29eddfb89bf0512bd87cd712c29ba19e145b7a))
+* **client:** allow passing `NotGiven` for body ([#103](https://github.com/spi-tch/spitch-python/issues/103)) ([6f2bdd1](https://github.com/spi-tch/spitch-python/commit/6f2bdd15f3f6089eaf79d0841cd013258c19eaa5))
+* **client:** send `X-Stainless-Read-Timeout` header ([#97](https://github.com/spi-tch/spitch-python/issues/97)) ([5aa6876](https://github.com/spi-tch/spitch-python/commit/5aa687627fa5a4d9815b865144b084a70401205d))
+
+
+### Bug Fixes
+
+* asyncify on non-asyncio runtimes ([#101](https://github.com/spi-tch/spitch-python/issues/101)) ([06e16f9](https://github.com/spi-tch/spitch-python/commit/06e16f920106f8f7f79ed13e9a5fe173c982381b))
+* **client:** mark some request bodies as optional ([6f2bdd1](https://github.com/spi-tch/spitch-python/commit/6f2bdd15f3f6089eaf79d0841cd013258c19eaa5))
+* **tests:** make test_get_platform less flaky ([#91](https://github.com/spi-tch/spitch-python/issues/91)) ([f0263dc](https://github.com/spi-tch/spitch-python/commit/f0263dc026f74d0f9a94857b084075fba05e1c78))
+
+
+### Chores
+
+* **docs:** update client docstring ([#107](https://github.com/spi-tch/spitch-python/issues/107)) ([c08016e](https://github.com/spi-tch/spitch-python/commit/c08016e27757afb2408b0a60a3b91d59ab9cd674))
+* **internal:** avoid pytest-asyncio deprecation warning ([#92](https://github.com/spi-tch/spitch-python/issues/92)) ([2a58481](https://github.com/spi-tch/spitch-python/commit/2a58481308d998c02cfb80723802b3d3d3508f11))
+* **internal:** bummp ruff dependency ([#96](https://github.com/spi-tch/spitch-python/issues/96)) ([bac43d8](https://github.com/spi-tch/spitch-python/commit/bac43d88bf6c06fbc207149bc877bf4eb2b012b7))
+* **internal:** change default timeout to an int ([#95](https://github.com/spi-tch/spitch-python/issues/95)) ([148bc16](https://github.com/spi-tch/spitch-python/commit/148bc16f85dcd9f8baea266a61a7aeb868858c97))
+* **internal:** codegen related update ([#102](https://github.com/spi-tch/spitch-python/issues/102)) ([cca3a53](https://github.com/spi-tch/spitch-python/commit/cca3a532412587cc3fe38bfe565102b661152045))
+* **internal:** codegen related update ([#88](https://github.com/spi-tch/spitch-python/issues/88)) ([3c27c0e](https://github.com/spi-tch/spitch-python/commit/3c27c0ecabaf2c48c43d941d52365375650c6a83))
+* **internal:** codegen related update ([#93](https://github.com/spi-tch/spitch-python/issues/93)) ([9564863](https://github.com/spi-tch/spitch-python/commit/95648632bcbe45c844531fd591f3785df20109e2))
+* **internal:** fix devcontainers setup ([#104](https://github.com/spi-tch/spitch-python/issues/104)) ([10214c2](https://github.com/spi-tch/spitch-python/commit/10214c2803d80f734c1aa4ebe5338bbf1b98a6ef))
+* **internal:** fix type traversing dictionary params ([#98](https://github.com/spi-tch/spitch-python/issues/98)) ([2d78d6d](https://github.com/spi-tch/spitch-python/commit/2d78d6d92183b5487fe5518f84107e1705f1d178))
+* **internal:** minor formatting changes ([#94](https://github.com/spi-tch/spitch-python/issues/94)) ([e3edcec](https://github.com/spi-tch/spitch-python/commit/e3edcecc0ba046c41e5d1aa0bdb7550278fb45c3))
+* **internal:** minor type handling changes ([#99](https://github.com/spi-tch/spitch-python/issues/99)) ([9a472ea](https://github.com/spi-tch/spitch-python/commit/9a472ea5ad908b7ddf9944f9e8bf0a2b49710cbb))
+* **internal:** properly set __pydantic_private__ ([#105](https://github.com/spi-tch/spitch-python/issues/105)) ([13df700](https://github.com/spi-tch/spitch-python/commit/13df700ecf4651a18b84757bd5602030f9ae8c35))
+* **internal:** remove unused http client options forwarding ([#108](https://github.com/spi-tch/spitch-python/issues/108)) ([5e96250](https://github.com/spi-tch/spitch-python/commit/5e96250dc6b2cbfe81cda0f663324df6305ee144))
+* **internal:** update client tests ([#100](https://github.com/spi-tch/spitch-python/issues/100)) ([53adf81](https://github.com/spi-tch/spitch-python/commit/53adf817e1d1df6ad125ab6a05c6c3c753367d1c))
+
+
+### Documentation
+
+* **raw responses:** fix duplicate `the` ([#90](https://github.com/spi-tch/spitch-python/issues/90)) ([ad3e50f](https://github.com/spi-tch/spitch-python/commit/ad3e50fb36232cc0ecab6c4eb1f61176319b46a5))
+* update URLs from stainlessapi.com to stainless.com ([#106](https://github.com/spi-tch/spitch-python/issues/106)) ([b7bedc2](https://github.com/spi-tch/spitch-python/commit/b7bedc2b02e508d317e57ba74c6396e2f8c2aa88))
+
 ## 1.19.0 (2025-01-14)
 
 Full Changelog: [v1.18.0...v1.19.0](https://github.com/spi-tch/spitch-python/compare/v1.18.0...v1.19.0)
