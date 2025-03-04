@@ -792,6 +792,35 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         custom_query: Mapping[str, object] | None = None,
         _strict_response_validation: bool,
     ) -> None:
+        if limits is not None:
+            warnings.warn(
+                "The `connection_pool_limits` argument is deprecated. The `http_client` argument should be passed instead",
+                category=DeprecationWarning,
+                stacklevel=3,
+            )
+            if http_client is not None:
+                raise ValueError("The `http_client` argument is mutually exclusive with `connection_pool_limits`")
+        else:
+            limits = DEFAULT_CONNECTION_LIMITS
+
+        if transport is not None:
+            warnings.warn(
+                "The `transport` argument is deprecated. The `http_client` argument should be passed instead",
+                category=DeprecationWarning,
+                stacklevel=3,
+            )
+            if http_client is not None:
+                raise ValueError("The `http_client` argument is mutually exclusive with `transport`")
+
+        if proxies is not None:
+            warnings.warn(
+                "The `proxies` argument is deprecated. The `http_client` argument should be passed instead",
+                category=DeprecationWarning,
+                stacklevel=3,
+            )
+            if http_client is not None:
+                raise ValueError("The `http_client` argument is mutually exclusive with `proxies`")
+
         if not is_given(timeout):
             # if the user passed in a custom http client with a non-default
             # timeout set then we use that timeout.
@@ -824,6 +853,10 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
+            proxies=proxies,
+            transport=transport,
+            limits=limits,
+            follow_redirects=True,
         )
 
     def is_closed(self) -> bool:
@@ -1322,6 +1355,34 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         custom_headers: Mapping[str, str] | None = None,
         custom_query: Mapping[str, object] | None = None,
     ) -> None:
+        if limits is not None:
+            warnings.warn(
+                "The `connection_pool_limits` argument is deprecated. The `http_client` argument should be passed instead",
+                category=DeprecationWarning,
+                stacklevel=3,
+            )
+            if http_client is not None:
+                raise ValueError("The `http_client` argument is mutually exclusive with `connection_pool_limits`")
+        else:
+            limits = DEFAULT_CONNECTION_LIMITS
+
+        if transport is not None:
+            warnings.warn(
+                "The `transport` argument is deprecated. The `http_client` argument should be passed instead",
+                category=DeprecationWarning,
+                stacklevel=3,
+            )
+            if http_client is not None:
+                raise ValueError("The `http_client` argument is mutually exclusive with `transport`")
+
+        if proxies is not None:
+            warnings.warn(
+                "The `proxies` argument is deprecated. The `http_client` argument should be passed instead",
+                category=DeprecationWarning,
+                stacklevel=3,
+            )
+            if http_client is not None:
+                raise ValueError("The `http_client` argument is mutually exclusive with `proxies`")
         if not is_given(timeout):
             # if the user passed in a custom http client with a non-default
             # timeout set then we use that timeout.
@@ -1354,6 +1415,10 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
+            proxies=proxies,
+            transport=transport,
+            limits=limits,
+            follow_redirects=True,
         )
 
     def is_closed(self) -> bool:
