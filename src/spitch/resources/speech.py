@@ -41,7 +41,7 @@ class SpeechResource(SyncAPIResource):
     @cached_property
     def with_raw_response(self) -> SpeechResourceWithRawResponse:
         """
-        This property can be used as a prefix for any HTTP method call to return the
+        This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/spi-tch/spitch-python#accessing-raw-response-data-eg-headers
@@ -79,6 +79,8 @@ class SpeechResource(SyncAPIResource):
             "lina",
             "john",
             "jude",
+            "henry",
+            "kani",
         ],
         stream: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -177,7 +179,7 @@ class AsyncSpeechResource(AsyncAPIResource):
     @cached_property
     def with_raw_response(self) -> AsyncSpeechResourceWithRawResponse:
         """
-        This property can be used as a prefix for any HTTP method call to return the
+        This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/spi-tch/spitch-python#accessing-raw-response-data-eg-headers
@@ -215,6 +217,8 @@ class AsyncSpeechResource(AsyncAPIResource):
             "lina",
             "john",
             "jude",
+            "henry",
+            "kani",
         ],
         stream: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.

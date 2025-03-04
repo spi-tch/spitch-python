@@ -6,6 +6,7 @@ import gc
 import os
 import sys
 import json
+import time
 import asyncio
 import inspect
 import subprocess
@@ -22,10 +23,12 @@ from pydantic import ValidationError
 
 from spitch import Spitch, AsyncSpitch, APIResponseValidationError
 from spitch._types import Omit
+from spitch._utils import maybe_transform
 from spitch._models import BaseModel, FinalRequestOptions
 from spitch._constants import RAW_RESPONSE_HEADER
 from spitch._exceptions import SpitchError, APIStatusError, APITimeoutError, APIResponseValidationError
 from spitch._base_client import DEFAULT_TIMEOUT, HTTPX_DEFAULT_TIMEOUT, BaseClient, make_request_options
+from spitch.types.speech_generate_params import SpeechGenerateParams
 
 from .utils import update_env
 
@@ -348,11 +351,11 @@ class TestSpitch:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -709,7 +712,9 @@ class TestSpitch:
         with pytest.raises(APITimeoutError):
             self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -724,7 +729,9 @@ class TestSpitch:
         with pytest.raises(APIStatusError):
             self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1114,11 +1121,11 @@ class TestAsyncSpitch:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -1489,7 +1496,9 @@ class TestAsyncSpitch:
         with pytest.raises(APITimeoutError):
             await self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1504,7 +1513,9 @@ class TestAsyncSpitch:
         with pytest.raises(APIStatusError):
             await self.client.post(
                 "/v1/speech",
-                body=cast(object, dict(language="yo", text="text", voice="sade")),
+                body=cast(
+                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
+                ),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1622,10 +1633,20 @@ class TestAsyncSpitch:
             [sys.executable, "-c", test_code],
             text=True,
         ) as process:
-            try:
-                process.wait(2)
-                if process.returncode:
-                    raise AssertionError("calling get_platform using asyncify resulted in a non-zero exit code")
-            except subprocess.TimeoutExpired as e:
-                process.kill()
-                raise AssertionError("calling get_platform using asyncify resulted in a hung process") from e
+            timeout = 10  # seconds
+
+            start_time = time.monotonic()
+            while True:
+                return_code = process.poll()
+                if return_code is not None:
+                    if return_code != 0:
+                        raise AssertionError("calling get_platform using asyncify resulted in a non-zero exit code")
+
+                    # success
+                    break
+
+                if time.monotonic() - start_time > timeout:
+                    process.kill()
+                    raise AssertionError("calling get_platform using asyncify resulted in a hung process")
+
+                time.sleep(0.1)

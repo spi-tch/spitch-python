@@ -30,6 +30,8 @@ class SpeechGenerateParams(TypedDict, total=False):
             "lina",
             "john",
             "jude",
+            "henry",
+            "kani",
         ]
     ]
 
