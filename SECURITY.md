@@ -20,7 +20,7 @@ or products provided by Spitch please follow the respective company's security r
 
 ### Spitch Terms and Policies
 
-Please contact developer@spitch.app for any questions or concerns regarding security of our services.
+Please contact dev@spitch.app for any questions or concerns regarding security of our services.
 
 ---
 

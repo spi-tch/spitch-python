@@ -126,7 +126,7 @@ class BaseAPIResponse(Generic[R]):
         )
 
     def _parse(self, *, to: type[_T] | None = None) -> R | _T:
-                cast_to = to if to is not None else self._cast_to
+        cast_to = to if to is not None else self._cast_to
 
         # unwrap `Annotated[T, ...]` -> `T`
         if cast_to and is_annotated_type(cast_to):
@@ -259,6 +259,7 @@ class BaseAPIResponse(Generic[R]):
             cast_to=cast_to,  # type: ignore
             response=response,
         )
+
 
 
 class APIResponse(BaseAPIResponse[R]):
