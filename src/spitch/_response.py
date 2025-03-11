@@ -126,11 +126,11 @@ class BaseAPIResponse(Generic[R]):
         )
 
     def _parse(self, *, to: type[_T] | None = None) -> R | _T:
-        # unwrap `Annotated[T, ...]` -> `T`
-        if to and is_annotated_type(to):
-            to = extract_type_arg(to, 0)
+                cast_to = to if to is not None else self._cast_to
 
-        origin = get_origin(cast_to) or cast_to
+        # unwrap `Annotated[T, ...]` -> `T`
+        if cast_to and is_annotated_type(cast_to):
+            cast_to = extract_type_arg(cast_to, 0)
 
         if self._is_sse_stream:
             if to:
@@ -166,17 +166,11 @@ class BaseAPIResponse(Generic[R]):
             return cast(
                 R,
                 stream_cls(
-                    cast_to=self._cast_to,
+                    cast_to=cast_to,
                     response=self.http_response,
                     client=cast(Any, self._client),
                 ),
             )
-
-        cast_to = to if to is not None else self._cast_to
-
-        # unwrap `Annotated[T, ...]` -> `T`
-        if is_annotated_type(cast_to):
-            cast_to = extract_type_arg(cast_to, 0)
 
         if cast_to is NoneType:
             return cast(R, None)
@@ -197,6 +191,12 @@ class BaseAPIResponse(Generic[R]):
         if cast_to == bool:
             return cast(R, response.text.lower() == "true")
 
+        origin = get_origin(cast_to) or cast_to
+
+        # handle the legacy binary response case
+        if inspect.isclass(cast_to) and cast_to.__name__ == "HttpxBinaryResponseContent":
+            return cast(R, cast_to(response))  # type: ignore
+
         if origin == APIResponse:
             raise RuntimeError("Unexpected state - cast_to is `APIResponse`")
 
@@ -210,14 +210,8 @@ class BaseAPIResponse(Generic[R]):
                 raise ValueError(f"Subclasses of httpx.Response cannot be passed to `cast_to`")
             return cast(R, response)
 
-        if (
-            inspect.isclass(
-                origin  # pyright: ignore[reportUnknownArgumentType]
-            )
-            and not issubclass(origin, BaseModel)
-            and issubclass(origin, pydantic.BaseModel)
-        ):
-            raise TypeError("Pydantic models must subclass our base model type, e.g. `from spitch import BaseModel`")
+        if inspect.isclass(origin) and not issubclass(origin, BaseModel) and issubclass(origin, pydantic.BaseModel):
+            raise TypeError("Pydantic models must subclass our base model type, e.g. `from openai import BaseModel`")
 
         if (
             cast_to is not object
