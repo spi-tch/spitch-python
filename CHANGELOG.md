@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.24.1 (2025-03-15)
+
+Full Changelog: [v1.24.0...v1.24.1](https://github.com/spi-tch/spitch-python/compare/v1.24.0...v1.24.1)
+
+### Chores
+
+* **internal:** bump rye to 0.44.0 ([#132](https://github.com/spi-tch/spitch-python/issues/132)) ([3ff0800](https://github.com/spi-tch/spitch-python/commit/3ff08004657e1e2bd0e0bca888808ec1e45dd87c))
+* **internal:** codegen related update ([#131](https://github.com/spi-tch/spitch-python/issues/131)) ([d4355bf](https://github.com/spi-tch/spitch-python/commit/d4355bfb4f5a231335066471af0bc9f42958b971))
+* **internal:** remove extra empty newlines ([#129](https://github.com/spi-tch/spitch-python/issues/129)) ([606964f](https://github.com/spi-tch/spitch-python/commit/606964f05336f9bb47cea4a8e0b51b9720b8d866))
+
 ## 1.24.0 (2025-03-11)
 
 Full Changelog: [v1.23.0...v1.24.0](https://github.com/spi-tch/spitch-python/compare/v1.23.0...v1.24.0)
