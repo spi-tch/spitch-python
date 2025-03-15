@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 
 import httpx
 
-from . import _exceptions
+from . import resources, _exceptions
 from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
@@ -24,7 +24,6 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import text, speech
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import SpitchError, APIStatusError
 from ._base_client import (
@@ -33,12 +32,22 @@ from ._base_client import (
     AsyncAPIClient,
 )
 
-__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Spitch", "AsyncSpitch", "Client", "AsyncClient"]
+__all__ = [
+    "Timeout",
+    "Transport",
+    "ProxiesTypes",
+    "RequestOptions",
+    "resources",
+    "Spitch",
+    "AsyncSpitch",
+    "Client",
+    "AsyncClient",
+]
 
 
 class Spitch(SyncAPIClient):
-    speech: speech.SpeechResource
-    text: text.TextResource
+    speech: resources.SpeechResource
+    text: resources.TextResource
     with_raw_response: SpitchWithRawResponse
     with_streaming_response: SpitchWithStreamedResponse
 
@@ -96,8 +105,8 @@ class Spitch(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.speech = speech.SpeechResource(self)
-        self.text = text.TextResource(self)
+        self.speech = resources.SpeechResource(self)
+        self.text = resources.TextResource(self)
         self.with_raw_response = SpitchWithRawResponse(self)
         self.with_streaming_response = SpitchWithStreamedResponse(self)
 
@@ -207,8 +216,8 @@ class Spitch(SyncAPIClient):
 
 
 class AsyncSpitch(AsyncAPIClient):
-    speech: speech.AsyncSpeechResource
-    text: text.AsyncTextResource
+    speech: resources.AsyncSpeechResource
+    text: resources.AsyncTextResource
     with_raw_response: AsyncSpitchWithRawResponse
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
@@ -266,8 +275,8 @@ class AsyncSpitch(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.speech = speech.AsyncSpeechResource(self)
-        self.text = text.AsyncTextResource(self)
+        self.speech = resources.AsyncSpeechResource(self)
+        self.text = resources.AsyncTextResource(self)
         self.with_raw_response = AsyncSpitchWithRawResponse(self)
         self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
 
@@ -378,26 +387,26 @@ class AsyncSpitch(AsyncAPIClient):
 
 class SpitchWithRawResponse:
     def __init__(self, client: Spitch) -> None:
-        self.speech = speech.SpeechResourceWithRawResponse(client.speech)
-        self.text = text.TextResourceWithRawResponse(client.text)
+        self.speech = resources.SpeechResourceWithRawResponse(client.speech)
+        self.text = resources.TextResourceWithRawResponse(client.text)
 
 
 class AsyncSpitchWithRawResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.speech = speech.AsyncSpeechResourceWithRawResponse(client.speech)
-        self.text = text.AsyncTextResourceWithRawResponse(client.text)
+        self.speech = resources.AsyncSpeechResourceWithRawResponse(client.speech)
+        self.text = resources.AsyncTextResourceWithRawResponse(client.text)
 
 
 class SpitchWithStreamedResponse:
     def __init__(self, client: Spitch) -> None:
-        self.speech = speech.SpeechResourceWithStreamingResponse(client.speech)
-        self.text = text.TextResourceWithStreamingResponse(client.text)
+        self.speech = resources.SpeechResourceWithStreamingResponse(client.speech)
+        self.text = resources.TextResourceWithStreamingResponse(client.text)
 
 
 class AsyncSpitchWithStreamedResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.speech = speech.AsyncSpeechResourceWithStreamingResponse(client.speech)
-        self.text = text.AsyncTextResourceWithStreamingResponse(client.text)
+        self.speech = resources.AsyncSpeechResourceWithStreamingResponse(client.speech)
+        self.text = resources.AsyncTextResourceWithStreamingResponse(client.text)
 
 
 Client = Spitch
