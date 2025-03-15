@@ -1,6 +1,6 @@
 [project]
 name = "spitch"
-version = "1.24.0"
+version = "1.24.1"
 description = "The official Python library for the spitch API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -37,7 +37,6 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/spi-tch/spitch-python"
 Repository = "https://github.com/spi-tch/spitch-python"
-
 
 
 [tool.rye]
@@ -152,7 +151,6 @@ reportImplicitOverride = true
 
 reportImportCycles = false
 reportPrivateUsage = false
-
 
 [tool.ruff]
 line-length = 120
