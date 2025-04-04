@@ -1618,7 +1618,7 @@ class TestAsyncSpitch:
         import threading
 
         from spitch._utils import asyncify
-        from spitch._base_client import get_platform 
+        from spitch._base_client import get_platform
 
         async def test_main() -> None:
             result = await asyncify(get_platform)()
