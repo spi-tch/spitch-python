@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.24.1 (2025-04-14)
+
+Full Changelog: [v1.24.0...v1.24.1](https://github.com/spi-tch/spitch-python/compare/v1.24.0...v1.24.1)
+
+### Bug Fixes
+
+* **ci:** ensure pip is always available ([#135](https://github.com/spi-tch/spitch-python/issues/135)) ([761ba1e](https://github.com/spi-tch/spitch-python/commit/761ba1e39992907bff53ae44b4332579dc08239b))
+* **ci:** remove publishing patch ([#136](https://github.com/spi-tch/spitch-python/issues/136)) ([f43dc79](https://github.com/spi-tch/spitch-python/commit/f43dc79390698c45ed10756420728263a8f50881))
+* **perf:** optimize some hot paths ([1259f9c](https://github.com/spi-tch/spitch-python/commit/1259f9c3cce0cc184954586edc5cc47cc9cefc27))
+* **perf:** skip traversing types for NotGiven values ([bb37b4e](https://github.com/spi-tch/spitch-python/commit/bb37b4eaff98d495dd2a717030629c73a1200050))
+* **types:** handle more discriminated union shapes ([#133](https://github.com/spi-tch/spitch-python/issues/133)) ([6c0a695](https://github.com/spi-tch/spitch-python/commit/6c0a6959efc1f3ffd1da2f5af4117ccf0e1f3488))
+
+
+### Chores
+
+* fix typos ([#137](https://github.com/spi-tch/spitch-python/issues/137)) ([d6fedfb](https://github.com/spi-tch/spitch-python/commit/d6fedfb2ad26407907d40738e3897e47676657bd))
+* **internal:** bump rye to 0.44.0 ([#132](https://github.com/spi-tch/spitch-python/issues/132)) ([3ff0800](https://github.com/spi-tch/spitch-python/commit/3ff08004657e1e2bd0e0bca888808ec1e45dd87c))
+* **internal:** codegen related update ([#131](https://github.com/spi-tch/spitch-python/issues/131)) ([d4355bf](https://github.com/spi-tch/spitch-python/commit/d4355bfb4f5a231335066471af0bc9f42958b971))
+* **internal:** expand CI branch coverage ([a10e485](https://github.com/spi-tch/spitch-python/commit/a10e4852c17d5bfac1f07846e740aeb00693a34c))
+* **internal:** reduce CI branch coverage ([bb74d2c](https://github.com/spi-tch/spitch-python/commit/bb74d2c5719c2dedeca969227177fc2e5a1d34ca))
+* **internal:** remove extra empty newlines ([#129](https://github.com/spi-tch/spitch-python/issues/129)) ([606964f](https://github.com/spi-tch/spitch-python/commit/606964f05336f9bb47cea4a8e0b51b9720b8d866))
+* **internal:** remove trailing character ([#138](https://github.com/spi-tch/spitch-python/issues/138)) ([713749a](https://github.com/spi-tch/spitch-python/commit/713749a9ec9db9d52e013dd65dd13e49f3c6918d))
+* **internal:** slight transform perf improvement ([#139](https://github.com/spi-tch/spitch-python/issues/139)) ([3362024](https://github.com/spi-tch/spitch-python/commit/3362024e9b76f382378ddebf7cb708710ddbcf48))
+* slight wording improvement in README ([#140](https://github.com/spi-tch/spitch-python/issues/140)) ([77cd1b3](https://github.com/spi-tch/spitch-python/commit/77cd1b3d2608dcd2af9e57bdd53ec8a90c9867fe))
+
 ## 1.24.0 (2025-03-11)
 
 Full Changelog: [v1.23.0...v1.24.0](https://github.com/spi-tch/spitch-python/compare/v1.23.0...v1.24.0)
