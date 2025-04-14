@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.25.0 (2025-04-14)
+
+Full Changelog: [v1.24.1...v1.25.0](https://github.com/spi-tch/spitch-python/compare/v1.24.1...v1.25.0)
+
+### Features
+
+* Update _base_client.py ([dca19f3](https://github.com/spi-tch/spitch-python/commit/dca19f316d3d1b59aa39012618c6700e8236c4a3))
+
+
+### Bug Fixes
+
+* **api:** updates for https client ([dca19f3](https://github.com/spi-tch/spitch-python/commit/dca19f316d3d1b59aa39012618c6700e8236c4a3))
+
 ## 1.24.1 (2025-04-14)
 
 Full Changelog: [v1.24.0...v1.24.1](https://github.com/spi-tch/spitch-python/compare/v1.24.0...v1.24.1)
