@@ -1354,9 +1354,9 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
             timeout=cast(Timeout, timeout),
-            proxies=proxies,
-            transport=transport,
-            limits=limits,
+            # proxies=proxies,
+            # transport=transport,
+            # limits=limits,
             follow_redirects=True,
         )
 
