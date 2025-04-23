@@ -8,8 +8,8 @@ __all__ = ["TextTranslateParams"]
 
 
 class TextTranslateParams(TypedDict, total=False):
-    source: Required[Literal["yo", "en", "ha", "ig"]]
+    source: Required[Literal["yo", "en", "ha", "ig", "am"]]
 
-    target: Required[Literal["yo", "en", "ha", "ig"]]
+    target: Required[Literal["yo", "en", "ha", "ig", "am"]]
 
     text: Required[str]
