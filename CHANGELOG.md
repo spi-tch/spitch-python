@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.26.0 (2025-04-23)
+
+Full Changelog: [v1.25.0...v1.26.0](https://github.com/spi-tch/spitch-python/compare/v1.25.0...v1.26.0)
+
+### Features
+
+* **api:** update via SDK Studio ([9e64faf](https://github.com/spi-tch/spitch-python/commit/9e64faf9bbbc57c8e44d1a347a64ef3396ed4472))
+* **api:** update via SDK Studio ([2fc4429](https://github.com/spi-tch/spitch-python/commit/2fc442984db836b5432b07891ea9a777822a5cac))
+
+
+### Bug Fixes
+
+* **pydantic v1:** more robust ModelField.annotation check ([f5079d4](https://github.com/spi-tch/spitch-python/commit/f5079d48e4adc75593d5656512946569ca8f2932))
+
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([8dd6edf](https://github.com/spi-tch/spitch-python/commit/8dd6edf6523812a052ce8b900c387f4fc0928925))
+* **client:** minor internal fixes ([d9a6927](https://github.com/spi-tch/spitch-python/commit/d9a69272125832cfab65cf88ede7527770e447f3))
+* **internal:** base client updates ([b900090](https://github.com/spi-tch/spitch-python/commit/b9000901050f076ce2c2485c878ea7a8535c9257))
+* **internal:** bump pyright version ([a281060](https://github.com/spi-tch/spitch-python/commit/a28106063e43b6f6d7d9af738a6cc4a0b0e2ebed))
+* **internal:** fix list file params ([21ca206](https://github.com/spi-tch/spitch-python/commit/21ca2061b42069c0405e6302ab8841e7a7683670))
+* **internal:** import reformatting ([65b55d9](https://github.com/spi-tch/spitch-python/commit/65b55d9ed72e5656b5cd70152d652295d3925b4b))
+* **internal:** refactor retries to not use recursion ([be7d9aa](https://github.com/spi-tch/spitch-python/commit/be7d9aac3cd43ea510181717329acd4607c37c07))
+* **internal:** update models test ([05a0518](https://github.com/spi-tch/spitch-python/commit/05a0518e8db6186e2c7ac031352b336f5c43e68d))
+* **internal:** update pyright settings ([8df5838](https://github.com/spi-tch/spitch-python/commit/8df58385cb95aadcfe2b341cd7a49142b64d960e))
+
 ## 1.25.0 (2025-04-14)
 
 Full Changelog: [v1.24.1...v1.25.0](https://github.com/spi-tch/spitch-python/compare/v1.24.1...v1.25.0)
