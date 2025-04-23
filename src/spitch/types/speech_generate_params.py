@@ -8,7 +8,7 @@ __all__ = ["SpeechGenerateParams"]
 
 
 class SpeechGenerateParams(TypedDict, total=False):
-    language: Required[Literal["yo", "en", "ha", "ig"]]
+    language: Required[Literal["yo", "en", "ha", "ig", "am"]]
 
     text: Required[str]
 
@@ -32,6 +32,10 @@ class SpeechGenerateParams(TypedDict, total=False):
             "jude",
             "henry",
             "kani",
+            "hana",
+            "selam",
+            "tena",
+            "tesfaye",
         ]
     ]
 

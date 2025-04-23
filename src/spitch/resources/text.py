@@ -47,7 +47,7 @@ class TextResource(SyncAPIResource):
     def tone_mark(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig"],
+        language: Literal["yo", "en", "ha", "ig", "am"],
         text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -86,8 +86,8 @@ class TextResource(SyncAPIResource):
     def translate(
         self,
         *,
-        source: Literal["yo", "en", "ha", "ig"],
-        target: Literal["yo", "en", "ha", "ig"],
+        source: Literal["yo", "en", "ha", "ig", "am"],
+        target: Literal["yo", "en", "ha", "ig", "am"],
         text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -148,7 +148,7 @@ class AsyncTextResource(AsyncAPIResource):
     async def tone_mark(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig"],
+        language: Literal["yo", "en", "ha", "ig", "am"],
         text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -187,8 +187,8 @@ class AsyncTextResource(AsyncAPIResource):
     async def translate(
         self,
         *,
-        source: Literal["yo", "en", "ha", "ig"],
-        target: Literal["yo", "en", "ha", "ig"],
+        source: Literal["yo", "en", "ha", "ig", "am"],
+        target: Literal["yo", "en", "ha", "ig", "am"],
         text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.

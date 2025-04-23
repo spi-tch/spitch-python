@@ -8,6 +8,6 @@ __all__ = ["TextToneMarkParams"]
 
 
 class TextToneMarkParams(TypedDict, total=False):
-    language: Required[Literal["yo", "en", "ha", "ig"]]
+    language: Required[Literal["yo", "en", "ha", "ig", "am"]]
 
     text: Required[str]
