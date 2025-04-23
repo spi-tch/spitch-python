@@ -1,6 +1,6 @@
 [project]
 name = "spitch"
-version = "1.25.0"
+version = "1.26.0"
 description = "The official Python library for the spitch API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -43,7 +43,7 @@ Repository = "https://github.com/spi-tch/spitch-python"
 managed = true
 # version pins are in requirements-dev.lock
 dev-dependencies = [
-    "pyright>=1.1.359",
+    "pyright==1.1.399",
     "mypy",
     "respx",
     "pytest",
@@ -148,6 +148,7 @@ exclude = [
 ]
 
 reportImplicitOverride = true
+reportOverlappingOverload = false
 
 reportImportCycles = false
 reportPrivateUsage = false

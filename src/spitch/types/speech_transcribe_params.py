@@ -11,7 +11,7 @@ __all__ = ["SpeechTranscribeParams"]
 
 
 class SpeechTranscribeParams(TypedDict, total=False):
-    language: Required[Literal["yo", "en", "ha", "ig"]]
+    language: Required[Literal["yo", "en", "ha", "ig", "am"]]
 
     content: Optional[FileTypes]
 

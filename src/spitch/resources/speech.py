@@ -9,12 +9,7 @@ import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
-from .._utils import (
-    extract_files,
-    maybe_transform,
-    deepcopy_minimal,
-    async_maybe_transform,
-)
+from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -60,7 +55,7 @@ class SpeechResource(SyncAPIResource):
     def generate(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig"],
+        language: Literal["yo", "en", "ha", "ig", "am"],
         text: str,
         voice: Literal[
             "sade",
@@ -81,6 +76,10 @@ class SpeechResource(SyncAPIResource):
             "jude",
             "henry",
             "kani",
+            "hana",
+            "selam",
+            "tena",
+            "tesfaye",
         ],
         stream: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -126,7 +125,7 @@ class SpeechResource(SyncAPIResource):
     def transcribe(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig"],
+        language: Literal["yo", "en", "ha", "ig", "am"],
         content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
         multispeaker: Optional[bool] | NotGiven = NOT_GIVEN,
         timestamp: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -198,7 +197,7 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def generate(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig"],
+        language: Literal["yo", "en", "ha", "ig", "am"],
         text: str,
         voice: Literal[
             "sade",
@@ -219,6 +218,10 @@ class AsyncSpeechResource(AsyncAPIResource):
             "jude",
             "henry",
             "kani",
+            "hana",
+            "selam",
+            "tena",
+            "tesfaye",
         ],
         stream: bool | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -264,7 +267,7 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def transcribe(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig"],
+        language: Literal["yo", "en", "ha", "ig", "am"],
         content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
         multispeaker: Optional[bool] | NotGiven = NOT_GIVEN,
         timestamp: Optional[bool] | NotGiven = NOT_GIVEN,
