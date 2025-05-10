@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.26.1 (2025-05-10)
+
+Full Changelog: [v1.26.0...v1.26.1](https://github.com/spi-tch/spitch-python/compare/v1.26.0...v1.26.1)
+
+### Bug Fixes
+
+* **package:** support direct resource imports ([3b664db](https://github.com/spi-tch/spitch-python/commit/3b664db8de2fe51363215430c04ef0d45a96ef15))
+
+
+### Chores
+
+* broadly detect json family of content-type headers ([1358fe6](https://github.com/spi-tch/spitch-python/commit/1358fe6da25145ce5d57317a835bf306e9886f5c))
+* **ci:** only use depot for staging repos ([86c82b9](https://github.com/spi-tch/spitch-python/commit/86c82b989e1599bc9d71060f2f2998eaa4b79081))
+* **internal:** avoid errors for isinstance checks on proxies ([aaf12a5](https://github.com/spi-tch/spitch-python/commit/aaf12a5580a673adbf303bea88f958f384b0ebcd))
+* **internal:** codegen related update ([fc70ee0](https://github.com/spi-tch/spitch-python/commit/fc70ee0bf2bb47f12ec36a35fad1b27d257897ce))
+
 ## 1.26.0 (2025-04-23)
 
 Full Changelog: [v1.25.0...v1.26.0](https://github.com/spi-tch/spitch-python/compare/v1.25.0...v1.26.0)
