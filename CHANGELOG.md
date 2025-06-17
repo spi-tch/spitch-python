@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.27.0 (2025-06-17)
+
+Full Changelog: [v1.26.0...v1.27.0](https://github.com/spi-tch/spitch-python/compare/v1.26.0...v1.27.0)
+
+### Features
+
+* **client:** add follow_redirects request option ([23f17af](https://github.com/spi-tch/spitch-python/commit/23f17afc3292d6641890115e849134e14412ab7c))
+
+
+### Bug Fixes
+
+* **client:** correctly parse binary response | stream ([43997d9](https://github.com/spi-tch/spitch-python/commit/43997d9e1f67269df4f5ed9472f1abb6dfc8afc3))
+* **package:** support direct resource imports ([3b664db](https://github.com/spi-tch/spitch-python/commit/3b664db8de2fe51363215430c04ef0d45a96ef15))
+
+
+### Chores
+
+* broadly detect json family of content-type headers ([1358fe6](https://github.com/spi-tch/spitch-python/commit/1358fe6da25145ce5d57317a835bf306e9886f5c))
+* **ci:** enable for pull requests ([f21c633](https://github.com/spi-tch/spitch-python/commit/f21c633b3bc746fdfcf95214bda7e664212fce3f))
+* **ci:** fix installation instructions ([c23d223](https://github.com/spi-tch/spitch-python/commit/c23d22393563b50ac77742d75cda7f7b95e8a4a0))
+* **ci:** only use depot for staging repos ([86c82b9](https://github.com/spi-tch/spitch-python/commit/86c82b989e1599bc9d71060f2f2998eaa4b79081))
+* **ci:** upload sdks to package manager ([a40305e](https://github.com/spi-tch/spitch-python/commit/a40305e129dd6795b0e0e1408b863758cfad62d0))
+* **docs:** grammar improvements ([e31d3bb](https://github.com/spi-tch/spitch-python/commit/e31d3bbe8aa390cdbae514e16e31e45b3ee5a4d5))
+* **docs:** remove reference to rye shell ([b7f1703](https://github.com/spi-tch/spitch-python/commit/b7f1703ce312c6733e2986d045568b003ac4bba1))
+* **internal:** avoid errors for isinstance checks on proxies ([aaf12a5](https://github.com/spi-tch/spitch-python/commit/aaf12a5580a673adbf303bea88f958f384b0ebcd))
+* **internal:** codegen related update ([fc70ee0](https://github.com/spi-tch/spitch-python/commit/fc70ee0bf2bb47f12ec36a35fad1b27d257897ce))
+* **internal:** update conftest.py ([1b062cd](https://github.com/spi-tch/spitch-python/commit/1b062cdf9d6200399d24bceb73e31779a80be190))
+* **tests:** add tests for httpx client instantiation & proxies ([a57f4cc](https://github.com/spi-tch/spitch-python/commit/a57f4cc2105706eb53c9483ac74e2ec4995bd757))
+* **tests:** run tests in parallel ([da93455](https://github.com/spi-tch/spitch-python/commit/da93455365f885480cf4553ab138fc71eebd59f9))
+
 ## 1.26.0 (2025-04-23)
 
 Full Changelog: [v1.25.0...v1.26.0](https://github.com/spi-tch/spitch-python/compare/v1.25.0...v1.26.0)
