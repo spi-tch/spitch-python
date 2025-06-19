@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.27.1 (2025-06-19)
+
+Full Changelog: [v1.27.0...v1.27.1](https://github.com/spi-tch/spitch-python/compare/v1.27.0...v1.27.1)
+
+### Bug Fixes
+
+* **tests:** fix: tests which call HTTP endpoints directly with the example parameters ([e6df2f6](https://github.com/spi-tch/spitch-python/commit/e6df2f6b390f5f3313ff1e20ee2890fd2ac53265))
+
+
+### Chores
+
+* **readme:** update badges ([d272526](https://github.com/spi-tch/spitch-python/commit/d2725265a638bba5ef65bf8ab468a33af6b5b594))
+
+
+### Documentation
+
+* **client:** fix httpx.Timeout documentation reference ([d8af609](https://github.com/spi-tch/spitch-python/commit/d8af609deca7a01713250544babf4ced45dc2376))
+
 ## 1.27.0 (2025-06-17)
 
 Full Changelog: [v1.26.0...v1.27.0](https://github.com/spi-tch/spitch-python/compare/v1.26.0...v1.27.0)
