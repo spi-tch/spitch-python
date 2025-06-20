@@ -346,10 +346,7 @@ class SpeechResourceWithStreamingResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_custom_streamed_response_wrapper(
-            speech.generate,
-            StreamedBinaryAPIResponse
-        )
+        self.generate = to_custom_streamed_response_wrapper(speech.generate, StreamedBinaryAPIResponse)
         self.transcribe = to_streamed_response_wrapper(
             speech.transcribe,
         )
@@ -359,10 +356,7 @@ class AsyncSpeechResourceWithStreamingResponse:
     def __init__(self, speech: AsyncSpeechResource) -> None:
         self._speech = speech
 
-        self.generate = async_to_custom_streamed_response_wrapper(
-            speech.generate,
-            AsyncStreamedBinaryAPIResponse
-        )
+        self.generate = async_to_custom_streamed_response_wrapper(speech.generate, AsyncStreamedBinaryAPIResponse)
         self.transcribe = async_to_streamed_response_wrapper(
             speech.transcribe,
         )

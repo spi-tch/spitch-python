@@ -852,7 +852,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self._client = http_client or SyncHttpxClientWrapper(
             base_url=base_url,
             # cast to a valid type because mypy doesn't understand our type narrowing
-            timeout=cast(Timeout, timeout)
+            timeout=cast(Timeout, timeout),
         )
 
     def is_closed(self) -> bool:

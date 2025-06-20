@@ -442,7 +442,7 @@ async def test_transform_skipping(use_async: bool) -> None:
     assert await transform(data, List[int], use_async) is data
 
     # iterables of ints are converted to a list
-    data = iter([1, 2, 3])
+    data = iter([1, 2, 3])  # type: ignore
     assert await transform(data, Iterable[int], use_async) == [1, 2, 3]
 
 
