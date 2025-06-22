@@ -23,9 +23,7 @@ from pydantic import ValidationError
 
 from spitch import Spitch, AsyncSpitch, APIResponseValidationError
 from spitch._types import Omit
-from spitch._utils import maybe_transform
 from spitch._models import BaseModel, FinalRequestOptions
-from spitch._constants import RAW_RESPONSE_HEADER
 from spitch._exceptions import SpitchError, APIStatusError, APITimeoutError, APIResponseValidationError
 from spitch._base_client import (
     DEFAULT_TIMEOUT,
@@ -35,7 +33,6 @@ from spitch._base_client import (
     DefaultAsyncHttpxClient,
     make_request_options,
 )
-from spitch.types.speech_generate_params import SpeechGenerateParams
 
 from .utils import update_env
 
@@ -713,36 +710,21 @@ class TestSpitch:
 
     @mock.patch("spitch._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Spitch) -> None:
         respx_mock.post("/v1/speech").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.post(
-                "/v1/speech",
-                body=cast(
-                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            client.speech.with_streaming_response.generate(language="yo", text="text", voice="sade").__enter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("spitch._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Spitch) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.post(
-                "/v1/speech",
-                body=cast(
-                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
+            client.speech.with_streaming_response.generate(language="yo", text="text", voice="sade").__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1546,36 +1528,25 @@ class TestAsyncSpitch:
 
     @mock.patch("spitch._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncSpitch) -> None:
         respx_mock.post("/v1/speech").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.post(
-                "/v1/speech",
-                body=cast(
-                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            await async_client.speech.with_streaming_response.generate(
+                language="yo", text="text", voice="sade"
+            ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("spitch._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, async_client: AsyncSpitch) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.post(
-                "/v1/speech",
-                body=cast(
-                    object, maybe_transform(dict(language="yo", text="text", voice="sade"), SpeechGenerateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
+            await async_client.speech.with_streaming_response.generate(
+                language="yo", text="text", voice="sade"
+            ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
