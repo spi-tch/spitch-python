@@ -38,6 +38,8 @@ classifiers = [
 Homepage = "https://github.com/spi-tch/spitch-python"
 Repository = "https://github.com/spi-tch/spitch-python"
 
+[project.optional-dependencies]
+aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.6"]
 
 [tool.rye]
 managed = true
