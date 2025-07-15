@@ -85,7 +85,6 @@ pip install spitch[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-import os
 import asyncio
 from spitch import DefaultAioHttpClient
 from spitch import AsyncSpitch
@@ -93,7 +92,7 @@ from spitch import AsyncSpitch
 
 async def main() -> None:
     async with AsyncSpitch(
-        api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
+        api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.speech.generate(
