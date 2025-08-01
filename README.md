@@ -1,6 +1,7 @@
 # Spitch Python API library
 
-[![PyPI version](<https://img.shields.io/pypi/v/spitch.svg?label=pypi%20(stable)>)](https://pypi.org/project/spitch/)
+<!-- prettier-ignore -->
+[![PyPI version](https://img.shields.io/pypi/v/spitch.svg?label=pypi%20(stable))](https://pypi.org/project/spitch/)
 
 The Spitch Python library provides convenient access to the Spitch REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
@@ -24,12 +25,9 @@ pip install spitch
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from spitch import Spitch
 
-client = Spitch(
-    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
-)
+client = Spitch()
 
 response = client.speech.generate(
     language="yo",
@@ -48,13 +46,10 @@ so that your API Key is not stored in source control.
 Simply import `AsyncSpitch` instead of `Spitch` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from spitch import AsyncSpitch
 
-client = AsyncSpitch(
-    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
-)
+client = AsyncSpitch()
 
 
 async def main() -> None:
@@ -69,6 +64,39 @@ asyncio.run(main())
 ```
 
 Functionality between the synchronous and asynchronous clients is otherwise identical.
+
+### With aiohttp
+
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
+
+You can enable this by installing `aiohttp`:
+
+```sh
+# install from PyPI
+pip install spitch[aiohttp]
+```
+
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
+
+```python
+import asyncio
+from spitch import DefaultAioHttpClient
+from spitch import AsyncSpitch
+
+
+async def main() -> None:
+    async with AsyncSpitch(
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        response = await client.speech.generate(
+            language="yo",
+            text="text",
+            voice="sade",
+        )
+
+
+asyncio.run(main())
+```
 
 ## Using types
 

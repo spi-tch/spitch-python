@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from typing import Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["SpeechGenerateParams"]
@@ -22,16 +23,16 @@ class SpeechGenerateParams(TypedDict, total=False):
             "aliyu",
             "hasan",
             "zainab",
-            "ngozi",
-            "amara",
-            "ebuka",
-            "obinna",
-            "lucy",
-            "lina",
             "john",
             "jude",
+            "lina",
+            "lucy",
             "henry",
             "kani",
+            "ngozi",
+            "amara",
+            "obinna",
+            "ebuka",
             "hana",
             "selam",
             "tena",
@@ -39,4 +40,4 @@ class SpeechGenerateParams(TypedDict, total=False):
         ]
     ]
 
-    stream: bool
+    model: Optional[Literal["legacy"]]

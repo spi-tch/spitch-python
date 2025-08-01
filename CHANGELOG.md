@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.28.0 (2025-08-01)
+
+Full Changelog: [v1.27.1...v1.28.0](https://github.com/spi-tch/spitch-python/compare/v1.27.1...v1.28.0)
+
+### Features
+
+* **api:** update via SDK Studio ([9db6264](https://github.com/spi-tch/spitch-python/commit/9db6264b632e315387983917ab7b42387e7c40c3))
+* **api:** update via SDK Studio ([8fff307](https://github.com/spi-tch/spitch-python/commit/8fff307f77fee14c52877ff581338f3ec08a173e))
+* clean up environment call outs ([fd8997e](https://github.com/spi-tch/spitch-python/commit/fd8997e1a67c568cf3f6e7061124ac27ded0a742))
+* **client:** add support for aiohttp ([716f429](https://github.com/spi-tch/spitch-python/commit/716f4298354f2018155a9fd0a22b5446116081e3))
+* **client:** support file upload requests ([60d3ce3](https://github.com/spi-tch/spitch-python/commit/60d3ce3ebc58ab4c0639b19c8e36078123ac7cc3))
+
+
+### Bug Fixes
+
+* **ci:** correct conditional ([1734cf4](https://github.com/spi-tch/spitch-python/commit/1734cf46a42f752642f04df64c701dd2ca7d60f5))
+* **ci:** release-doctor — report correct token name ([1a09341](https://github.com/spi-tch/spitch-python/commit/1a09341c5dc0adc06a53824a7effcb987c1a3f33))
+* **client:** don't send Content-Type header on GET requests ([b5a10cf](https://github.com/spi-tch/spitch-python/commit/b5a10cf567f59d90c259c8c6400b0cdf06af4ab3))
+* **parsing:** correctly handle nested discriminated unions ([3e1a25b](https://github.com/spi-tch/spitch-python/commit/3e1a25b7953ed4611ca17c7ff4c84ffd032b5e4c))
+* **parsing:** ignore empty metadata ([fc15e0e](https://github.com/spi-tch/spitch-python/commit/fc15e0ec9875c16f7aa8e00d6d8d8d4c60a866a8))
+* **parsing:** parse extra field types ([8be1102](https://github.com/spi-tch/spitch-python/commit/8be11026e3d93b62aa77b170dd90acb5f246203a))
+
+
+### Chores
+
+* **ci:** change upload type ([d9bf40f](https://github.com/spi-tch/spitch-python/commit/d9bf40f2b21338b7e3e1201b01ccd652417acfe4))
+* **ci:** only run for pushes and fork pull requests ([bcba93e](https://github.com/spi-tch/spitch-python/commit/bcba93e8a69c3dec830e9d8040c76ebdda50cecf))
+* **internal:** bump pinned h11 dep ([bd7d84b](https://github.com/spi-tch/spitch-python/commit/bd7d84b66fd468aabbc7dd6943579a330598bb98))
+* **internal:** codegen related update ([8c23505](https://github.com/spi-tch/spitch-python/commit/8c235055fa37c950b3559e57a70ecd925ddaf518))
+* **package:** mark python 3.13 as supported ([12c842b](https://github.com/spi-tch/spitch-python/commit/12c842bc7b4d6dbdd4376b79bf1581398363258e))
+* **project:** add settings file for vscode ([8b0274c](https://github.com/spi-tch/spitch-python/commit/8b0274cb3d4c369550a823600bb4e493eb7b3638))
+* **readme:** fix version rendering on pypi ([bf4b720](https://github.com/spi-tch/spitch-python/commit/bf4b720b71d72a1073179e68a3e55f2208bd0649))
+* **tests:** skip some failing tests on the latest python versions ([9f60f27](https://github.com/spi-tch/spitch-python/commit/9f60f27835eccba43797fab6d033cdb116ec2a59))
+
 ## 1.27.1 (2025-06-19)
 
 Full Changelog: [v1.27.0...v1.27.1](https://github.com/spi-tch/spitch-python/compare/v1.27.0...v1.27.1)

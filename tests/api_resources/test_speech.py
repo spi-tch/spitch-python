@@ -47,7 +47,7 @@ class TestSpeech:
             language="yo",
             text="text",
             voice="sade",
-            stream=True,
+            model="legacy",
         )
         assert speech.is_closed
         assert speech.json() == {"foo": "bar"}
@@ -100,8 +100,9 @@ class TestSpeech:
         speech = client.speech.transcribe(
             language="yo",
             content=b"raw file contents",
-            multispeaker=True,
-            timestamp=True,
+            model="mansa_v1",
+            special_words="special_words",
+            timestamp="sentence",
             url="url",
         )
         assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
@@ -132,7 +133,9 @@ class TestSpeech:
 
 
 class TestAsyncSpeech:
-    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+    parametrize = pytest.mark.parametrize(
+        "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
+    )
 
     @parametrize
     @pytest.mark.respx(base_url=base_url)
@@ -156,7 +159,7 @@ class TestAsyncSpeech:
             language="yo",
             text="text",
             voice="sade",
-            stream=True,
+            model="legacy",
         )
         assert speech.is_closed
         assert await speech.json() == {"foo": "bar"}
@@ -209,8 +212,9 @@ class TestAsyncSpeech:
         speech = await async_client.speech.transcribe(
             language="yo",
             content=b"raw file contents",
-            multispeaker=True,
-            timestamp=True,
+            model="mansa_v1",
+            special_words="special_words",
+            timestamp="sentence",
             url="url",
         )
         assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])

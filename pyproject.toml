@@ -1,6 +1,6 @@
 [project]
 name = "spitch"
-version = "1.27.1"
+version = "1.28.0"
 description = "The official Python library for the spitch API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -25,6 +25,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Operating System :: OS Independent",
   "Operating System :: POSIX",
   "Operating System :: MacOS",
@@ -38,6 +39,8 @@ classifiers = [
 Homepage = "https://github.com/spi-tch/spitch-python"
 Repository = "https://github.com/spi-tch/spitch-python"
 
+[project.optional-dependencies]
+aiohttp = ["aiohttp", "httpx_aiohttp>=0.1.8"]
 
 [tool.rye]
 managed = true

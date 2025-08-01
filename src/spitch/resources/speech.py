@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Mapping, Optional, cast
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
-from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -66,22 +66,22 @@ class SpeechResource(SyncAPIResource):
             "aliyu",
             "hasan",
             "zainab",
-            "ngozi",
-            "amara",
-            "ebuka",
-            "obinna",
-            "lucy",
-            "lina",
             "john",
             "jude",
+            "lina",
+            "lucy",
             "henry",
             "kani",
+            "ngozi",
+            "amara",
+            "obinna",
+            "ebuka",
             "hana",
             "selam",
             "tena",
             "tesfaye",
         ],
-        stream: bool | NotGiven = NOT_GIVEN,
+        model: Optional[Literal["legacy"]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -109,15 +109,12 @@ class SpeechResource(SyncAPIResource):
                     "language": language,
                     "text": text,
                     "voice": voice,
+                    "model": model,
                 },
                 speech_generate_params.SpeechGenerateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=BinaryAPIResponse,
         )
@@ -127,8 +124,9 @@ class SpeechResource(SyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
         content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
-        multispeaker: Optional[bool] | NotGiven = NOT_GIVEN,
-        timestamp: Optional[bool] | NotGiven = NOT_GIVEN,
+        model: Optional[Literal["mansa_v1", "legacy"]] | NotGiven = NOT_GIVEN,
+        special_words: Optional[str] | NotGiven = NOT_GIVEN,
+        timestamp: Optional[Literal["sentence", "word", "none"]] | NotGiven = NOT_GIVEN,
         url: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -149,24 +147,19 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
-            {
-                "language": language,
-                "content": content,
-                "multispeaker": multispeaker,
-                "timestamp": timestamp,
-                "url": url,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/transcriptions",
-            body=maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
-            files=files,
+            body=maybe_transform(
+                {
+                    "language": language,
+                    "content": content,
+                    "model": model,
+                    "special_words": special_words,
+                    "timestamp": timestamp,
+                    "url": url,
+                },
+                speech_transcribe_params.SpeechTranscribeParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -208,22 +201,22 @@ class AsyncSpeechResource(AsyncAPIResource):
             "aliyu",
             "hasan",
             "zainab",
-            "ngozi",
-            "amara",
-            "ebuka",
-            "obinna",
-            "lucy",
-            "lina",
             "john",
             "jude",
+            "lina",
+            "lucy",
             "henry",
             "kani",
+            "ngozi",
+            "amara",
+            "obinna",
+            "ebuka",
             "hana",
             "selam",
             "tena",
             "tesfaye",
         ],
-        stream: bool | NotGiven = NOT_GIVEN,
+        model: Optional[Literal["legacy"]] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -251,15 +244,12 @@ class AsyncSpeechResource(AsyncAPIResource):
                     "language": language,
                     "text": text,
                     "voice": voice,
+                    "model": model,
                 },
                 speech_generate_params.SpeechGenerateParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=await async_maybe_transform({"stream": stream}, speech_generate_params.SpeechGenerateParams),
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=AsyncBinaryAPIResponse,
         )
@@ -269,8 +259,9 @@ class AsyncSpeechResource(AsyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
         content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
-        multispeaker: Optional[bool] | NotGiven = NOT_GIVEN,
-        timestamp: Optional[bool] | NotGiven = NOT_GIVEN,
+        model: Optional[Literal["mansa_v1", "legacy"]] | NotGiven = NOT_GIVEN,
+        special_words: Optional[str] | NotGiven = NOT_GIVEN,
+        timestamp: Optional[Literal["sentence", "word", "none"]] | NotGiven = NOT_GIVEN,
         url: Optional[str] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -291,24 +282,19 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
-            {
-                "language": language,
-                "content": content,
-                "multispeaker": multispeaker,
-                "timestamp": timestamp,
-                "url": url,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/transcriptions",
-            body=await async_maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
-            files=files,
+            body=await async_maybe_transform(
+                {
+                    "language": language,
+                    "content": content,
+                    "model": model,
+                    "special_words": special_words,
+                    "timestamp": timestamp,
+                    "url": url,
+                },
+                speech_transcribe_params.SpeechTranscribeParams,
+            ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -348,7 +334,7 @@ class SpeechResourceWithStreamingResponse:
 
         self.generate = to_custom_streamed_response_wrapper(
             speech.generate,
-            StreamedBinaryAPIResponse
+            StreamedBinaryAPIResponse,
         )
         self.transcribe = to_streamed_response_wrapper(
             speech.transcribe,
@@ -361,7 +347,7 @@ class AsyncSpeechResourceWithStreamingResponse:
 
         self.generate = async_to_custom_streamed_response_wrapper(
             speech.generate,
-            AsyncStreamedBinaryAPIResponse
+            AsyncStreamedBinaryAPIResponse,
         )
         self.transcribe = async_to_streamed_response_wrapper(
             speech.transcribe,
