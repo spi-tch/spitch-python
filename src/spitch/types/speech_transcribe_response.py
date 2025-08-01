@@ -4,22 +4,20 @@ from typing import List, Optional
 
 from .._models import BaseModel
 
-__all__ = ["SpeechTranscribeResponse", "Segment"]
+__all__ = ["SpeechTranscribeResponse", "Timestamp"]
 
 
-class Segment(BaseModel):
-    end: Optional[int] = None
+class Timestamp(BaseModel):
+    end: float
 
-    speaker: Optional[int] = None
+    start: float
 
-    start: Optional[int] = None
-
-    text: Optional[int] = None
+    text: str
 
 
 class SpeechTranscribeResponse(BaseModel):
     request_id: str
 
-    segments: Optional[List[Optional[Segment]]] = None
+    text: str
 
-    text: Optional[str] = None
+    timestamps: Optional[List[Timestamp]] = None

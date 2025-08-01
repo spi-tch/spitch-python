@@ -15,8 +15,10 @@ class SpeechTranscribeParams(TypedDict, total=False):
 
     content: Optional[FileTypes]
 
-    multispeaker: Optional[bool]
+    model: Optional[Literal["mansa_v1", "legacy"]]
 
-    timestamp: Optional[bool]
+    special_words: Optional[str]
+
+    timestamp: Optional[Literal["sentence", "word", "none"]]
 
     url: Optional[str]
