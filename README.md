@@ -29,11 +29,10 @@ from spitch import Spitch
 
 client = Spitch()
 
-response = client.speech.generate(
+response = client.speech.transcribe(
     language="yo",
-    text="text",
-    voice="sade",
 )
+print(response.request_id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -53,11 +52,10 @@ client = AsyncSpitch()
 
 
 async def main() -> None:
-    response = await client.speech.generate(
+    response = await client.speech.transcribe(
         language="yo",
-        text="text",
-        voice="sade",
     )
+    print(response.request_id)
 
 
 asyncio.run(main())
@@ -88,11 +86,10 @@ async def main() -> None:
     async with AsyncSpitch(
         http_client=DefaultAioHttpClient(),
     ) as client:
-        response = await client.speech.generate(
+        response = await client.speech.transcribe(
             language="yo",
-            text="text",
-            voice="sade",
         )
+        print(response.request_id)
 
 
 asyncio.run(main())
