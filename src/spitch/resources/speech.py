@@ -2,29 +2,21 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Mapping, Optional, cast
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
-    BinaryAPIResponse,
-    AsyncBinaryAPIResponse,
-    StreamedBinaryAPIResponse,
-    AsyncStreamedBinaryAPIResponse,
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
-    to_custom_raw_response_wrapper,
     async_to_streamed_response_wrapper,
-    to_custom_streamed_response_wrapper,
-    async_to_custom_raw_response_wrapper,
-    async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
 from ..types.speech_transcribe_response import SpeechTranscribeResponse
@@ -88,7 +80,7 @@ class SpeechResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> BinaryAPIResponse:
+    ) -> object:
         """
         Synthesize
 
@@ -101,7 +93,6 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
         return self._post(
             "/v1/speech",
             body=maybe_transform(
@@ -116,7 +107,7 @@ class SpeechResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=BinaryAPIResponse,
+            cast_to=object,
         )
 
     def transcribe(
@@ -147,19 +138,25 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        body = deepcopy_minimal(
+            {
+                "language": language,
+                "content": content,
+                "model": model,
+                "special_words": special_words,
+                "timestamp": timestamp,
+                "url": url,
+            }
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return self._post(
             "/v1/transcriptions",
-            body=maybe_transform(
-                {
-                    "language": language,
-                    "content": content,
-                    "model": model,
-                    "special_words": special_words,
-                    "timestamp": timestamp,
-                    "url": url,
-                },
-                speech_transcribe_params.SpeechTranscribeParams,
-            ),
+            body=maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -223,7 +220,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AsyncBinaryAPIResponse:
+    ) -> object:
         """
         Synthesize
 
@@ -236,7 +233,6 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
         return await self._post(
             "/v1/speech",
             body=await async_maybe_transform(
@@ -251,7 +247,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=AsyncBinaryAPIResponse,
+            cast_to=object,
         )
 
     async def transcribe(
@@ -282,19 +278,25 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        body = deepcopy_minimal(
+            {
+                "language": language,
+                "content": content,
+                "model": model,
+                "special_words": special_words,
+                "timestamp": timestamp,
+                "url": url,
+            }
+        )
+        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
+        # It should be noted that the actual Content-Type header that will be
+        # sent to the server will contain a `boundary` parameter, e.g.
+        # multipart/form-data; boundary=---abc--
+        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
         return await self._post(
             "/v1/transcriptions",
-            body=await async_maybe_transform(
-                {
-                    "language": language,
-                    "content": content,
-                    "model": model,
-                    "special_words": special_words,
-                    "timestamp": timestamp,
-                    "url": url,
-                },
-                speech_transcribe_params.SpeechTranscribeParams,
-            ),
+            body=await async_maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
+            files=files,
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -306,9 +308,8 @@ class SpeechResourceWithRawResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_custom_raw_response_wrapper(
+        self.generate = to_raw_response_wrapper(
             speech.generate,
-            BinaryAPIResponse,
         )
         self.transcribe = to_raw_response_wrapper(
             speech.transcribe,
@@ -319,9 +320,8 @@ class AsyncSpeechResourceWithRawResponse:
     def __init__(self, speech: AsyncSpeechResource) -> None:
         self._speech = speech
 
-        self.generate = async_to_custom_raw_response_wrapper(
+        self.generate = async_to_raw_response_wrapper(
             speech.generate,
-            AsyncBinaryAPIResponse,
         )
         self.transcribe = async_to_raw_response_wrapper(
             speech.transcribe,
@@ -332,9 +332,8 @@ class SpeechResourceWithStreamingResponse:
     def __init__(self, speech: SpeechResource) -> None:
         self._speech = speech
 
-        self.generate = to_custom_streamed_response_wrapper(
+        self.generate = to_streamed_response_wrapper(
             speech.generate,
-            StreamedBinaryAPIResponse,
         )
         self.transcribe = to_streamed_response_wrapper(
             speech.transcribe,
@@ -345,9 +344,8 @@ class AsyncSpeechResourceWithStreamingResponse:
     def __init__(self, speech: AsyncSpeechResource) -> None:
         self._speech = speech
 
-        self.generate = async_to_custom_streamed_response_wrapper(
+        self.generate = async_to_streamed_response_wrapper(
             speech.generate,
-            AsyncStreamedBinaryAPIResponse,
         )
         self.transcribe = async_to_streamed_response_wrapper(
             speech.transcribe,
