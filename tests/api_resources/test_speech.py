@@ -5,11 +5,19 @@ from __future__ import annotations
 import os
 from typing import Any, cast
 
+import httpx
 import pytest
+from respx import MockRouter
 
 from spitch import Spitch, AsyncSpitch
 from tests.utils import assert_matches_type
 from spitch.types import SpeechTranscribeResponse
+from spitch._response import (
+    BinaryAPIResponse,
+    AsyncBinaryAPIResponse,
+    StreamedBinaryAPIResponse,
+    AsyncStreamedBinaryAPIResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -18,51 +26,67 @@ class TestSpeech:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_generate(self, client: Spitch) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_generate(self, client: Spitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = client.speech.generate(
             language="yo",
             text="text",
             voice="sade",
         )
-        assert_matches_type(object, speech, path=["response"])
+        assert speech.is_closed
+        assert speech.json() == {"foo": "bar"}
+        assert cast(Any, speech.is_closed) is True
+        assert isinstance(speech, BinaryAPIResponse)
 
     @parametrize
-    def test_method_generate_with_all_params(self, client: Spitch) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_method_generate_with_all_params(self, client: Spitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = client.speech.generate(
             language="yo",
             text="text",
             voice="sade",
             model="legacy",
         )
-        assert_matches_type(object, speech, path=["response"])
+        assert speech.is_closed
+        assert speech.json() == {"foo": "bar"}
+        assert cast(Any, speech.is_closed) is True
+        assert isinstance(speech, BinaryAPIResponse)
 
     @parametrize
-    def test_raw_response_generate(self, client: Spitch) -> None:
-        response = client.speech.with_raw_response.generate(
+    @pytest.mark.respx(base_url=base_url)
+    def test_raw_response_generate(self, client: Spitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        speech = client.speech.with_raw_response.generate(
             language="yo",
             text="text",
             voice="sade",
         )
 
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        speech = response.parse()
-        assert_matches_type(object, speech, path=["response"])
+        assert speech.is_closed is True
+        assert speech.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert speech.json() == {"foo": "bar"}
+        assert isinstance(speech, BinaryAPIResponse)
 
     @parametrize
-    def test_streaming_response_generate(self, client: Spitch) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    def test_streaming_response_generate(self, client: Spitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
             voice="sade",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ) as speech:
+            assert not speech.is_closed
+            assert speech.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            speech = response.parse()
-            assert_matches_type(object, speech, path=["response"])
+            assert speech.json() == {"foo": "bar"}
+            assert cast(Any, speech.is_closed) is True
+            assert isinstance(speech, StreamedBinaryAPIResponse)
 
-        assert cast(Any, response.is_closed) is True
+        assert cast(Any, speech.is_closed) is True
 
     @parametrize
     def test_method_transcribe(self, client: Spitch) -> None:
@@ -114,51 +138,67 @@ class TestAsyncSpeech:
     )
 
     @parametrize
-    async def test_method_generate(self, async_client: AsyncSpitch) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_generate(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = await async_client.speech.generate(
             language="yo",
             text="text",
             voice="sade",
         )
-        assert_matches_type(object, speech, path=["response"])
+        assert speech.is_closed
+        assert await speech.json() == {"foo": "bar"}
+        assert cast(Any, speech.is_closed) is True
+        assert isinstance(speech, AsyncBinaryAPIResponse)
 
     @parametrize
-    async def test_method_generate_with_all_params(self, async_client: AsyncSpitch) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_method_generate_with_all_params(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = await async_client.speech.generate(
             language="yo",
             text="text",
             voice="sade",
             model="legacy",
         )
-        assert_matches_type(object, speech, path=["response"])
+        assert speech.is_closed
+        assert await speech.json() == {"foo": "bar"}
+        assert cast(Any, speech.is_closed) is True
+        assert isinstance(speech, AsyncBinaryAPIResponse)
 
     @parametrize
-    async def test_raw_response_generate(self, async_client: AsyncSpitch) -> None:
-        response = await async_client.speech.with_raw_response.generate(
+    @pytest.mark.respx(base_url=base_url)
+    async def test_raw_response_generate(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
+
+        speech = await async_client.speech.with_raw_response.generate(
             language="yo",
             text="text",
             voice="sade",
         )
 
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        speech = await response.parse()
-        assert_matches_type(object, speech, path=["response"])
+        assert speech.is_closed is True
+        assert speech.http_request.headers.get("X-Stainless-Lang") == "python"
+        assert await speech.json() == {"foo": "bar"}
+        assert isinstance(speech, AsyncBinaryAPIResponse)
 
     @parametrize
-    async def test_streaming_response_generate(self, async_client: AsyncSpitch) -> None:
+    @pytest.mark.respx(base_url=base_url)
+    async def test_streaming_response_generate(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
+        respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.speech.with_streaming_response.generate(
             language="yo",
             text="text",
             voice="sade",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        ) as speech:
+            assert not speech.is_closed
+            assert speech.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            speech = await response.parse()
-            assert_matches_type(object, speech, path=["response"])
+            assert await speech.json() == {"foo": "bar"}
+            assert cast(Any, speech.is_closed) is True
+            assert isinstance(speech, AsyncStreamedBinaryAPIResponse)
 
-        assert cast(Any, response.is_closed) is True
+        assert cast(Any, speech.is_closed) is True
 
     @parametrize
     async def test_method_transcribe(self, async_client: AsyncSpitch) -> None:
