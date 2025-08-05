@@ -25,9 +25,12 @@ pip install spitch
 The full API of this library can be found in [api.md](api.md).
 
 ```python
+import os
 from spitch import Spitch
 
-client = Spitch()
+client = Spitch(
+    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
+)
 
 response = client.speech.generate(
     language="yo",
@@ -46,10 +49,13 @@ so that your API Key is not stored in source control.
 Simply import `AsyncSpitch` instead of `Spitch` and use `await` with each API call:
 
 ```python
+import os
 import asyncio
 from spitch import AsyncSpitch
 
-client = AsyncSpitch()
+client = AsyncSpitch(
+    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
+)
 
 
 async def main() -> None:
@@ -86,6 +92,7 @@ from spitch import AsyncSpitch
 
 async def main() -> None:
     async with AsyncSpitch(
+        api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.speech.generate(
