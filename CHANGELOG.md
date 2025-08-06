@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.34.1 (2025-08-06)
+
+Full Changelog: [v1.34.0...v1.34.1](https://github.com/spi-tch/spitch-python/compare/v1.34.0...v1.34.1)
+
+### Chores
+
+* **internal:** fix ruff target version ([8b255f3](https://github.com/spi-tch/spitch-python/commit/8b255f361be3c261ea1949109566caa3ab149000))
+
 ## 1.34.0 (2025-08-05)
 
 Full Changelog: [v1.33.0...v1.34.0](https://github.com/spi-tch/spitch-python/compare/v1.33.0...v1.34.0)
