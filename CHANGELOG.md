@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.34.1 (2025-08-22)
+
+Full Changelog: [v1.34.0...v1.34.1](https://github.com/spi-tch/spitch-python/compare/v1.34.0...v1.34.1)
+
+### Chores
+
+* **internal:** fix ruff target version ([8b255f3](https://github.com/spi-tch/spitch-python/commit/8b255f361be3c261ea1949109566caa3ab149000))
+* **internal:** update comment in script ([b369538](https://github.com/spi-tch/spitch-python/commit/b369538413c8f30c37f58ff479c93cbc592512ee))
+* update @stainless-api/prism-cli to v5.15.0 ([d0371a7](https://github.com/spi-tch/spitch-python/commit/d0371a73586deac608ce2e4fae2439b477f90702))
+* update github action ([c3e1045](https://github.com/spi-tch/spitch-python/commit/c3e1045cbfbf202f009042c0de01cd0007881e25))
+
 ## 1.34.0 (2025-08-05)
 
 Full Changelog: [v1.33.0...v1.34.0](https://github.com/spi-tch/spitch-python/compare/v1.33.0...v1.34.0)
