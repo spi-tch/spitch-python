@@ -4,7 +4,7 @@ from typing import List, Optional
 
 from .._models import BaseModel
 
-__all__ = ["SpeechTranscribeResponse", "Timestamp"]
+__all__ = ["Transcription", "Timestamp"]
 
 
 class Timestamp(BaseModel):
@@ -15,7 +15,7 @@ class Timestamp(BaseModel):
     text: str
 
 
-class SpeechTranscribeResponse(BaseModel):
+class Transcription(BaseModel):
     request_id: str
 
     text: str

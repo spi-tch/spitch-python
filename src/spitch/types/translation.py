@@ -2,10 +2,10 @@
 
 from .._models import BaseModel
 
-__all__ = ["TextTranslateResponse"]
+__all__ = ["Translation"]
 
 
-class TextTranslateResponse(BaseModel):
+class Translation(BaseModel):
     request_id: str
 
     text: str

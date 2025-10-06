@@ -2,10 +2,10 @@
 
 from .._models import BaseModel
 
-__all__ = ["TextToneMarkResponse"]
+__all__ = ["Diacritics"]
 
 
-class TextToneMarkResponse(BaseModel):
+class Diacritics(BaseModel):
     request_id: str
 
     text: str

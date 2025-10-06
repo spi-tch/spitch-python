@@ -27,7 +27,7 @@ from .._response import (
     async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.speech_transcribe_response import SpeechTranscribeResponse
+from ..types.transcription import Transcription
 
 __all__ = ["SpeechResource", "AsyncSpeechResource"]
 
@@ -124,7 +124,7 @@ class SpeechResource(SyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
         content: Optional[FileTypes] | Omit = omit,
-        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy", "human"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
         url: Optional[str] | Omit = omit,
@@ -134,7 +134,7 @@ class SpeechResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SpeechTranscribeResponse:
+    ) -> Transcription:
         """
         Transcribe
 
@@ -169,7 +169,7 @@ class SpeechResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SpeechTranscribeResponse,
+            cast_to=Transcription,
         )
 
 
@@ -265,7 +265,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
         content: Optional[FileTypes] | Omit = omit,
-        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy", "human"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
         url: Optional[str] | Omit = omit,
@@ -275,7 +275,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SpeechTranscribeResponse:
+    ) -> Transcription:
         """
         Transcribe
 
@@ -310,7 +310,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SpeechTranscribeResponse,
+            cast_to=Transcription,
         )
 
 
