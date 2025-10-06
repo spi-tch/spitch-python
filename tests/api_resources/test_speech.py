@@ -47,6 +47,7 @@ class TestSpeech:
             language="yo",
             text="text",
             voice="sade",
+            format="wav",
             model="legacy",
         )
         assert speech.is_closed
@@ -159,6 +160,7 @@ class TestAsyncSpeech:
             language="yo",
             text="text",
             voice="sade",
+            format="wav",
             model="legacy",
         )
         assert speech.is_closed
