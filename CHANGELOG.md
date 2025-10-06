@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.37.0 (2025-10-06)
+
+Full Changelog: [v1.36.0...v1.37.0](https://github.com/spi-tch/spitch-python/compare/v1.36.0...v1.37.0)
+
+### Features
+
+* **api:** manual updates ([c8f4f39](https://github.com/spi-tch/spitch-python/commit/c8f4f3942e2a9a7a2c3897a81288ab03e9172885))
+
 ## 1.36.0 (2025-10-06)
 
 Full Changelog: [v1.35.0...v1.36.0](https://github.com/spi-tch/spitch-python/compare/v1.35.0...v1.36.0)
