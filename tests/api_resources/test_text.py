@@ -9,7 +9,7 @@ import pytest
 
 from spitch import Spitch, AsyncSpitch
 from tests.utils import assert_matches_type
-from spitch.types import TextToneMarkResponse, TextTranslateResponse
+from spitch.types import Diacritics, Translation
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -23,7 +23,7 @@ class TestText:
             language="yo",
             text="text",
         )
-        assert_matches_type(TextToneMarkResponse, text, path=["response"])
+        assert_matches_type(Diacritics, text, path=["response"])
 
     @parametrize
     def test_raw_response_tone_mark(self, client: Spitch) -> None:
@@ -35,7 +35,7 @@ class TestText:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         text = response.parse()
-        assert_matches_type(TextToneMarkResponse, text, path=["response"])
+        assert_matches_type(Diacritics, text, path=["response"])
 
     @parametrize
     def test_streaming_response_tone_mark(self, client: Spitch) -> None:
@@ -47,7 +47,7 @@ class TestText:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             text = response.parse()
-            assert_matches_type(TextToneMarkResponse, text, path=["response"])
+            assert_matches_type(Diacritics, text, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -58,7 +58,7 @@ class TestText:
             target="yo",
             text="text",
         )
-        assert_matches_type(TextTranslateResponse, text, path=["response"])
+        assert_matches_type(Translation, text, path=["response"])
 
     @parametrize
     def test_raw_response_translate(self, client: Spitch) -> None:
@@ -71,7 +71,7 @@ class TestText:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         text = response.parse()
-        assert_matches_type(TextTranslateResponse, text, path=["response"])
+        assert_matches_type(Translation, text, path=["response"])
 
     @parametrize
     def test_streaming_response_translate(self, client: Spitch) -> None:
@@ -84,7 +84,7 @@ class TestText:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             text = response.parse()
-            assert_matches_type(TextTranslateResponse, text, path=["response"])
+            assert_matches_type(Translation, text, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -100,7 +100,7 @@ class TestAsyncText:
             language="yo",
             text="text",
         )
-        assert_matches_type(TextToneMarkResponse, text, path=["response"])
+        assert_matches_type(Diacritics, text, path=["response"])
 
     @parametrize
     async def test_raw_response_tone_mark(self, async_client: AsyncSpitch) -> None:
@@ -112,7 +112,7 @@ class TestAsyncText:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         text = await response.parse()
-        assert_matches_type(TextToneMarkResponse, text, path=["response"])
+        assert_matches_type(Diacritics, text, path=["response"])
 
     @parametrize
     async def test_streaming_response_tone_mark(self, async_client: AsyncSpitch) -> None:
@@ -124,7 +124,7 @@ class TestAsyncText:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             text = await response.parse()
-            assert_matches_type(TextToneMarkResponse, text, path=["response"])
+            assert_matches_type(Diacritics, text, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -135,7 +135,7 @@ class TestAsyncText:
             target="yo",
             text="text",
         )
-        assert_matches_type(TextTranslateResponse, text, path=["response"])
+        assert_matches_type(Translation, text, path=["response"])
 
     @parametrize
     async def test_raw_response_translate(self, async_client: AsyncSpitch) -> None:
@@ -148,7 +148,7 @@ class TestAsyncText:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         text = await response.parse()
-        assert_matches_type(TextTranslateResponse, text, path=["response"])
+        assert_matches_type(Translation, text, path=["response"])
 
     @parametrize
     async def test_streaming_response_translate(self, async_client: AsyncSpitch) -> None:
@@ -161,6 +161,6 @@ class TestAsyncText:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             text = await response.parse()
-            assert_matches_type(TextTranslateResponse, text, path=["response"])
+            assert_matches_type(Translation, text, path=["response"])
 
         assert cast(Any, response.is_closed) is True

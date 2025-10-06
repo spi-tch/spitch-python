@@ -34,8 +34,8 @@ client = Spitch(
 
 response = client.speech.generate(
     language="yo",
-    text="text",
-    voice="sade",
+    text="Bawo ni, ololufe?",
+    voice="femi",
 )
 ```
 
@@ -61,8 +61,8 @@ client = AsyncSpitch(
 async def main() -> None:
     response = await client.speech.generate(
         language="yo",
-        text="text",
-        voice="sade",
+        text="Bawo ni, ololufe?",
+        voice="femi",
     )
 
 
@@ -97,8 +97,8 @@ async def main() -> None:
     ) as client:
         response = await client.speech.generate(
             language="yo",
-            text="text",
-            voice="sade",
+            text="Bawo ni, ololufe?",
+            voice="femi",
         )
 
 
@@ -113,6 +113,77 @@ Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typ
 - Converting to a dictionary, `model.to_dict()`
 
 Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+
+## Pagination
+
+List methods in the Spitch API are paginated.
+
+This library provides auto-paginating iterators with each list response, so you do not have to request successive pages manually:
+
+```python
+from spitch import Spitch
+
+client = Spitch()
+
+all_files = []
+# Automatically fetches more pages as needed.
+for file in client.files.list(
+    limit=10,
+):
+    # Do something with file here
+    all_files.append(file)
+print(all_files)
+```
+
+Or, asynchronously:
+
+```python
+import asyncio
+from spitch import AsyncSpitch
+
+client = AsyncSpitch()
+
+
+async def main() -> None:
+    all_files = []
+    # Iterate through items across all pages, issuing requests as needed.
+    async for file in client.files.list(
+        limit=10,
+    ):
+        all_files.append(file)
+    print(all_files)
+
+
+asyncio.run(main())
+```
+
+Alternatively, you can use the `.has_next_page()`, `.next_page_info()`, or `.get_next_page()` methods for more granular control working with pages:
+
+```python
+first_page = await client.files.list(
+    limit=10,
+)
+if first_page.has_next_page():
+    print(f"will fetch next page using these details: {first_page.next_page_info()}")
+    next_page = await first_page.get_next_page()
+    print(f"number of items we just fetched: {len(next_page.items)}")
+
+# Remove `await` for non-async usage.
+```
+
+Or just work directly with the returned data:
+
+```python
+first_page = await client.files.list(
+    limit=10,
+)
+
+print(f"next page cursor: {first_page.next_cursor}")  # => "next page cursor: ..."
+for file in first_page.items:
+    print(file.file_id)
+
+# Remove `await` for non-async usage.
+```
 
 ## File uploads
 
@@ -150,7 +221,7 @@ client = Spitch()
 try:
     client.speech.generate(
         language="yo",
-        text="text",
+        text="Bawo ni, ololufe?",
         voice="sade",
     )
 except spitch.APIConnectionError as e:
@@ -197,7 +268,7 @@ client = Spitch(
 # Or, configure per-request:
 client.with_options(max_retries=5).speech.generate(
     language="yo",
-    text="text",
+    text="Bawo ni, ololufe?",
     voice="sade",
 )
 ```
@@ -224,7 +295,7 @@ client = Spitch(
 # Override per-request:
 client.with_options(timeout=5.0).speech.generate(
     language="yo",
-    text="text",
+    text="Bawo ni, ololufe?",
     voice="sade",
 )
 ```
@@ -269,7 +340,7 @@ from spitch import Spitch
 client = Spitch()
 response = client.speech.with_raw_response.generate(
     language="yo",
-    text="text",
+    text="Bawo ni, ololufe?",
     voice="sade",
 )
 print(response.headers.get('X-My-Header'))
@@ -291,7 +362,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 ```python
 with client.speech.with_streaming_response.generate(
     language="yo",
-    text="text",
+    text="Bawo ni, ololufe?",
     voice="sade",
 ) as response:
     print(response.headers.get("X-My-Header"))
