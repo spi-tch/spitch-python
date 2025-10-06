@@ -29,7 +29,7 @@ Methods:
 Types:
 
 ```python
-from spitch.types import File, Files, FileUsage, FileDeleteResponse, FileDownloadResponse
+from spitch.types import File, FileUsage, Files, FileDeleteResponse, FileDownloadResponse
 ```
 
 Methods:

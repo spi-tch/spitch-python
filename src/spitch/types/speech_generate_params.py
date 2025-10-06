@@ -40,4 +40,6 @@ class SpeechGenerateParams(TypedDict, total=False):
         ]
     ]
 
+    format: Literal["wav", "mp3", "ogg_opus", "webm_opus", "flac", "pcm_s16le", "mulaw", "alaw"]
+
     model: Optional[Literal["legacy"]]
