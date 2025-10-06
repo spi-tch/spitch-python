@@ -18,9 +18,12 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
+from ..pagination import SyncFilesCursor, AsyncFilesCursor
+from .._base_client import AsyncPaginator, make_request_options
 from ..types.file_get_response import FileGetResponse
 from ..types.file_list_response import FileListResponse
+from ..types.file_delete_response import FileDeleteResponse
+from ..types.file_upload_response import FileUploadResponse
 
 __all__ = ["FilesResource", "AsyncFilesResource"]
 
@@ -57,7 +60,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileListResponse:
+    ) -> SyncFilesCursor[FileListResponse]:
         """
         Get Files
 
@@ -70,8 +73,9 @@ class FilesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return self._get(
+        return self._get_api_list(
             "/v1/files",
+            page=SyncFilesCursor[FileListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -86,7 +90,7 @@ class FilesResource(SyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            cast_to=FileListResponse,
+            model=FileListResponse,
         )
 
     def delete(
@@ -99,7 +103,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileDeleteResponse:
         """
         Delete File
 
@@ -119,7 +123,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileDeleteResponse,
         )
 
     def download(
@@ -203,7 +207,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileUploadResponse:
         """
         Upload File
 
@@ -229,7 +233,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileUploadResponse,
         )
 
     def usage(
@@ -272,7 +276,7 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return AsyncFilesResourceWithStreamingResponse(self)
 
-    async def list(
+    def list(
         self,
         *,
         cursor: Optional[str] | Omit = omit,
@@ -284,7 +288,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileListResponse:
+    ) -> AsyncPaginator[FileListResponse, AsyncFilesCursor[FileListResponse]]:
         """
         Get Files
 
@@ -297,14 +301,15 @@ class AsyncFilesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        return await self._get(
+        return self._get_api_list(
             "/v1/files",
+            page=AsyncFilesCursor[FileListResponse],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
-                query=await async_maybe_transform(
+                query=maybe_transform(
                     {
                         "cursor": cursor,
                         "limit": limit,
@@ -313,7 +318,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            cast_to=FileListResponse,
+            model=FileListResponse,
         )
 
     async def delete(
@@ -326,7 +331,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileDeleteResponse:
         """
         Delete File
 
@@ -346,7 +351,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileDeleteResponse,
         )
 
     async def download(
@@ -430,7 +435,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileUploadResponse:
         """
         Upload File
 
@@ -456,7 +461,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileUploadResponse,
         )
 
     async def usage(

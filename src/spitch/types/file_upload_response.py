@@ -5,10 +5,10 @@ from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["FileListResponse"]
+__all__ = ["FileUploadResponse"]
 
 
-class FileListResponse(BaseModel):
+class FileUploadResponse(BaseModel):
     category: Optional[str] = None
 
     content_type: Optional[str] = None
