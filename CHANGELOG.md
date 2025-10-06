@@ -1,5 +1,37 @@
 # Changelog
 
+## 1.35.0 (2025-10-06)
+
+Full Changelog: [v1.34.0...v1.35.0](https://github.com/spi-tch/spitch-python/compare/v1.34.0...v1.35.0)
+
+### Features
+
+* **api:** manual updates ([574df33](https://github.com/spi-tch/spitch-python/commit/574df333fdbdc5da00db8995c76764ef35525a98))
+* **api:** manual updates ([ead4d0f](https://github.com/spi-tch/spitch-python/commit/ead4d0f08f3b28578c1a5caea262290dc04d8b27))
+* improve future compat with pydantic v3 ([d0bad68](https://github.com/spi-tch/spitch-python/commit/d0bad682b3e6b51dc0c37c7779a1a87476bd06b2))
+* **types:** replace List[str] with SequenceNotStr in params ([7c4068d](https://github.com/spi-tch/spitch-python/commit/7c4068d1941ff82258c64ea2308574d7f18fd9eb))
+
+
+### Bug Fixes
+
+* avoid newer type syntax ([8ca197e](https://github.com/spi-tch/spitch-python/commit/8ca197e3a5dee3caa13c202561a571bd27f426d6))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([65b9b27](https://github.com/spi-tch/spitch-python/commit/65b9b27f367eaf8acd5ac279477133bcc16d474e))
+* **internal:** add Sequence related utils ([165bc5b](https://github.com/spi-tch/spitch-python/commit/165bc5bf7aab042eb26329511d7c3710e8f3013f))
+* **internal:** change ci workflow machines ([47a8c37](https://github.com/spi-tch/spitch-python/commit/47a8c37c9f69a1ab81018ef18e210a6b9ccd3b61))
+* **internal:** codegen related update ([2b78c91](https://github.com/spi-tch/spitch-python/commit/2b78c91f092d0a21452bdf49c1ca030aad41659e))
+* **internal:** fix ruff target version ([8b255f3](https://github.com/spi-tch/spitch-python/commit/8b255f361be3c261ea1949109566caa3ab149000))
+* **internal:** move mypy configurations to `pyproject.toml` file ([a72dfb3](https://github.com/spi-tch/spitch-python/commit/a72dfb3a9f8664c9fe65b8828c730e32d6eb2fe6))
+* **internal:** update comment in script ([b369538](https://github.com/spi-tch/spitch-python/commit/b369538413c8f30c37f58ff479c93cbc592512ee))
+* **internal:** update pydantic dependency ([a187d65](https://github.com/spi-tch/spitch-python/commit/a187d658fd4b0b6dfadac17a88f50bf93569cdda))
+* **internal:** update pyright exclude list ([c2f65df](https://github.com/spi-tch/spitch-python/commit/c2f65df82191ffc6f25baf52eb8b5a30fbbaa4df))
+* **types:** change optional parameter type from NotGiven to Omit ([aa74911](https://github.com/spi-tch/spitch-python/commit/aa74911c2a673a56720e2dab3264151423f88b25))
+* update @stainless-api/prism-cli to v5.15.0 ([d0371a7](https://github.com/spi-tch/spitch-python/commit/d0371a73586deac608ce2e4fae2439b477f90702))
+* update github action ([c3e1045](https://github.com/spi-tch/spitch-python/commit/c3e1045cbfbf202f009042c0de01cd0007881e25))
+
 ## 1.34.0 (2025-08-05)
 
 Full Changelog: [v1.33.0...v1.34.0](https://github.com/spi-tch/spitch-python/compare/v1.33.0...v1.34.0)

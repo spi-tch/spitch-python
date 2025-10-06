@@ -8,7 +8,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
+from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
 from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -81,13 +81,13 @@ class SpeechResource(SyncAPIResource):
             "tena",
             "tesfaye",
         ],
-        model: Optional[Literal["legacy"]] | NotGiven = NOT_GIVEN,
+        model: Optional[Literal["legacy"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
         """
         Synthesize
@@ -123,17 +123,17 @@ class SpeechResource(SyncAPIResource):
         self,
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
-        content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
-        model: Optional[Literal["mansa_v1", "legacy"]] | NotGiven = NOT_GIVEN,
-        special_words: Optional[str] | NotGiven = NOT_GIVEN,
-        timestamp: Optional[Literal["sentence", "word", "none"]] | NotGiven = NOT_GIVEN,
-        url: Optional[str] | NotGiven = NOT_GIVEN,
+        content: Optional[FileTypes] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
+        special_words: Optional[str] | Omit = omit,
+        timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
+        url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpeechTranscribeResponse:
         """
         Transcribe
@@ -222,13 +222,13 @@ class AsyncSpeechResource(AsyncAPIResource):
             "tena",
             "tesfaye",
         ],
-        model: Optional[Literal["legacy"]] | NotGiven = NOT_GIVEN,
+        model: Optional[Literal["legacy"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
         """
         Synthesize
@@ -264,17 +264,17 @@ class AsyncSpeechResource(AsyncAPIResource):
         self,
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
-        content: Optional[FileTypes] | NotGiven = NOT_GIVEN,
-        model: Optional[Literal["mansa_v1", "legacy"]] | NotGiven = NOT_GIVEN,
-        special_words: Optional[str] | NotGiven = NOT_GIVEN,
-        timestamp: Optional[Literal["sentence", "word", "none"]] | NotGiven = NOT_GIVEN,
-        url: Optional[str] | NotGiven = NOT_GIVEN,
+        content: Optional[FileTypes] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
+        special_words: Optional[str] | Omit = omit,
+        timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
+        url: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SpeechTranscribeResponse:
         """
         Transcribe

@@ -6,7 +6,7 @@ from typing_extensions import Required, Annotated, get_args, get_origin
 
 from ._utils import lru_cache
 from .._types import InheritsGeneric
-from .._compat import is_union as _is_union
+from ._compat import is_union as _is_union
 
 
 def is_annotated_type(typ: type) -> bool:
@@ -15,6 +15,11 @@ def is_annotated_type(typ: type) -> bool:
 
 def is_list_type(typ: type) -> bool:
     return (get_origin(typ) or typ) == list
+
+
+def is_sequence_type(typ: type) -> bool:
+    origin = get_origin(typ) or typ
+    return origin == typing_extensions.Sequence or origin == typing.Sequence or origin == _c_abc.Sequence
 
 
 def is_iterable_type(typ: type) -> bool:
