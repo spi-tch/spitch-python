@@ -21,6 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
+from .resources import text, files, speech
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import SpitchError, APIStatusError
 from ._base_client import (
@@ -43,8 +44,9 @@ __all__ = [
 
 
 class Spitch(SyncAPIClient):
-    speech: resources.SpeechResource
-    text: resources.TextResource
+    speech: speech.SpeechResource
+    text: text.TextResource
+    files: files.FilesResource
     with_raw_response: SpitchWithRawResponse
     with_streaming_response: SpitchWithStreamedResponse
 
@@ -102,8 +104,9 @@ class Spitch(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.speech = resources.SpeechResource(self)
-        self.text = resources.TextResource(self)
+        self.speech = speech.SpeechResource(self)
+        self.text = text.TextResource(self)
+        self.files = files.FilesResource(self)
         self.with_raw_response = SpitchWithRawResponse(self)
         self.with_streaming_response = SpitchWithStreamedResponse(self)
 
@@ -213,8 +216,9 @@ class Spitch(SyncAPIClient):
 
 
 class AsyncSpitch(AsyncAPIClient):
-    speech: resources.AsyncSpeechResource
-    text: resources.AsyncTextResource
+    speech: speech.AsyncSpeechResource
+    text: text.AsyncTextResource
+    files: files.AsyncFilesResource
     with_raw_response: AsyncSpitchWithRawResponse
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
@@ -272,8 +276,9 @@ class AsyncSpitch(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.speech = resources.AsyncSpeechResource(self)
-        self.text = resources.AsyncTextResource(self)
+        self.speech = speech.AsyncSpeechResource(self)
+        self.text = text.AsyncTextResource(self)
+        self.files = files.AsyncFilesResource(self)
         self.with_raw_response = AsyncSpitchWithRawResponse(self)
         self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
 
@@ -384,26 +389,30 @@ class AsyncSpitch(AsyncAPIClient):
 
 class SpitchWithRawResponse:
     def __init__(self, client: Spitch) -> None:
-        self.speech = resources.SpeechResourceWithRawResponse(client.speech)
-        self.text = resources.TextResourceWithRawResponse(client.text)
+        self.speech = speech.SpeechResourceWithRawResponse(client.speech)
+        self.text = text.TextResourceWithRawResponse(client.text)
+        self.files = files.FilesResourceWithRawResponse(client.files)
 
 
 class AsyncSpitchWithRawResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.speech = resources.AsyncSpeechResourceWithRawResponse(client.speech)
-        self.text = resources.AsyncTextResourceWithRawResponse(client.text)
+        self.speech = speech.AsyncSpeechResourceWithRawResponse(client.speech)
+        self.text = text.AsyncTextResourceWithRawResponse(client.text)
+        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
 
 
 class SpitchWithStreamedResponse:
     def __init__(self, client: Spitch) -> None:
-        self.speech = resources.SpeechResourceWithStreamingResponse(client.speech)
-        self.text = resources.TextResourceWithStreamingResponse(client.text)
+        self.speech = speech.SpeechResourceWithStreamingResponse(client.speech)
+        self.text = text.TextResourceWithStreamingResponse(client.text)
+        self.files = files.FilesResourceWithStreamingResponse(client.files)
 
 
 class AsyncSpitchWithStreamedResponse:
     def __init__(self, client: AsyncSpitch) -> None:
-        self.speech = resources.AsyncSpeechResourceWithStreamingResponse(client.speech)
-        self.text = resources.AsyncTextResourceWithStreamingResponse(client.text)
+        self.speech = speech.AsyncSpeechResourceWithStreamingResponse(client.speech)
+        self.text = text.AsyncTextResourceWithStreamingResponse(client.text)
+        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
 
 
 Client = Spitch

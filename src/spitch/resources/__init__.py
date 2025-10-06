@@ -8,6 +8,14 @@ from .text import (
     TextResourceWithStreamingResponse,
     AsyncTextResourceWithStreamingResponse,
 )
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
 from .speech import (
     SpeechResource,
     AsyncSpeechResource,
@@ -30,4 +38,10 @@ __all__ = [
     "AsyncTextResourceWithRawResponse",
     "TextResourceWithStreamingResponse",
     "AsyncTextResourceWithStreamingResponse",
+    "FilesResource",
+    "AsyncFilesResource",
+    "FilesResourceWithRawResponse",
+    "AsyncFilesResourceWithRawResponse",
+    "FilesResourceWithStreamingResponse",
+    "AsyncFilesResourceWithStreamingResponse",
 ]
