@@ -5,10 +5,10 @@ from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["FileGetResponse"]
+__all__ = ["File"]
 
 
-class FileGetResponse(BaseModel):
+class File(BaseModel):
     category: Optional[str] = None
 
     content_type: Optional[str] = None
@@ -22,3 +22,5 @@ class FileGetResponse(BaseModel):
     size_bytes: Optional[int] = None
 
     status: str
+
+    uploaded_by: Optional[str] = None

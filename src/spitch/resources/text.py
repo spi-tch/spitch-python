@@ -18,8 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.text_tone_mark_response import TextToneMarkResponse
-from ..types.text_translate_response import TextTranslateResponse
+from ..types.diacritics import Diacritics
+from ..types.translation import Translation
 
 __all__ = ["TextResource", "AsyncTextResource"]
 
@@ -55,7 +55,7 @@ class TextResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TextToneMarkResponse:
+    ) -> Diacritics:
         """
         Tone Mark
 
@@ -80,7 +80,7 @@ class TextResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TextToneMarkResponse,
+            cast_to=Diacritics,
         )
 
     def translate(
@@ -95,7 +95,7 @@ class TextResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TextTranslateResponse:
+    ) -> Translation:
         """
         Translate
 
@@ -121,7 +121,7 @@ class TextResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TextTranslateResponse,
+            cast_to=Translation,
         )
 
 
@@ -156,7 +156,7 @@ class AsyncTextResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TextToneMarkResponse:
+    ) -> Diacritics:
         """
         Tone Mark
 
@@ -181,7 +181,7 @@ class AsyncTextResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TextToneMarkResponse,
+            cast_to=Diacritics,
         )
 
     async def translate(
@@ -196,7 +196,7 @@ class AsyncTextResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TextTranslateResponse:
+    ) -> Translation:
         """
         Translate
 
@@ -222,7 +222,7 @@ class AsyncTextResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TextTranslateResponse,
+            cast_to=Translation,
         )
 
 

@@ -15,7 +15,7 @@ class SpeechTranscribeParams(TypedDict, total=False):
 
     content: Optional[FileTypes]
 
-    model: Optional[Literal["mansa_v1", "legacy"]]
+    model: Optional[Literal["mansa_v1", "legacy", "human"]]
 
     special_words: Optional[str]
 

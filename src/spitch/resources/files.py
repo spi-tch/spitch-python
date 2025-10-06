@@ -19,11 +19,11 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from ..pagination import SyncFilesCursor, AsyncFilesCursor
+from ..types.file import File
 from .._base_client import AsyncPaginator, make_request_options
-from ..types.file_get_response import FileGetResponse
-from ..types.file_list_response import FileListResponse
+from ..types.file_usage import FileUsage
 from ..types.file_delete_response import FileDeleteResponse
-from ..types.file_upload_response import FileUploadResponse
+from ..types.file_download_response import FileDownloadResponse
 
 __all__ = ["FilesResource", "AsyncFilesResource"]
 
@@ -60,7 +60,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SyncFilesCursor[FileListResponse]:
+    ) -> SyncFilesCursor[File]:
         """
         Get Files
 
@@ -75,7 +75,7 @@ class FilesResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/files",
-            page=SyncFilesCursor[FileListResponse],
+            page=SyncFilesCursor[File],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -90,7 +90,7 @@ class FilesResource(SyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            model=FileListResponse,
+            model=File,
         )
 
     def delete(
@@ -137,7 +137,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileDownloadResponse:
         """
         Download File
 
@@ -161,7 +161,7 @@ class FilesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"ttl": ttl}, file_download_params.FileDownloadParams),
             ),
-            cast_to=object,
+            cast_to=FileDownloadResponse,
         )
 
     def get(
@@ -174,7 +174,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileGetResponse:
+    ) -> File:
         """
         Get File
 
@@ -194,7 +194,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileGetResponse,
+            cast_to=File,
         )
 
     def upload(
@@ -207,7 +207,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileUploadResponse:
+    ) -> File:
         """
         Upload File
 
@@ -233,7 +233,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileUploadResponse,
+            cast_to=File,
         )
 
     def usage(
@@ -245,14 +245,14 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileUsage:
         """Get Usage"""
         return self._get(
             "/v1/files:usage",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileUsage,
         )
 
 
@@ -288,7 +288,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncPaginator[FileListResponse, AsyncFilesCursor[FileListResponse]]:
+    ) -> AsyncPaginator[File, AsyncFilesCursor[File]]:
         """
         Get Files
 
@@ -303,7 +303,7 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/files",
-            page=AsyncFilesCursor[FileListResponse],
+            page=AsyncFilesCursor[File],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -318,7 +318,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            model=FileListResponse,
+            model=File,
         )
 
     async def delete(
@@ -365,7 +365,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileDownloadResponse:
         """
         Download File
 
@@ -389,7 +389,7 @@ class AsyncFilesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"ttl": ttl}, file_download_params.FileDownloadParams),
             ),
-            cast_to=object,
+            cast_to=FileDownloadResponse,
         )
 
     async def get(
@@ -402,7 +402,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileGetResponse:
+    ) -> File:
         """
         Get File
 
@@ -422,7 +422,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileGetResponse,
+            cast_to=File,
         )
 
     async def upload(
@@ -435,7 +435,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileUploadResponse:
+    ) -> File:
         """
         Upload File
 
@@ -461,7 +461,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FileUploadResponse,
+            cast_to=File,
         )
 
     async def usage(
@@ -473,14 +473,14 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileUsage:
         """Get Usage"""
         return await self._get(
             "/v1/files:usage",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileUsage,
         )
 
 
