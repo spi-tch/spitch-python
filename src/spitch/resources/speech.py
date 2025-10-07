@@ -33,6 +33,8 @@ __all__ = ["SpeechResource", "AsyncSpeechResource"]
 
 
 class SpeechResource(SyncAPIResource):
+    """All speech-focused APIs (TTS and STT)"""
+
     @cached_property
     def with_raw_response(self) -> SpeechResourceWithRawResponse:
         """
@@ -102,7 +104,7 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
+        extra_headers = {"Accept": "audio/*", **(extra_headers or {})}
         return self._post(
             "/v1/speech",
             body=maybe_transform(
@@ -176,6 +178,8 @@ class SpeechResource(SyncAPIResource):
 
 
 class AsyncSpeechResource(AsyncAPIResource):
+    """All speech-focused APIs (TTS and STT)"""
+
     @cached_property
     def with_raw_response(self) -> AsyncSpeechResourceWithRawResponse:
         """
@@ -245,7 +249,7 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
+        extra_headers = {"Accept": "audio/*", **(extra_headers or {})}
         return await self._post(
             "/v1/speech",
             body=await async_maybe_transform(

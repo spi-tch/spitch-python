@@ -29,13 +29,13 @@ Methods:
 Types:
 
 ```python
-from spitch.types import File, FileUsage, Files, FileDeleteResponse, FileDownloadResponse
+from spitch.types import File, FileUsage, Files, FileDownloadResponse
 ```
 
 Methods:
 
 - <code title="get /v1/files">client.files.<a href="./src/spitch/resources/files.py">list</a>(\*\*<a href="src/spitch/types/file_list_params.py">params</a>) -> <a href="./src/spitch/types/file.py">SyncFilesCursor[File]</a></code>
-- <code title="delete /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">delete</a>(file_id) -> <a href="./src/spitch/types/file_delete_response.py">FileDeleteResponse</a></code>
+- <code title="delete /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">delete</a>(file_id) -> object</code>
 - <code title="get /v1/files/{file_id}/url">client.files.<a href="./src/spitch/resources/files.py">download</a>(file_id, \*\*<a href="src/spitch/types/file_download_params.py">params</a>) -> <a href="./src/spitch/types/file_download_response.py">FileDownloadResponse</a></code>
 - <code title="get /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">get</a>(file_id) -> <a href="./src/spitch/types/file.py">File</a></code>
 - <code title="post /v1/files">client.files.<a href="./src/spitch/resources/files.py">upload</a>(\*\*<a href="src/spitch/types/file_upload_params.py">params</a>) -> <a href="./src/spitch/types/file.py">File</a></code>

@@ -10,7 +10,6 @@ from .translation import Translation as Translation
 from .transcription import Transcription as Transcription
 from .file_list_params import FileListParams as FileListParams
 from .file_upload_params import FileUploadParams as FileUploadParams
-from .file_delete_response import FileDeleteResponse as FileDeleteResponse
 from .file_download_params import FileDownloadParams as FileDownloadParams
 from .text_tone_mark_params import TextToneMarkParams as TextToneMarkParams
 from .text_translate_params import TextTranslateParams as TextTranslateParams
