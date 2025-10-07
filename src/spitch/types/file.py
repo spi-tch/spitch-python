@@ -2,6 +2,7 @@
 
 from typing import Optional
 from datetime import datetime
+from typing_extensions import Literal
 
 from .._models import BaseModel
 
@@ -21,6 +22,6 @@ class File(BaseModel):
 
     size_bytes: Optional[int] = None
 
-    status: str
+    status: Literal["uploading", "ready"]
 
     uploaded_by: Optional[str] = None

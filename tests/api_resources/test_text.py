@@ -56,6 +56,17 @@ class TestText:
         text = client.text.translate(
             source="yo",
             target="yo",
+        )
+        assert_matches_type(Translation, text, path=["response"])
+
+    @parametrize
+    def test_method_translate_with_all_params(self, client: Spitch) -> None:
+        text = client.text.translate(
+            source="yo",
+            target="yo",
+            file_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            instructions="instructions",
+            model="human",
             text="text",
         )
         assert_matches_type(Translation, text, path=["response"])
@@ -65,7 +76,6 @@ class TestText:
         response = client.text.with_raw_response.translate(
             source="yo",
             target="yo",
-            text="text",
         )
 
         assert response.is_closed is True
@@ -78,7 +88,6 @@ class TestText:
         with client.text.with_streaming_response.translate(
             source="yo",
             target="yo",
-            text="text",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -133,6 +142,17 @@ class TestAsyncText:
         text = await async_client.text.translate(
             source="yo",
             target="yo",
+        )
+        assert_matches_type(Translation, text, path=["response"])
+
+    @parametrize
+    async def test_method_translate_with_all_params(self, async_client: AsyncSpitch) -> None:
+        text = await async_client.text.translate(
+            source="yo",
+            target="yo",
+            file_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+            instructions="instructions",
+            model="human",
             text="text",
         )
         assert_matches_type(Translation, text, path=["response"])
@@ -142,7 +162,6 @@ class TestAsyncText:
         response = await async_client.text.with_raw_response.translate(
             source="yo",
             target="yo",
-            text="text",
         )
 
         assert response.is_closed is True
@@ -155,7 +174,6 @@ class TestAsyncText:
         async with async_client.text.with_streaming_response.translate(
             source="yo",
             target="yo",
-            text="text",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

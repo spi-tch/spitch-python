@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.39.0 (2025-10-07)
+
+Full Changelog: [v1.38.0...v1.39.0](https://github.com/spi-tch/spitch-python/compare/v1.38.0...v1.39.0)
+
+### Features
+
+* **api:** manual updates ([c02e088](https://github.com/spi-tch/spitch-python/commit/c02e088c99193debbbea6d29f648dfe5435a6585))
+
 ## 1.38.0 (2025-10-06)
 
 Full Changelog: [v1.37.1...v1.38.0](https://github.com/spi-tch/spitch-python/compare/v1.37.1...v1.38.0)
