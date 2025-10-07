@@ -40,3 +40,16 @@ Methods:
 - <code title="get /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">get</a>(file_id) -> <a href="./src/spitch/types/file.py">File</a></code>
 - <code title="post /v1/files">client.files.<a href="./src/spitch/resources/files.py">upload</a>(\*\*<a href="src/spitch/types/file_upload_params.py">params</a>) -> <a href="./src/spitch/types/file.py">File</a></code>
 - <code title="get /v1/files:usage">client.files.<a href="./src/spitch/resources/files.py">usage</a>() -> <a href="./src/spitch/types/file_usage.py">FileUsage</a></code>
+
+# Jobs
+
+Types:
+
+```python
+from spitch.types import Job, Jobs
+```
+
+Methods:
+
+- <code title="get /v1/jobs">client.jobs.<a href="./src/spitch/resources/jobs.py">list</a>(\*\*<a href="src/spitch/types/job_list_params.py">params</a>) -> <a href="./src/spitch/types/job.py">SyncFilesCursor[Job]</a></code>
+- <code title="get /v1/jobs/{job_id}">client.jobs.<a href="./src/spitch/resources/jobs.py">get</a>(job_id) -> <a href="./src/spitch/types/job.py">Job</a></code>
