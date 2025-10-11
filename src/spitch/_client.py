@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import text, files, speech
+from .resources import jobs, text, files, speech
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import SpitchError, APIStatusError
 from ._base_client import (
@@ -47,6 +47,7 @@ class Spitch(SyncAPIClient):
     speech: speech.SpeechResource
     text: text.TextResource
     files: files.FilesResource
+    jobs: jobs.JobsResource
     with_raw_response: SpitchWithRawResponse
     with_streaming_response: SpitchWithStreamedResponse
 
@@ -107,6 +108,7 @@ class Spitch(SyncAPIClient):
         self.speech = speech.SpeechResource(self)
         self.text = text.TextResource(self)
         self.files = files.FilesResource(self)
+        self.jobs = jobs.JobsResource(self)
         self.with_raw_response = SpitchWithRawResponse(self)
         self.with_streaming_response = SpitchWithStreamedResponse(self)
 
@@ -219,6 +221,7 @@ class AsyncSpitch(AsyncAPIClient):
     speech: speech.AsyncSpeechResource
     text: text.AsyncTextResource
     files: files.AsyncFilesResource
+    jobs: jobs.AsyncJobsResource
     with_raw_response: AsyncSpitchWithRawResponse
     with_streaming_response: AsyncSpitchWithStreamedResponse
 
@@ -279,6 +282,7 @@ class AsyncSpitch(AsyncAPIClient):
         self.speech = speech.AsyncSpeechResource(self)
         self.text = text.AsyncTextResource(self)
         self.files = files.AsyncFilesResource(self)
+        self.jobs = jobs.AsyncJobsResource(self)
         self.with_raw_response = AsyncSpitchWithRawResponse(self)
         self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
 
@@ -392,6 +396,7 @@ class SpitchWithRawResponse:
         self.speech = speech.SpeechResourceWithRawResponse(client.speech)
         self.text = text.TextResourceWithRawResponse(client.text)
         self.files = files.FilesResourceWithRawResponse(client.files)
+        self.jobs = jobs.JobsResourceWithRawResponse(client.jobs)
 
 
 class AsyncSpitchWithRawResponse:
@@ -399,6 +404,7 @@ class AsyncSpitchWithRawResponse:
         self.speech = speech.AsyncSpeechResourceWithRawResponse(client.speech)
         self.text = text.AsyncTextResourceWithRawResponse(client.text)
         self.files = files.AsyncFilesResourceWithRawResponse(client.files)
+        self.jobs = jobs.AsyncJobsResourceWithRawResponse(client.jobs)
 
 
 class SpitchWithStreamedResponse:
@@ -406,6 +412,7 @@ class SpitchWithStreamedResponse:
         self.speech = speech.SpeechResourceWithStreamingResponse(client.speech)
         self.text = text.TextResourceWithStreamingResponse(client.text)
         self.files = files.FilesResourceWithStreamingResponse(client.files)
+        self.jobs = jobs.JobsResourceWithStreamingResponse(client.jobs)
 
 
 class AsyncSpitchWithStreamedResponse:
@@ -413,6 +420,7 @@ class AsyncSpitchWithStreamedResponse:
         self.speech = speech.AsyncSpeechResourceWithStreamingResponse(client.speech)
         self.text = text.AsyncTextResourceWithStreamingResponse(client.text)
         self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
+        self.jobs = jobs.AsyncJobsResourceWithStreamingResponse(client.jobs)
 
 
 Client = Spitch
