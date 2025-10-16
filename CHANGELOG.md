@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.40.0 (2025-10-16)
+
+Full Changelog: [v1.39.0...v1.40.0](https://github.com/spi-tch/spitch-python/compare/v1.39.0...v1.40.0)
+
+### Features
+
+* **api:** manual updates ([578dbb8](https://github.com/spi-tch/spitch-python/commit/578dbb81d604d24899f6687fe6dd2a32a923ac15))
+
+
+### Chores
+
+* **internal:** detect missing future annotations with ruff ([36529fc](https://github.com/spi-tch/spitch-python/commit/36529fcafde8b0aa37800296b6b27b4f8fbe7984))
+
 ## 1.39.0 (2025-10-07)
 
 Full Changelog: [v1.38.0...v1.39.0](https://github.com/spi-tch/spitch-python/compare/v1.38.0...v1.39.0)
