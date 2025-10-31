@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.40.1 (2025-10-31)
+
+Full Changelog: [v1.40.0...v1.40.1](https://github.com/spi-tch/spitch-python/compare/v1.40.0...v1.40.1)
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([caff450](https://github.com/spi-tch/spitch-python/commit/caff4506e7e4984cb6b9d553cfc144d79658db5b))
+
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([c306d2e](https://github.com/spi-tch/spitch-python/commit/c306d2ea2e61562f51a561efd1b08f251fec4fa2))
+* **internal/tests:** avoid race condition with implicit client cleanup ([1c74fa9](https://github.com/spi-tch/spitch-python/commit/1c74fa902f76c4206b881d3f48175511251dc1da))
+
 ## 1.40.0 (2025-10-16)
 
 Full Changelog: [v1.39.0...v1.40.0](https://github.com/spi-tch/spitch-python/compare/v1.39.0...v1.40.0)
