@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.41.1 (2025-11-12)
+
+Full Changelog: [v1.41.0...v1.41.1](https://github.com/spi-tch/spitch-python/compare/v1.41.0...v1.41.1)
+
+### Bug Fixes
+
+* compat with Python 3.14 ([1ab2493](https://github.com/spi-tch/spitch-python/commit/1ab24934076718e95b5db05ea4bfdd241f8f81da))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([c57a49c](https://github.com/spi-tch/spitch-python/commit/c57a49c4da4c7002b18875e8e9ba01f96f09b7ae))
+
+
+### Chores
+
+* **package:** drop Python 3.8 support ([84254f4](https://github.com/spi-tch/spitch-python/commit/84254f4b0040778492d21e0a6dc1e1d6c72f3989))
+
 ## 1.41.0 (2025-11-04)
 
 Full Changelog: [v1.40.1...v1.41.0](https://github.com/spi-tch/spitch-python/compare/v1.40.1...v1.41.0)
