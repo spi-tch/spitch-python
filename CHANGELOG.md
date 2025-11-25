@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.41.2 (2025-11-25)
+
+Full Changelog: [v1.41.1...v1.41.2](https://github.com/spi-tch/spitch-python/compare/v1.41.1...v1.41.2)
+
+### Chores
+
+* add Python 3.14 classifier and testing ([156eee9](https://github.com/spi-tch/spitch-python/commit/156eee9813275cee596087b34213104443df7327))
+
 ## 1.41.1 (2025-11-12)
 
 Full Changelog: [v1.41.0...v1.41.1](https://github.com/spi-tch/spitch-python/compare/v1.41.0...v1.41.1)
