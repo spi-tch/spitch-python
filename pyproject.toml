@@ -1,6 +1,6 @@
 [project]
 name = "spitch"
-version = "1.41.2"
+version = "1.41.3"
 description = "The official Python library for the spitch API"
 dynamic = ["readme"]
 license = "Apache-2.0"
@@ -47,7 +47,7 @@ managed = true
 # version pins are in requirements-dev.lock
 dev-dependencies = [
     "pyright==1.1.399",
-    "mypy",
+    "mypy==1.17",
     "respx",
     "pytest",
     "pytest-asyncio",

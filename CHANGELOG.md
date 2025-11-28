@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.41.3 (2025-11-28)
+
+Full Changelog: [v1.41.2...v1.41.3](https://github.com/spi-tch/spitch-python/compare/v1.41.2...v1.41.3)
+
+### Bug Fixes
+
+* ensure streams are always closed ([2eaa7db](https://github.com/spi-tch/spitch-python/commit/2eaa7dbb883d8ae3ecf90da45dce26252a996f62))
+
+
+### Chores
+
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([ebbc73f](https://github.com/spi-tch/spitch-python/commit/ebbc73f41c762dc2adcbb3013ea695fdb3c50e2d))
+
 ## 1.41.2 (2025-11-25)
 
 Full Changelog: [v1.41.1...v1.41.2](https://github.com/spi-tch/spitch-python/compare/v1.41.1...v1.41.2)
