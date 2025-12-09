@@ -9,6 +9,13 @@ __all__ = ["Jobs"]
 
 
 class Jobs(BaseModel):
+    """Response model for listing jobs.
+
+    Attributes:
+        items: list of job metadata responses
+        next_cursor: Optional cursor for pagination to get next page of results
+    """
+
     items: List[Job]
 
     next_cursor: Optional[str] = None

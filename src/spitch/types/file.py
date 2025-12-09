@@ -10,6 +10,14 @@ __all__ = ["File"]
 
 
 class File(BaseModel):
+    """
+    description of a file.
+    Attributes:
+        file_id: unique identifier for the file.
+        status: status of the file, `processing` or `ready`
+        original_name: original name of the file. If the file was uploaded via API
+    """
+
     category: Optional[str] = None
 
     content_type: Optional[str] = None

@@ -9,6 +9,13 @@ __all__ = ["Files"]
 
 
 class Files(BaseModel):
+    """Response model for listing files.
+
+    Attributes:
+        items: List of file metadata responses
+        next_cursor: Optional cursor for pagination to get next page of results
+    """
+
     items: List[File]
 
     next_cursor: Optional[str] = None
