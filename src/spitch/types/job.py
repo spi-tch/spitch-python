@@ -8,6 +8,8 @@ __all__ = ["Job"]
 
 
 class Job(BaseModel):
+    """Metadata model for job metadata."""
+
     created_by: str
 
     due_date: datetime
