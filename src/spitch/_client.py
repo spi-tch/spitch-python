@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import jobs, text, files, speech
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import SpitchError, APIStatusError
 from ._base_client import (
@@ -30,17 +30,17 @@ from ._base_client import (
     AsyncAPIClient,
 )
 
+if TYPE_CHECKING:
+    from .resources import jobs, text, files, speech
+    from .resources.jobs import JobsResource, AsyncJobsResource
+    from .resources.text import TextResource, AsyncTextResource
+    from .resources.files import FilesResource, AsyncFilesResource
+    from .resources.speech import SpeechResource, AsyncSpeechResource
+
 __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Spitch", "AsyncSpitch", "Client", "AsyncClient"]
 
 
 class Spitch(SyncAPIClient):
-    speech: speech.SpeechResource
-    text: text.TextResource
-    files: files.FilesResource
-    jobs: jobs.JobsResource
-    with_raw_response: SpitchWithRawResponse
-    with_streaming_response: SpitchWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -95,12 +95,38 @@ class Spitch(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.speech = speech.SpeechResource(self)
-        self.text = text.TextResource(self)
-        self.files = files.FilesResource(self)
-        self.jobs = jobs.JobsResource(self)
-        self.with_raw_response = SpitchWithRawResponse(self)
-        self.with_streaming_response = SpitchWithStreamedResponse(self)
+    @cached_property
+    def speech(self) -> SpeechResource:
+        """All speech-focused APIs (TTS and STT)"""
+        from .resources.speech import SpeechResource
+
+        return SpeechResource(self)
+
+    @cached_property
+    def text(self) -> TextResource:
+        from .resources.text import TextResource
+
+        return TextResource(self)
+
+    @cached_property
+    def files(self) -> FilesResource:
+        from .resources.files import FilesResource
+
+        return FilesResource(self)
+
+    @cached_property
+    def jobs(self) -> JobsResource:
+        from .resources.jobs import JobsResource
+
+        return JobsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> SpitchWithRawResponse:
+        return SpitchWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> SpitchWithStreamedResponse:
+        return SpitchWithStreamedResponse(self)
 
     @property
     @override
@@ -208,13 +234,6 @@ class Spitch(SyncAPIClient):
 
 
 class AsyncSpitch(AsyncAPIClient):
-    speech: speech.AsyncSpeechResource
-    text: text.AsyncTextResource
-    files: files.AsyncFilesResource
-    jobs: jobs.AsyncJobsResource
-    with_raw_response: AsyncSpitchWithRawResponse
-    with_streaming_response: AsyncSpitchWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -269,12 +288,38 @@ class AsyncSpitch(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.speech = speech.AsyncSpeechResource(self)
-        self.text = text.AsyncTextResource(self)
-        self.files = files.AsyncFilesResource(self)
-        self.jobs = jobs.AsyncJobsResource(self)
-        self.with_raw_response = AsyncSpitchWithRawResponse(self)
-        self.with_streaming_response = AsyncSpitchWithStreamedResponse(self)
+    @cached_property
+    def speech(self) -> AsyncSpeechResource:
+        """All speech-focused APIs (TTS and STT)"""
+        from .resources.speech import AsyncSpeechResource
+
+        return AsyncSpeechResource(self)
+
+    @cached_property
+    def text(self) -> AsyncTextResource:
+        from .resources.text import AsyncTextResource
+
+        return AsyncTextResource(self)
+
+    @cached_property
+    def files(self) -> AsyncFilesResource:
+        from .resources.files import AsyncFilesResource
+
+        return AsyncFilesResource(self)
+
+    @cached_property
+    def jobs(self) -> AsyncJobsResource:
+        from .resources.jobs import AsyncJobsResource
+
+        return AsyncJobsResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncSpitchWithRawResponse:
+        return AsyncSpitchWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncSpitchWithStreamedResponse:
+        return AsyncSpitchWithStreamedResponse(self)
 
     @property
     @override
@@ -382,35 +427,131 @@ class AsyncSpitch(AsyncAPIClient):
 
 
 class SpitchWithRawResponse:
+    _client: Spitch
+
     def __init__(self, client: Spitch) -> None:
-        self.speech = speech.SpeechResourceWithRawResponse(client.speech)
-        self.text = text.TextResourceWithRawResponse(client.text)
-        self.files = files.FilesResourceWithRawResponse(client.files)
-        self.jobs = jobs.JobsResourceWithRawResponse(client.jobs)
+        self._client = client
+
+    @cached_property
+    def speech(self) -> speech.SpeechResourceWithRawResponse:
+        """All speech-focused APIs (TTS and STT)"""
+        from .resources.speech import SpeechResourceWithRawResponse
+
+        return SpeechResourceWithRawResponse(self._client.speech)
+
+    @cached_property
+    def text(self) -> text.TextResourceWithRawResponse:
+        from .resources.text import TextResourceWithRawResponse
+
+        return TextResourceWithRawResponse(self._client.text)
+
+    @cached_property
+    def files(self) -> files.FilesResourceWithRawResponse:
+        from .resources.files import FilesResourceWithRawResponse
+
+        return FilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
+    def jobs(self) -> jobs.JobsResourceWithRawResponse:
+        from .resources.jobs import JobsResourceWithRawResponse
+
+        return JobsResourceWithRawResponse(self._client.jobs)
 
 
 class AsyncSpitchWithRawResponse:
+    _client: AsyncSpitch
+
     def __init__(self, client: AsyncSpitch) -> None:
-        self.speech = speech.AsyncSpeechResourceWithRawResponse(client.speech)
-        self.text = text.AsyncTextResourceWithRawResponse(client.text)
-        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
-        self.jobs = jobs.AsyncJobsResourceWithRawResponse(client.jobs)
+        self._client = client
+
+    @cached_property
+    def speech(self) -> speech.AsyncSpeechResourceWithRawResponse:
+        """All speech-focused APIs (TTS and STT)"""
+        from .resources.speech import AsyncSpeechResourceWithRawResponse
+
+        return AsyncSpeechResourceWithRawResponse(self._client.speech)
+
+    @cached_property
+    def text(self) -> text.AsyncTextResourceWithRawResponse:
+        from .resources.text import AsyncTextResourceWithRawResponse
+
+        return AsyncTextResourceWithRawResponse(self._client.text)
+
+    @cached_property
+    def files(self) -> files.AsyncFilesResourceWithRawResponse:
+        from .resources.files import AsyncFilesResourceWithRawResponse
+
+        return AsyncFilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
+    def jobs(self) -> jobs.AsyncJobsResourceWithRawResponse:
+        from .resources.jobs import AsyncJobsResourceWithRawResponse
+
+        return AsyncJobsResourceWithRawResponse(self._client.jobs)
 
 
 class SpitchWithStreamedResponse:
+    _client: Spitch
+
     def __init__(self, client: Spitch) -> None:
-        self.speech = speech.SpeechResourceWithStreamingResponse(client.speech)
-        self.text = text.TextResourceWithStreamingResponse(client.text)
-        self.files = files.FilesResourceWithStreamingResponse(client.files)
-        self.jobs = jobs.JobsResourceWithStreamingResponse(client.jobs)
+        self._client = client
+
+    @cached_property
+    def speech(self) -> speech.SpeechResourceWithStreamingResponse:
+        """All speech-focused APIs (TTS and STT)"""
+        from .resources.speech import SpeechResourceWithStreamingResponse
+
+        return SpeechResourceWithStreamingResponse(self._client.speech)
+
+    @cached_property
+    def text(self) -> text.TextResourceWithStreamingResponse:
+        from .resources.text import TextResourceWithStreamingResponse
+
+        return TextResourceWithStreamingResponse(self._client.text)
+
+    @cached_property
+    def files(self) -> files.FilesResourceWithStreamingResponse:
+        from .resources.files import FilesResourceWithStreamingResponse
+
+        return FilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
+    def jobs(self) -> jobs.JobsResourceWithStreamingResponse:
+        from .resources.jobs import JobsResourceWithStreamingResponse
+
+        return JobsResourceWithStreamingResponse(self._client.jobs)
 
 
 class AsyncSpitchWithStreamedResponse:
+    _client: AsyncSpitch
+
     def __init__(self, client: AsyncSpitch) -> None:
-        self.speech = speech.AsyncSpeechResourceWithStreamingResponse(client.speech)
-        self.text = text.AsyncTextResourceWithStreamingResponse(client.text)
-        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
-        self.jobs = jobs.AsyncJobsResourceWithStreamingResponse(client.jobs)
+        self._client = client
+
+    @cached_property
+    def speech(self) -> speech.AsyncSpeechResourceWithStreamingResponse:
+        """All speech-focused APIs (TTS and STT)"""
+        from .resources.speech import AsyncSpeechResourceWithStreamingResponse
+
+        return AsyncSpeechResourceWithStreamingResponse(self._client.speech)
+
+    @cached_property
+    def text(self) -> text.AsyncTextResourceWithStreamingResponse:
+        from .resources.text import AsyncTextResourceWithStreamingResponse
+
+        return AsyncTextResourceWithStreamingResponse(self._client.text)
+
+    @cached_property
+    def files(self) -> files.AsyncFilesResourceWithStreamingResponse:
+        from .resources.files import AsyncFilesResourceWithStreamingResponse
+
+        return AsyncFilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
+    def jobs(self) -> jobs.AsyncJobsResourceWithStreamingResponse:
+        from .resources.jobs import AsyncJobsResourceWithStreamingResponse
+
+        return AsyncJobsResourceWithStreamingResponse(self._client.jobs)
 
 
 Client = Spitch
