@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Mapping, Optional, cast
+from typing import Union, Mapping, Optional, cast
 from typing_extensions import Literal
 
 import httpx
@@ -127,7 +127,7 @@ class SpeechResource(SyncAPIResource):
         self,
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
-        content: Optional[FileTypes] | Omit = omit,
+        content: Union[FileTypes, str, None] | Omit = omit,
         model: Optional[Literal["mansa_v1", "legacy", "human"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
@@ -272,7 +272,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         self,
         *,
         language: Literal["yo", "en", "ha", "ig", "am"],
-        content: Optional[FileTypes] | Omit = omit,
+        content: Union[FileTypes, str, None] | Omit = omit,
         model: Optional[Literal["mansa_v1", "legacy", "human"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
