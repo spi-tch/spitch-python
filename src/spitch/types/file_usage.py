@@ -1,27 +1,24 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
+
 from .._models import BaseModel
 
 __all__ = ["FileUsage"]
 
 
 class FileUsage(BaseModel):
-    """Storage usage information for an organization.
+    num_files: Optional[int] = None
+    """number of files available."""
 
-    Attributes:
-        total: Human-readable total storage limit
-        used: Human-readable used storage amount
-        total_bytes: Total storage limit in bytes
-        used_bytes: Used storage amount in bytes
-        num_files: Number of files stored
-    """
+    total: Optional[str] = None
+    """total storage available in human-readable format"""
 
-    num_files: int
+    total_bytes: Optional[int] = None
+    """storage used in bytes"""
 
-    total: str
+    used: Optional[str] = None
+    """storage used in human-readable format"""
 
-    total_bytes: int
-
-    used: str
-
-    used_bytes: int
+    used_bytes: Optional[int] = None
+    """total storage available in bytes"""

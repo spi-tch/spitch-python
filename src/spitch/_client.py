@@ -31,8 +31,7 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import jobs, text, files, speech
-    from .resources.jobs import JobsResource, AsyncJobsResource
+    from .resources import text, files, speech
     from .resources.text import TextResource, AsyncTextResource
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.speech import SpeechResource, AsyncSpeechResource
@@ -113,12 +112,6 @@ class Spitch(SyncAPIClient):
         from .resources.files import FilesResource
 
         return FilesResource(self)
-
-    @cached_property
-    def jobs(self) -> JobsResource:
-        from .resources.jobs import JobsResource
-
-        return JobsResource(self)
 
     @cached_property
     def with_raw_response(self) -> SpitchWithRawResponse:
@@ -308,12 +301,6 @@ class AsyncSpitch(AsyncAPIClient):
         return AsyncFilesResource(self)
 
     @cached_property
-    def jobs(self) -> AsyncJobsResource:
-        from .resources.jobs import AsyncJobsResource
-
-        return AsyncJobsResource(self)
-
-    @cached_property
     def with_raw_response(self) -> AsyncSpitchWithRawResponse:
         return AsyncSpitchWithRawResponse(self)
 
@@ -451,12 +438,6 @@ class SpitchWithRawResponse:
 
         return FilesResourceWithRawResponse(self._client.files)
 
-    @cached_property
-    def jobs(self) -> jobs.JobsResourceWithRawResponse:
-        from .resources.jobs import JobsResourceWithRawResponse
-
-        return JobsResourceWithRawResponse(self._client.jobs)
-
 
 class AsyncSpitchWithRawResponse:
     _client: AsyncSpitch
@@ -482,12 +463,6 @@ class AsyncSpitchWithRawResponse:
         from .resources.files import AsyncFilesResourceWithRawResponse
 
         return AsyncFilesResourceWithRawResponse(self._client.files)
-
-    @cached_property
-    def jobs(self) -> jobs.AsyncJobsResourceWithRawResponse:
-        from .resources.jobs import AsyncJobsResourceWithRawResponse
-
-        return AsyncJobsResourceWithRawResponse(self._client.jobs)
 
 
 class SpitchWithStreamedResponse:
@@ -515,12 +490,6 @@ class SpitchWithStreamedResponse:
 
         return FilesResourceWithStreamingResponse(self._client.files)
 
-    @cached_property
-    def jobs(self) -> jobs.JobsResourceWithStreamingResponse:
-        from .resources.jobs import JobsResourceWithStreamingResponse
-
-        return JobsResourceWithStreamingResponse(self._client.jobs)
-
 
 class AsyncSpitchWithStreamedResponse:
     _client: AsyncSpitch
@@ -546,12 +515,6 @@ class AsyncSpitchWithStreamedResponse:
         from .resources.files import AsyncFilesResourceWithStreamingResponse
 
         return AsyncFilesResourceWithStreamingResponse(self._client.files)
-
-    @cached_property
-    def jobs(self) -> jobs.AsyncJobsResourceWithStreamingResponse:
-        from .resources.jobs import AsyncJobsResourceWithStreamingResponse
-
-        return AsyncJobsResourceWithStreamingResponse(self._client.jobs)
 
 
 Client = Spitch
