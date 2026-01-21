@@ -99,6 +99,8 @@ class SpeechResource(SyncAPIResource):
         format. Audio is retured in chunks.
 
         Args:
+          format: the audio format for the returned audio bytes.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -270,6 +272,8 @@ class AsyncSpeechResource(AsyncAPIResource):
         format. Audio is retured in chunks.
 
         Args:
+          format: the audio format for the returned audio bytes.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
