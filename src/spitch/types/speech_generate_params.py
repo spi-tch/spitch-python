@@ -42,6 +42,9 @@ class SpeechGenerateParams(TypedDict, total=False):
         ]
     ]
 
+    format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"]
+    """the audio format for the returned audio bytes."""
+
     model: Optional[str]
 
     spitch_x_data_retention: Annotated[bool, PropertyInfo(alias="Spitch-X-Data-Retention")]
