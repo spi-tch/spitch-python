@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Mapping, Optional, cast
+from typing import Union, Mapping, Optional, cast
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from .._utils import is_given, extract_files, maybe_transform, strip_not_given, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -27,7 +27,7 @@ from .._response import (
     async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.transcription import Transcription
+from ..types.speech_transcribe_response import SpeechTranscribeResponse
 
 __all__ = ["SpeechResource", "AsyncSpeechResource"]
 
@@ -57,7 +57,7 @@ class SpeechResource(SyncAPIResource):
     def generate(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am"],
+        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
         text: str,
         voice: Literal[
             "sade",
@@ -83,8 +83,8 @@ class SpeechResource(SyncAPIResource):
             "tena",
             "tesfaye",
         ],
-        format: Literal["wav", "mp3", "ogg_opus", "webm_opus", "flac", "pcm_s16le", "mulaw", "alaw"] | Omit = omit,
-        model: Optional[Literal["legacy"]] | Omit = omit,
+        model: Optional[str] | Omit = omit,
+        spitch_x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -92,8 +92,10 @@ class SpeechResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
-        """
-        Synthesize
+        """Convert text to speech.
+
+        Select a voice and use that to generate audio in any
+        format. Audio is retured in chunks.
 
         Args:
           extra_headers: Send extra headers
@@ -104,7 +106,17 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/*", **(extra_headers or {})}
+        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
+                    if is_given(spitch_x_data_retention)
+                    else not_given
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return self._post(
             "/v1/speech",
             body=maybe_transform(
@@ -112,7 +124,6 @@ class SpeechResource(SyncAPIResource):
                     "language": language,
                     "text": text,
                     "voice": voice,
-                    "format": format,
                     "model": model,
                 },
                 speech_generate_params.SpeechGenerateParams,
@@ -126,21 +137,24 @@ class SpeechResource(SyncAPIResource):
     def transcribe(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am"],
-        content: Optional[FileTypes] | Omit = omit,
-        model: Optional[Literal["mansa_v1", "legacy", "human"]] | Omit = omit,
+        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
+        content: Union[FileTypes, str, None] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
         url: Optional[str] | Omit = omit,
+        spitch_x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Transcription:
-        """
-        Transcribe
+    ) -> SpeechTranscribeResponse:
+        """Convert speech to text.
+
+        Upload audio file containing speech and get back text
+        that represents the content of the audio file.
 
         Args:
           extra_headers: Send extra headers
@@ -151,6 +165,16 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
+                    if is_given(spitch_x_data_retention)
+                    else not_given
+                }
+            ),
+            **(extra_headers or {}),
+        }
         body = deepcopy_minimal(
             {
                 "language": language,
@@ -173,7 +197,7 @@ class SpeechResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Transcription,
+            cast_to=SpeechTranscribeResponse,
         )
 
 
@@ -202,7 +226,7 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def generate(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am"],
+        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
         text: str,
         voice: Literal[
             "sade",
@@ -228,8 +252,8 @@ class AsyncSpeechResource(AsyncAPIResource):
             "tena",
             "tesfaye",
         ],
-        format: Literal["wav", "mp3", "ogg_opus", "webm_opus", "flac", "pcm_s16le", "mulaw", "alaw"] | Omit = omit,
-        model: Optional[Literal["legacy"]] | Omit = omit,
+        model: Optional[str] | Omit = omit,
+        spitch_x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -237,8 +261,10 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
-        """
-        Synthesize
+        """Convert text to speech.
+
+        Select a voice and use that to generate audio in any
+        format. Audio is retured in chunks.
 
         Args:
           extra_headers: Send extra headers
@@ -249,7 +275,17 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {"Accept": "audio/*", **(extra_headers or {})}
+        extra_headers = {"Accept": "audio/wav", **(extra_headers or {})}
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
+                    if is_given(spitch_x_data_retention)
+                    else not_given
+                }
+            ),
+            **(extra_headers or {}),
+        }
         return await self._post(
             "/v1/speech",
             body=await async_maybe_transform(
@@ -257,7 +293,6 @@ class AsyncSpeechResource(AsyncAPIResource):
                     "language": language,
                     "text": text,
                     "voice": voice,
-                    "format": format,
                     "model": model,
                 },
                 speech_generate_params.SpeechGenerateParams,
@@ -271,21 +306,24 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def transcribe(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am"],
-        content: Optional[FileTypes] | Omit = omit,
-        model: Optional[Literal["mansa_v1", "legacy", "human"]] | Omit = omit,
+        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
+        content: Union[FileTypes, str, None] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
         url: Optional[str] | Omit = omit,
+        spitch_x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Transcription:
-        """
-        Transcribe
+    ) -> SpeechTranscribeResponse:
+        """Convert speech to text.
+
+        Upload audio file containing speech and get back text
+        that represents the content of the audio file.
 
         Args:
           extra_headers: Send extra headers
@@ -296,6 +334,16 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given(
+                {
+                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
+                    if is_given(spitch_x_data_retention)
+                    else not_given
+                }
+            ),
+            **(extra_headers or {}),
+        }
         body = deepcopy_minimal(
             {
                 "language": language,
@@ -318,7 +366,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Transcription,
+            cast_to=SpeechTranscribeResponse,
         )
 
 

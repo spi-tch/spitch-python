@@ -9,6 +9,8 @@ __all__ = ["Files"]
 
 
 class Files(BaseModel):
+    """an array of file information."""
+
     items: List[File]
 
     next_cursor: Optional[str] = None

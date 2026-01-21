@@ -9,11 +9,7 @@ import pytest
 
 from spitch import Spitch, AsyncSpitch
 from tests.utils import assert_matches_type
-from spitch.types import (
-    File,
-    FileUsage,
-    FileDownloadResponse,
-)
+from spitch.types import File, FileUsage, FileDeleteResponse
 from spitch.pagination import SyncFilesCursor, AsyncFilesCursor
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -32,7 +28,6 @@ class TestFiles:
         file = client.files.list(
             cursor="cursor",
             limit=99,
-            status="uploading",
         )
         assert_matches_type(SyncFilesCursor[File], file, path=["response"])
 
@@ -61,7 +56,7 @@ class TestFiles:
         file = client.files.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileDeleteResponse, file, path=["response"])
 
     @parametrize
     def test_raw_response_delete(self, client: Spitch) -> None:
@@ -72,7 +67,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileDeleteResponse, file, path=["response"])
 
     @parametrize
     def test_streaming_response_delete(self, client: Spitch) -> None:
@@ -83,7 +78,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(object, file, path=["response"])
+            assert_matches_type(FileDeleteResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -99,7 +94,7 @@ class TestFiles:
         file = client.files.download(
             file_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(FileDownloadResponse, file, path=["response"])
+        assert_matches_type(object, file, path=["response"])
 
     @parametrize
     def test_method_download_with_all_params(self, client: Spitch) -> None:
@@ -107,7 +102,7 @@ class TestFiles:
             file_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             ttl=60,
         )
-        assert_matches_type(FileDownloadResponse, file, path=["response"])
+        assert_matches_type(object, file, path=["response"])
 
     @parametrize
     def test_raw_response_download(self, client: Spitch) -> None:
@@ -118,7 +113,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(FileDownloadResponse, file, path=["response"])
+        assert_matches_type(object, file, path=["response"])
 
     @parametrize
     def test_streaming_response_download(self, client: Spitch) -> None:
@@ -129,7 +124,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(FileDownloadResponse, file, path=["response"])
+            assert_matches_type(object, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -250,7 +245,6 @@ class TestAsyncFiles:
         file = await async_client.files.list(
             cursor="cursor",
             limit=99,
-            status="uploading",
         )
         assert_matches_type(AsyncFilesCursor[File], file, path=["response"])
 
@@ -279,7 +273,7 @@ class TestAsyncFiles:
         file = await async_client.files.delete(
             "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileDeleteResponse, file, path=["response"])
 
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncSpitch) -> None:
@@ -290,7 +284,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(object, file, path=["response"])
+        assert_matches_type(FileDeleteResponse, file, path=["response"])
 
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncSpitch) -> None:
@@ -301,7 +295,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(object, file, path=["response"])
+            assert_matches_type(FileDeleteResponse, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -317,7 +311,7 @@ class TestAsyncFiles:
         file = await async_client.files.download(
             file_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
         )
-        assert_matches_type(FileDownloadResponse, file, path=["response"])
+        assert_matches_type(object, file, path=["response"])
 
     @parametrize
     async def test_method_download_with_all_params(self, async_client: AsyncSpitch) -> None:
@@ -325,7 +319,7 @@ class TestAsyncFiles:
             file_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
             ttl=60,
         )
-        assert_matches_type(FileDownloadResponse, file, path=["response"])
+        assert_matches_type(object, file, path=["response"])
 
     @parametrize
     async def test_raw_response_download(self, async_client: AsyncSpitch) -> None:
@@ -336,7 +330,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(FileDownloadResponse, file, path=["response"])
+        assert_matches_type(object, file, path=["response"])
 
     @parametrize
     async def test_streaming_response_download(self, async_client: AsyncSpitch) -> None:
@@ -347,7 +341,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(FileDownloadResponse, file, path=["response"])
+            assert_matches_type(object, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

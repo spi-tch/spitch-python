@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, TypedDict
+from typing_extensions import TypedDict
 
 __all__ = ["FileListParams"]
 
@@ -12,5 +12,3 @@ class FileListParams(TypedDict, total=False):
     cursor: Optional[str]
 
     limit: int
-
-    status: Optional[Literal["uploading", "ready"]]

@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import text_tone_mark_params, text_translate_params
-from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from .._types import Body, Query, Headers, NotGiven, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -48,7 +47,7 @@ class TextResource(SyncAPIResource):
     def tone_mark(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am"],
+        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
         text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -58,7 +57,7 @@ class TextResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Diacritics:
         """
-        Tone Mark
+        Add appopriate tone marks to text.
 
         Args:
           extra_headers: Send extra headers
@@ -87,12 +86,9 @@ class TextResource(SyncAPIResource):
     def translate(
         self,
         *,
-        source: Literal["yo", "en", "ha", "ig", "am"],
-        target: Literal["yo", "en", "ha", "ig", "am"],
-        file_id: Optional[str] | Omit = omit,
-        instructions: Optional[str] | Omit = omit,
-        model: Literal["human", "auto"] | Omit = omit,
-        text: Optional[str] | Omit = omit,
+        source: Literal["yo", "en", "ha", "ig", "am", "pcm"],
+        target: Literal["yo", "en", "ha", "ig", "am", "pcm"],
+        text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -100,8 +96,10 @@ class TextResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Translation:
-        """
-        Translate
+        """Translate text from one language to another.
+
+        Select the source and target
+        languages, and get text in new language.
 
         Args:
           extra_headers: Send extra headers
@@ -118,9 +116,6 @@ class TextResource(SyncAPIResource):
                 {
                     "source": source,
                     "target": target,
-                    "file_id": file_id,
-                    "instructions": instructions,
-                    "model": model,
                     "text": text,
                 },
                 text_translate_params.TextTranslateParams,
@@ -155,7 +150,7 @@ class AsyncTextResource(AsyncAPIResource):
     async def tone_mark(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am"],
+        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
         text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -165,7 +160,7 @@ class AsyncTextResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Diacritics:
         """
-        Tone Mark
+        Add appopriate tone marks to text.
 
         Args:
           extra_headers: Send extra headers
@@ -194,12 +189,9 @@ class AsyncTextResource(AsyncAPIResource):
     async def translate(
         self,
         *,
-        source: Literal["yo", "en", "ha", "ig", "am"],
-        target: Literal["yo", "en", "ha", "ig", "am"],
-        file_id: Optional[str] | Omit = omit,
-        instructions: Optional[str] | Omit = omit,
-        model: Literal["human", "auto"] | Omit = omit,
-        text: Optional[str] | Omit = omit,
+        source: Literal["yo", "en", "ha", "ig", "am", "pcm"],
+        target: Literal["yo", "en", "ha", "ig", "am", "pcm"],
+        text: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -207,8 +199,10 @@ class AsyncTextResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Translation:
-        """
-        Translate
+        """Translate text from one language to another.
+
+        Select the source and target
+        languages, and get text in new language.
 
         Args:
           extra_headers: Send extra headers
@@ -225,9 +219,6 @@ class AsyncTextResource(AsyncAPIResource):
                 {
                     "source": source,
                     "target": target,
-                    "file_id": file_id,
-                    "instructions": instructions,
-                    "model": model,
                     "text": text,
                 },
                 text_translate_params.TextTranslateParams,

@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.42.0 (2026-01-21)
+
+Full Changelog: [v1.41.2...v1.42.0](https://github.com/spi-tch/spitch-python/compare/v1.41.2...v1.42.0)
+
+### Features
+
+* **api:** manual updates ([12f75ef](https://github.com/spi-tch/spitch-python/commit/12f75eff7f034196f0f453dfb4b4c800234d9198))
+* **client:** add support for binary request streaming ([0c96451](https://github.com/spi-tch/spitch-python/commit/0c96451d56e5897221e1a5e628c557f8d47df911))
+* **files:** add support for string alternative to file upload type ([7c71520](https://github.com/spi-tch/spitch-python/commit/7c7152096acff1ab2777e88ea6edf8e74762a366))
+
+
+### Bug Fixes
+
+* ensure streams are always closed ([2eaa7db](https://github.com/spi-tch/spitch-python/commit/2eaa7dbb883d8ae3ecf90da45dce26252a996f62))
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([49b3944](https://github.com/spi-tch/spitch-python/commit/49b39447feb57724b18dbabd08da07ff6fe10164))
+* use async_to_httpx_files in patch method ([d6681dc](https://github.com/spi-tch/spitch-python/commit/d6681dc12cb59df8843b6adbe09095efde66548b))
+
+
+### Chores
+
+* add missing docstrings ([5706a11](https://github.com/spi-tch/spitch-python/commit/5706a112946f0c294388455c32cf5c1e1bad270a))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([ebbc73f](https://github.com/spi-tch/spitch-python/commit/ebbc73f41c762dc2adcbb3013ea695fdb3c50e2d))
+* **docs:** use environment variables for authentication in code snippets ([e74350e](https://github.com/spi-tch/spitch-python/commit/e74350e037dc2136577aa758e493e0261ce70166))
+* **internal:** add `--fix` argument to lint script ([697bfd0](https://github.com/spi-tch/spitch-python/commit/697bfd03e8bc2c855e36fbfcc23f6ecf7d740652))
+* **internal:** add missing files argument to base client ([d52ec35](https://github.com/spi-tch/spitch-python/commit/d52ec358ed429f302ff0c035d1b8b94cbe24e3e0))
+* **internal:** codegen related update ([d11c298](https://github.com/spi-tch/spitch-python/commit/d11c2988b89fde8ef890fe072869caf1692fe56a))
+* **internal:** update `actions/checkout` version ([9dfcb50](https://github.com/spi-tch/spitch-python/commit/9dfcb509c7bed5382e2de4663838fc0583774bc2))
+* speedup initial import ([8b385df](https://github.com/spi-tch/spitch-python/commit/8b385dffc6d34d7cbda6ba197d08637c98a6af37))
+* update lockfile ([442785c](https://github.com/spi-tch/spitch-python/commit/442785c97d9cb3ccee5403666a4cdbbf00338cea))
+
 ## 1.41.2 (2025-11-25)
 
 Full Changelog: [v1.41.1...v1.41.2](https://github.com/spi-tch/spitch-python/compare/v1.41.1...v1.41.2)

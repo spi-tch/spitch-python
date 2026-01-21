@@ -3,13 +3,15 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, Required, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
+
+from .._utils import PropertyInfo
 
 __all__ = ["SpeechGenerateParams"]
 
 
 class SpeechGenerateParams(TypedDict, total=False):
-    language: Required[Literal["yo", "en", "ha", "ig", "am"]]
+    language: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
 
     text: Required[str]
 
@@ -40,6 +42,6 @@ class SpeechGenerateParams(TypedDict, total=False):
         ]
     ]
 
-    format: Literal["wav", "mp3", "ogg_opus", "webm_opus", "flac", "pcm_s16le", "mulaw", "alaw"]
+    model: Optional[str]
 
-    model: Optional[Literal["legacy"]]
+    spitch_x_data_retention: Annotated[bool, PropertyInfo(alias="Spitch-X-Data-Retention")]
