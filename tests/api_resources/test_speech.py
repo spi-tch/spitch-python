@@ -47,6 +47,7 @@ class TestSpeech:
             language="yo",
             text="text",
             voice="sade",
+            format="mp3",
             model="model",
             spitch_x_data_retention=True,
         )
@@ -161,6 +162,7 @@ class TestAsyncSpeech:
             language="yo",
             text="text",
             voice="sade",
+            format="mp3",
             model="model",
             spitch_x_data_retention=True,
         )

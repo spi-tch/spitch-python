@@ -83,6 +83,7 @@ class SpeechResource(SyncAPIResource):
             "tena",
             "tesfaye",
         ],
+        format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"] | Omit = omit,
         model: Optional[str] | Omit = omit,
         spitch_x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -124,6 +125,7 @@ class SpeechResource(SyncAPIResource):
                     "language": language,
                     "text": text,
                     "voice": voice,
+                    "format": format,
                     "model": model,
                 },
                 speech_generate_params.SpeechGenerateParams,
@@ -252,6 +254,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             "tena",
             "tesfaye",
         ],
+        format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"] | Omit = omit,
         model: Optional[str] | Omit = omit,
         spitch_x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -293,6 +296,7 @@ class AsyncSpeechResource(AsyncAPIResource):
                     "language": language,
                     "text": text,
                     "voice": voice,
+                    "format": format,
                     "model": model,
                 },
                 speech_generate_params.SpeechGenerateParams,
