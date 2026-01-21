@@ -2,21 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["TextTranslateParams"]
 
 
 class TextTranslateParams(TypedDict, total=False):
-    source: Required[Literal["yo", "en", "ha", "ig", "am"]]
+    source: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
 
-    target: Required[Literal["yo", "en", "ha", "ig", "am"]]
+    target: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
 
-    file_id: Optional[str]
-
-    instructions: Optional[str]
-
-    model: Literal["human", "auto"]
-
-    text: Optional[str]
+    text: Required[str]

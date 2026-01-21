@@ -2,7 +2,6 @@
 
 from typing import Optional
 from datetime import datetime
-from typing_extensions import Literal
 
 from .._models import BaseModel
 
@@ -10,15 +9,7 @@ __all__ = ["File"]
 
 
 class File(BaseModel):
-    """
-    description of a file.
-    Attributes:
-        file_id: unique identifier for the file.
-        status: status of the file, `processing` or `ready`
-        original_name: original name of the file. If the file was uploaded via API
-    """
-
-    category: Optional[str] = None
+    """Metadata info for this file."""
 
     content_type: Optional[str] = None
 
@@ -30,6 +21,6 @@ class File(BaseModel):
 
     size_bytes: Optional[int] = None
 
-    status: Literal["uploading", "ready"]
+    status: str
 
     uploaded_by: Optional[str] = None

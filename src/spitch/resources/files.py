@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from typing import Mapping, Optional, cast
-from typing_extensions import Literal
 
 import httpx
 
@@ -22,7 +21,7 @@ from ..pagination import SyncFilesCursor, AsyncFilesCursor
 from ..types.file import File
 from .._base_client import AsyncPaginator, make_request_options
 from ..types.file_usage import FileUsage
-from ..types.file_download_response import FileDownloadResponse
+from ..types.file_delete_response import FileDeleteResponse
 
 __all__ = ["FilesResource", "AsyncFilesResource"]
 
@@ -52,7 +51,6 @@ class FilesResource(SyncAPIResource):
         *,
         cursor: Optional[str] | Omit = omit,
         limit: int | Omit = omit,
-        status: Optional[Literal["uploading", "ready"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -61,16 +59,7 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> SyncFilesCursor[File]:
         """
-        Get a paginated list of files for the authenticated organization.
-
-        Args: identity: Authentication identity containing org_id and user_id limit:
-        Maximum number of files to return (max 100) status: Optional filter by file
-        status (processing, ready, etc.) cursor: Optional pagination cursor for getting
-        next page db: Database session
-
-        Returns: ListFilesResponse: Paginated list of files with metadata
-
-        Raises: HTTPException: 400 if cursor is invalid
+        Get Files
 
         Args:
           extra_headers: Send extra headers
@@ -93,7 +82,6 @@ class FilesResource(SyncAPIResource):
                     {
                         "cursor": cursor,
                         "limit": limit,
-                        "status": status,
                     },
                     file_list_params.FileListParams,
                 ),
@@ -111,16 +99,9 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileDeleteResponse:
         """
-        Delete a file and its associated S3 object.
-
-        Args: file_id: UUID of the file to delete identity: Authentication identity
-        containing org_id db: Database session s3: S3 session for deleting objects
-
-        Returns: dict: Success confirmation
-
-        Raises: HTTPException: 404 if file not found or doesn't belong to org
+        Delete File
 
         Args:
           extra_headers: Send extra headers
@@ -138,7 +119,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileDeleteResponse,
         )
 
     def download(
@@ -152,19 +133,9 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileDownloadResponse:
+    ) -> object:
         """
-        Generate a pre-signed download URL for a file.
-
-        Args: file_id: UUID of the file to download identity: Authentication identity
-        containing org_id ttl: Time-to-live for the download URL in seconds (60-3600)
-        db: Database session s3: S3 session for generating pre-signed URLs
-
-        Returns: FileDownloadResponse: Contains file_id, download URL, and expiration
-        time
-
-        Raises: HTTPException: 404 if file not found, doesn't belong to org, or not
-        ready
+        Download File
 
         Args:
           extra_headers: Send extra headers
@@ -186,7 +157,7 @@ class FilesResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"ttl": ttl}, file_download_params.FileDownloadParams),
             ),
-            cast_to=FileDownloadResponse,
+            cast_to=object,
         )
 
     def get(
@@ -201,15 +172,7 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> File:
         """
-        Get metadata for a specific file.
-
-        Args: file_id: UUID of the file to retrieve identity: Authentication identity
-        containing org_id db: Database session
-
-        Returns: FileMetaResponse: File metadata including upload information
-
-        Raises: HTTPException: 404 if file not found or doesn't belong to org
-        HTTPException: 500 if uploader information is corrupted
+        Get File
 
         Args:
           extra_headers: Send extra headers
@@ -242,14 +205,7 @@ class FilesResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> File:
         """
-        Upload a file to the Spitch server.
-
-        Args: file: The file to upload from the request identity: Authentication
-        identity containing org_id and user_id db: Database session
-
-        Returns: FileMetaResponse: Metadata for the uploaded file
-
-        Raises: HTTPException: 500 if upload fails
+        Upload a file to your storage.
 
         Args:
           extra_headers: Send extra headers
@@ -286,15 +242,7 @@ class FilesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUsage:
-        """
-        Get storage usage statistics for the authenticated organization.
-
-        Args: identity: Authentication identity containing org_id db: Database session
-
-        Returns: FileUsage: Usage statistics including total/used bytes and file count
-
-        Raises: HTTPException: 500 if unable to calculate usage
-        """
+        """Get Usage"""
         return self._get(
             "/v1/files:usage",
             options=make_request_options(
@@ -329,7 +277,6 @@ class AsyncFilesResource(AsyncAPIResource):
         *,
         cursor: Optional[str] | Omit = omit,
         limit: int | Omit = omit,
-        status: Optional[Literal["uploading", "ready"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -338,16 +285,7 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncPaginator[File, AsyncFilesCursor[File]]:
         """
-        Get a paginated list of files for the authenticated organization.
-
-        Args: identity: Authentication identity containing org_id and user_id limit:
-        Maximum number of files to return (max 100) status: Optional filter by file
-        status (processing, ready, etc.) cursor: Optional pagination cursor for getting
-        next page db: Database session
-
-        Returns: ListFilesResponse: Paginated list of files with metadata
-
-        Raises: HTTPException: 400 if cursor is invalid
+        Get Files
 
         Args:
           extra_headers: Send extra headers
@@ -370,7 +308,6 @@ class AsyncFilesResource(AsyncAPIResource):
                     {
                         "cursor": cursor,
                         "limit": limit,
-                        "status": status,
                     },
                     file_list_params.FileListParams,
                 ),
@@ -388,16 +325,9 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> FileDeleteResponse:
         """
-        Delete a file and its associated S3 object.
-
-        Args: file_id: UUID of the file to delete identity: Authentication identity
-        containing org_id db: Database session s3: S3 session for deleting objects
-
-        Returns: dict: Success confirmation
-
-        Raises: HTTPException: 404 if file not found or doesn't belong to org
+        Delete File
 
         Args:
           extra_headers: Send extra headers
@@ -415,7 +345,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=FileDeleteResponse,
         )
 
     async def download(
@@ -429,19 +359,9 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FileDownloadResponse:
+    ) -> object:
         """
-        Generate a pre-signed download URL for a file.
-
-        Args: file_id: UUID of the file to download identity: Authentication identity
-        containing org_id ttl: Time-to-live for the download URL in seconds (60-3600)
-        db: Database session s3: S3 session for generating pre-signed URLs
-
-        Returns: FileDownloadResponse: Contains file_id, download URL, and expiration
-        time
-
-        Raises: HTTPException: 404 if file not found, doesn't belong to org, or not
-        ready
+        Download File
 
         Args:
           extra_headers: Send extra headers
@@ -463,7 +383,7 @@ class AsyncFilesResource(AsyncAPIResource):
                 timeout=timeout,
                 query=await async_maybe_transform({"ttl": ttl}, file_download_params.FileDownloadParams),
             ),
-            cast_to=FileDownloadResponse,
+            cast_to=object,
         )
 
     async def get(
@@ -478,15 +398,7 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> File:
         """
-        Get metadata for a specific file.
-
-        Args: file_id: UUID of the file to retrieve identity: Authentication identity
-        containing org_id db: Database session
-
-        Returns: FileMetaResponse: File metadata including upload information
-
-        Raises: HTTPException: 404 if file not found or doesn't belong to org
-        HTTPException: 500 if uploader information is corrupted
+        Get File
 
         Args:
           extra_headers: Send extra headers
@@ -519,14 +431,7 @@ class AsyncFilesResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> File:
         """
-        Upload a file to the Spitch server.
-
-        Args: file: The file to upload from the request identity: Authentication
-        identity containing org_id and user_id db: Database session
-
-        Returns: FileMetaResponse: Metadata for the uploaded file
-
-        Raises: HTTPException: 500 if upload fails
+        Upload a file to your storage.
 
         Args:
           extra_headers: Send extra headers
@@ -563,15 +468,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> FileUsage:
-        """
-        Get storage usage statistics for the authenticated organization.
-
-        Args: identity: Authentication identity containing org_id db: Database session
-
-        Returns: FileUsage: Usage statistics including total/used bytes and file count
-
-        Raises: HTTPException: 500 if unable to calculate usage
-        """
+        """Get Usage"""
         return await self._get(
             "/v1/files:usage",
             options=make_request_options(
