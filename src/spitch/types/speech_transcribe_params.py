@@ -24,4 +24,4 @@ class SpeechTranscribeParams(TypedDict, total=False):
 
     url: Optional[str]
 
-    spitch_x_data_retention: Annotated[bool, PropertyInfo(alias="Spitch-X-Data-Retention")]
+    x_data_retention: Annotated[bool, PropertyInfo(alias="X-Data-Retention")]

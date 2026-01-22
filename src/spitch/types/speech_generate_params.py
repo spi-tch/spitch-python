@@ -47,4 +47,4 @@ class SpeechGenerateParams(TypedDict, total=False):
 
     model: Optional[str]
 
-    spitch_x_data_retention: Annotated[bool, PropertyInfo(alias="Spitch-X-Data-Retention")]
+    x_data_retention: Annotated[bool, PropertyInfo(alias="X-Data-Retention")]
