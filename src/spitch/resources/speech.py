@@ -85,7 +85,7 @@ class SpeechResource(SyncAPIResource):
         ],
         format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"] | Omit = omit,
         model: Optional[str] | Omit = omit,
-        spitch_x_data_retention: bool | Omit = omit,
+        x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -113,8 +113,8 @@ class SpeechResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
-                    if is_given(spitch_x_data_retention)
+                    "X-Data-Retention": ("true" if x_data_retention else "false")
+                    if is_given(x_data_retention)
                     else not_given
                 }
             ),
@@ -147,7 +147,7 @@ class SpeechResource(SyncAPIResource):
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
         url: Optional[str] | Omit = omit,
-        spitch_x_data_retention: bool | Omit = omit,
+        x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -172,8 +172,8 @@ class SpeechResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
-                    if is_given(spitch_x_data_retention)
+                    "X-Data-Retention": ("true" if x_data_retention else "false")
+                    if is_given(x_data_retention)
                     else not_given
                 }
             ),
@@ -258,7 +258,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         ],
         format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"] | Omit = omit,
         model: Optional[str] | Omit = omit,
-        spitch_x_data_retention: bool | Omit = omit,
+        x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -286,8 +286,8 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
-                    if is_given(spitch_x_data_retention)
+                    "X-Data-Retention": ("true" if x_data_retention else "false")
+                    if is_given(x_data_retention)
                     else not_given
                 }
             ),
@@ -320,7 +320,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         special_words: Optional[str] | Omit = omit,
         timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
         url: Optional[str] | Omit = omit,
-        spitch_x_data_retention: bool | Omit = omit,
+        x_data_retention: bool | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -345,8 +345,8 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "Spitch-X-Data-Retention": ("true" if spitch_x_data_retention else "false")
-                    if is_given(spitch_x_data_retention)
+                    "X-Data-Retention": ("true" if x_data_retention else "false")
+                    if is_given(x_data_retention)
                     else not_given
                 }
             ),
