@@ -22,7 +22,7 @@ class Transcription(BaseModel):
     Each sentence (or word) will fall within a time range.
     """
 
-    timestamp: Optional[List[Segment]] = None
+    timestamps: Optional[List[Segment]] = None
     """sentence-level or word-level groupings of your transcript.
 
     Each sentence (or word) will fall within a time range.
