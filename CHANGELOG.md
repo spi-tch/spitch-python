@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.45.0 (2026-01-22)
+
+Full Changelog: [v1.44.0...v1.45.0](https://github.com/spi-tch/spitch-python/compare/v1.44.0...v1.45.0)
+
+### Features
+
+* **api:** manual updates ([1e29376](https://github.com/spi-tch/spitch-python/commit/1e29376b7347c3819d9a92df97df24a6f7785c3a))
+* **api:** manual updates ([c1c2804](https://github.com/spi-tch/spitch-python/commit/c1c2804ed15c975be6e68b5d7925511d17d62ee9))
+* **api:** manual updates ([5eaf2e6](https://github.com/spi-tch/spitch-python/commit/5eaf2e647f4f26ffdeeaa3f4e24bb16de3d67cac))
+* **api:** manual updates ([f176fb6](https://github.com/spi-tch/spitch-python/commit/f176fb651f78118d129ac028fc5c9259217a9ca8))
+
 ## 1.44.0 (2026-01-21)
 
 Full Changelog: [v1.43.0...v1.44.0](https://github.com/spi-tch/spitch-python/compare/v1.43.0...v1.44.0)
