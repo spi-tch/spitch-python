@@ -1,4 +1,4 @@
 configured_endpoints: 10
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/babs-technologies%2Fspitch-d909291d8029ce7de8d2ccad8e6d05f1f1d893f2ba68fcf6c1cd7265ab6a8df9.yml
 openapi_spec_hash: 243f422b356ab7c8c417f87fe9ae2ad6
-config_hash: 35ba9f1f3b9c3edc34088d816cf6fdb2
+config_hash: 8a21b386c86f480850e3b3bc3ec9f18e

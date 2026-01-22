@@ -3,10 +3,9 @@
 from __future__ import annotations
 
 from typing import Union, Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, TypedDict
 
 from .._types import FileTypes
-from .._utils import PropertyInfo
 
 __all__ = ["SpeechTranscribeParams"]
 
@@ -23,5 +22,3 @@ class SpeechTranscribeParams(TypedDict, total=False):
     timestamp: Optional[Literal["sentence", "word", "none"]]
 
     url: Optional[str]
-
-    x_data_retention: Annotated[bool, PropertyInfo(alias="X-Data-Retention")]

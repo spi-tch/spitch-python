@@ -42,11 +42,13 @@ __all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Spitch", "
 class Spitch(SyncAPIClient):
     # client options
     api_key: str
+    data_retention: bool | None
 
     def __init__(
         self,
         *,
         api_key: str | None = None,
+        data_retention: bool | None = True,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -77,6 +79,10 @@ class Spitch(SyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the SPITCH_API_KEY environment variable"
             )
         self.api_key = api_key
+
+        if data_retention is None:
+            data_retention = True
+        self.data_retention = data_retention
 
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
@@ -138,6 +144,7 @@ class Spitch(SyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": "false",
+            "X-Data-Retention": str(self.data_retention) if self.data_retention is not None else Omit(),
             **self._custom_headers,
         }
 
@@ -145,6 +152,7 @@ class Spitch(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        data_retention: bool | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.Client | None = None,
@@ -179,6 +187,7 @@ class Spitch(SyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
+            data_retention=data_retention or self.data_retention,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -229,11 +238,13 @@ class Spitch(SyncAPIClient):
 class AsyncSpitch(AsyncAPIClient):
     # client options
     api_key: str
+    data_retention: bool | None
 
     def __init__(
         self,
         *,
         api_key: str | None = None,
+        data_retention: bool | None = True,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -264,6 +275,10 @@ class AsyncSpitch(AsyncAPIClient):
                 "The api_key client option must be set either by passing api_key to the client or by setting the SPITCH_API_KEY environment variable"
             )
         self.api_key = api_key
+
+        if data_retention is None:
+            data_retention = True
+        self.data_retention = data_retention
 
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
@@ -325,6 +340,7 @@ class AsyncSpitch(AsyncAPIClient):
         return {
             **super().default_headers,
             "X-Stainless-Async": f"async:{get_async_library()}",
+            "X-Data-Retention": str(self.data_retention) if self.data_retention is not None else Omit(),
             **self._custom_headers,
         }
 
@@ -332,6 +348,7 @@ class AsyncSpitch(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        data_retention: bool | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = not_given,
         http_client: httpx.AsyncClient | None = None,
@@ -366,6 +383,7 @@ class AsyncSpitch(AsyncAPIClient):
         http_client = http_client or self._client
         return self.__class__(
             api_key=api_key or self.api_key,
+            data_retention=data_retention or self.data_retention,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
