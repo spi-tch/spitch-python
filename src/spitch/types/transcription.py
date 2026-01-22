@@ -5,10 +5,10 @@ from typing import List, Optional
 from .segment import Segment
 from .._models import BaseModel
 
-__all__ = ["SpeechTranscribeResponse"]
+__all__ = ["Transcription"]
 
 
-class SpeechTranscribeResponse(BaseModel):
+class Transcription(BaseModel):
     """Response from speech-to-text."""
 
     request_id: str

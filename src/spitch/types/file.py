@@ -11,8 +11,6 @@ __all__ = ["File"]
 class File(BaseModel):
     """Metadata info for this file."""
 
-    content_type: Optional[str] = None
-
     created_at: datetime
 
     file_id: str
