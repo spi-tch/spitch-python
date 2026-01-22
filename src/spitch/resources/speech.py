@@ -27,7 +27,7 @@ from .._response import (
     async_to_custom_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.speech_transcribe_response import SpeechTranscribeResponse
+from ..types.transcription import Transcription
 
 __all__ = ["SpeechResource", "AsyncSpeechResource"]
 
@@ -154,7 +154,7 @@ class SpeechResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SpeechTranscribeResponse:
+    ) -> Transcription:
         """Convert speech to text.
 
         Upload audio file containing speech and get back text
@@ -201,7 +201,7 @@ class SpeechResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SpeechTranscribeResponse,
+            cast_to=Transcription,
         )
 
 
@@ -327,7 +327,7 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SpeechTranscribeResponse:
+    ) -> Transcription:
         """Convert speech to text.
 
         Upload audio file containing speech and get back text
@@ -374,7 +374,7 @@ class AsyncSpeechResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=SpeechTranscribeResponse,
+            cast_to=Transcription,
         )
 
 

@@ -11,7 +11,7 @@ from respx import MockRouter
 
 from spitch import Spitch, AsyncSpitch
 from tests.utils import assert_matches_type
-from spitch.types import SpeechTranscribeResponse
+from spitch.types import Transcription
 from spitch._response import (
     BinaryAPIResponse,
     AsyncBinaryAPIResponse,
@@ -95,7 +95,7 @@ class TestSpeech:
         speech = client.speech.transcribe(
             language="yo",
         )
-        assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+        assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     def test_method_transcribe_with_all_params(self, client: Spitch) -> None:
@@ -108,7 +108,7 @@ class TestSpeech:
             url="url",
             spitch_x_data_retention=True,
         )
-        assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+        assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     def test_raw_response_transcribe(self, client: Spitch) -> None:
@@ -119,7 +119,7 @@ class TestSpeech:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         speech = response.parse()
-        assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+        assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     def test_streaming_response_transcribe(self, client: Spitch) -> None:
@@ -130,7 +130,7 @@ class TestSpeech:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             speech = response.parse()
-            assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+            assert_matches_type(Transcription, speech, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -210,7 +210,7 @@ class TestAsyncSpeech:
         speech = await async_client.speech.transcribe(
             language="yo",
         )
-        assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+        assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     async def test_method_transcribe_with_all_params(self, async_client: AsyncSpitch) -> None:
@@ -223,7 +223,7 @@ class TestAsyncSpeech:
             url="url",
             spitch_x_data_retention=True,
         )
-        assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+        assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     async def test_raw_response_transcribe(self, async_client: AsyncSpitch) -> None:
@@ -234,7 +234,7 @@ class TestAsyncSpeech:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         speech = await response.parse()
-        assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+        assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     async def test_streaming_response_transcribe(self, async_client: AsyncSpitch) -> None:
@@ -245,6 +245,6 @@ class TestAsyncSpeech:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             speech = await response.parse()
-            assert_matches_type(SpeechTranscribeResponse, speech, path=["response"])
+            assert_matches_type(Transcription, speech, path=["response"])
 
         assert cast(Any, response.is_closed) is True
