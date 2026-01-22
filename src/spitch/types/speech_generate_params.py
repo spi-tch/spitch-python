@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 from typing import Optional
-from typing_extensions import Literal, Required, Annotated, TypedDict
-
-from .._utils import PropertyInfo
+from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["SpeechGenerateParams"]
 
@@ -46,5 +44,3 @@ class SpeechGenerateParams(TypedDict, total=False):
     """the audio format for the returned audio bytes."""
 
     model: Optional[str]
-
-    spitch_x_data_retention: Annotated[bool, PropertyInfo(alias="Spitch-X-Data-Retention")]
