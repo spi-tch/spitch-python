@@ -49,7 +49,6 @@ class TestSpeech:
             voice="sade",
             format="mp3",
             model="model",
-            x_data_retention=True,
         )
         assert speech.is_closed
         assert speech.json() == {"foo": "bar"}
@@ -106,7 +105,6 @@ class TestSpeech:
             special_words="special_words",
             timestamp="sentence",
             url="url",
-            x_data_retention=True,
         )
         assert_matches_type(Transcription, speech, path=["response"])
 
@@ -164,7 +162,6 @@ class TestAsyncSpeech:
             voice="sade",
             format="mp3",
             model="model",
-            x_data_retention=True,
         )
         assert speech.is_closed
         assert await speech.json() == {"foo": "bar"}
@@ -221,7 +218,6 @@ class TestAsyncSpeech:
             special_words="special_words",
             timestamp="sentence",
             url="url",
-            x_data_retention=True,
         )
         assert_matches_type(Transcription, speech, path=["response"])
 
