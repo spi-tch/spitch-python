@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.45.1 (2026-01-24)
+
+Full Changelog: [v1.45.0...v1.45.1](https://github.com/spi-tch/spitch-python/compare/v1.45.0...v1.45.1)
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([6e4d7d9](https://github.com/spi-tch/spitch-python/commit/6e4d7d92dcacdb0bd73fd947f258567330185865))
+
 ## 1.45.0 (2026-01-22)
 
 Full Changelog: [v1.44.0...v1.45.0](https://github.com/spi-tch/spitch-python/compare/v1.44.0...v1.45.0)
