@@ -9,7 +9,11 @@ import pytest
 
 from spitch import Spitch, AsyncSpitch
 from tests.utils import assert_matches_type
-from spitch.types import File, FileUsage, FileDeleteResponse
+from spitch.types import (
+    FileMeta,
+    FileUsage,
+    FileDeleteResponse,
+)
 from spitch.pagination import SyncFilesCursor, AsyncFilesCursor
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -21,7 +25,7 @@ class TestFiles:
     @parametrize
     def test_method_list(self, client: Spitch) -> None:
         file = client.files.list()
-        assert_matches_type(SyncFilesCursor[File], file, path=["response"])
+        assert_matches_type(SyncFilesCursor[FileMeta], file, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Spitch) -> None:
@@ -29,7 +33,7 @@ class TestFiles:
             cursor="cursor",
             limit=99,
         )
-        assert_matches_type(SyncFilesCursor[File], file, path=["response"])
+        assert_matches_type(SyncFilesCursor[FileMeta], file, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Spitch) -> None:
@@ -38,7 +42,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(SyncFilesCursor[File], file, path=["response"])
+        assert_matches_type(SyncFilesCursor[FileMeta], file, path=["response"])
 
     @parametrize
     def test_streaming_response_list(self, client: Spitch) -> None:
@@ -47,7 +51,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(SyncFilesCursor[File], file, path=["response"])
+            assert_matches_type(SyncFilesCursor[FileMeta], file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -136,49 +140,11 @@ class TestFiles:
             )
 
     @parametrize
-    def test_method_get(self, client: Spitch) -> None:
-        file = client.files.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-        assert_matches_type(File, file, path=["response"])
-
-    @parametrize
-    def test_raw_response_get(self, client: Spitch) -> None:
-        response = client.files.with_raw_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = response.parse()
-        assert_matches_type(File, file, path=["response"])
-
-    @parametrize
-    def test_streaming_response_get(self, client: Spitch) -> None:
-        with client.files.with_streaming_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = response.parse()
-            assert_matches_type(File, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_path_params_get(self, client: Spitch) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
-            client.files.with_raw_response.get(
-                "",
-            )
-
-    @parametrize
     def test_method_upload(self, client: Spitch) -> None:
         file = client.files.upload(
             file=b"raw file contents",
         )
-        assert_matches_type(File, file, path=["response"])
+        assert_matches_type(FileMeta, file, path=["response"])
 
     @parametrize
     def test_raw_response_upload(self, client: Spitch) -> None:
@@ -189,7 +155,7 @@ class TestFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = response.parse()
-        assert_matches_type(File, file, path=["response"])
+        assert_matches_type(FileMeta, file, path=["response"])
 
     @parametrize
     def test_streaming_response_upload(self, client: Spitch) -> None:
@@ -200,7 +166,7 @@ class TestFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = response.parse()
-            assert_matches_type(File, file, path=["response"])
+            assert_matches_type(FileMeta, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -238,7 +204,7 @@ class TestAsyncFiles:
     @parametrize
     async def test_method_list(self, async_client: AsyncSpitch) -> None:
         file = await async_client.files.list()
-        assert_matches_type(AsyncFilesCursor[File], file, path=["response"])
+        assert_matches_type(AsyncFilesCursor[FileMeta], file, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncSpitch) -> None:
@@ -246,7 +212,7 @@ class TestAsyncFiles:
             cursor="cursor",
             limit=99,
         )
-        assert_matches_type(AsyncFilesCursor[File], file, path=["response"])
+        assert_matches_type(AsyncFilesCursor[FileMeta], file, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncSpitch) -> None:
@@ -255,7 +221,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(AsyncFilesCursor[File], file, path=["response"])
+        assert_matches_type(AsyncFilesCursor[FileMeta], file, path=["response"])
 
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncSpitch) -> None:
@@ -264,7 +230,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(AsyncFilesCursor[File], file, path=["response"])
+            assert_matches_type(AsyncFilesCursor[FileMeta], file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -353,49 +319,11 @@ class TestAsyncFiles:
             )
 
     @parametrize
-    async def test_method_get(self, async_client: AsyncSpitch) -> None:
-        file = await async_client.files.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-        assert_matches_type(File, file, path=["response"])
-
-    @parametrize
-    async def test_raw_response_get(self, async_client: AsyncSpitch) -> None:
-        response = await async_client.files.with_raw_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        file = await response.parse()
-        assert_matches_type(File, file, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_get(self, async_client: AsyncSpitch) -> None:
-        async with async_client.files.with_streaming_response.get(
-            "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            file = await response.parse()
-            assert_matches_type(File, file, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_path_params_get(self, async_client: AsyncSpitch) -> None:
-        with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
-            await async_client.files.with_raw_response.get(
-                "",
-            )
-
-    @parametrize
     async def test_method_upload(self, async_client: AsyncSpitch) -> None:
         file = await async_client.files.upload(
             file=b"raw file contents",
         )
-        assert_matches_type(File, file, path=["response"])
+        assert_matches_type(FileMeta, file, path=["response"])
 
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncSpitch) -> None:
@@ -406,7 +334,7 @@ class TestAsyncFiles:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         file = await response.parse()
-        assert_matches_type(File, file, path=["response"])
+        assert_matches_type(FileMeta, file, path=["response"])
 
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncSpitch) -> None:
@@ -417,7 +345,7 @@ class TestAsyncFiles:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             file = await response.parse()
-            assert_matches_type(File, file, path=["response"])
+            assert_matches_type(FileMeta, file, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

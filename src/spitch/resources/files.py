@@ -18,8 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from ..pagination import SyncFilesCursor, AsyncFilesCursor
-from ..types.file import File
 from .._base_client import AsyncPaginator, make_request_options
+from ..types.file_meta import FileMeta
 from ..types.file_usage import FileUsage
 from ..types.file_delete_response import FileDeleteResponse
 
@@ -57,7 +57,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SyncFilesCursor[File]:
+    ) -> SyncFilesCursor[FileMeta]:
         """
         Get Files
 
@@ -72,7 +72,7 @@ class FilesResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/files",
-            page=SyncFilesCursor[File],
+            page=SyncFilesCursor[FileMeta],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -86,7 +86,7 @@ class FilesResource(SyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            model=File,
+            model=FileMeta,
         )
 
     def delete(
@@ -160,39 +160,6 @@ class FilesResource(SyncAPIResource):
             cast_to=object,
         )
 
-    def get(
-        self,
-        file_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
-        """
-        Get File
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        return self._get(
-            f"/v1/files/{file_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=File,
-        )
-
     def upload(
         self,
         *,
@@ -203,7 +170,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
+    ) -> FileMeta:
         """
         Upload a file to your storage.
 
@@ -229,7 +196,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=File,
+            cast_to=FileMeta,
         )
 
     def usage(
@@ -283,7 +250,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncPaginator[File, AsyncFilesCursor[File]]:
+    ) -> AsyncPaginator[FileMeta, AsyncFilesCursor[FileMeta]]:
         """
         Get Files
 
@@ -298,7 +265,7 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/files",
-            page=AsyncFilesCursor[File],
+            page=AsyncFilesCursor[FileMeta],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -312,7 +279,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            model=File,
+            model=FileMeta,
         )
 
     async def delete(
@@ -386,39 +353,6 @@ class AsyncFilesResource(AsyncAPIResource):
             cast_to=object,
         )
 
-    async def get(
-        self,
-        file_id: str,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
-        """
-        Get File
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not file_id:
-            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
-        return await self._get(
-            f"/v1/files/{file_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=File,
-        )
-
     async def upload(
         self,
         *,
@@ -429,7 +363,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
+    ) -> FileMeta:
         """
         Upload a file to your storage.
 
@@ -455,7 +389,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=File,
+            cast_to=FileMeta,
         )
 
     async def usage(
@@ -491,9 +425,6 @@ class FilesResourceWithRawResponse:
         self.download = to_raw_response_wrapper(
             files.download,
         )
-        self.get = to_raw_response_wrapper(
-            files.get,
-        )
         self.upload = to_raw_response_wrapper(
             files.upload,
         )
@@ -514,9 +445,6 @@ class AsyncFilesResourceWithRawResponse:
         )
         self.download = async_to_raw_response_wrapper(
             files.download,
-        )
-        self.get = async_to_raw_response_wrapper(
-            files.get,
         )
         self.upload = async_to_raw_response_wrapper(
             files.upload,
@@ -539,9 +467,6 @@ class FilesResourceWithStreamingResponse:
         self.download = to_streamed_response_wrapper(
             files.download,
         )
-        self.get = to_streamed_response_wrapper(
-            files.get,
-        )
         self.upload = to_streamed_response_wrapper(
             files.upload,
         )
@@ -562,9 +487,6 @@ class AsyncFilesResourceWithStreamingResponse:
         )
         self.download = async_to_streamed_response_wrapper(
             files.download,
-        )
-        self.get = async_to_streamed_response_wrapper(
-            files.get,
         )
         self.upload = async_to_streamed_response_wrapper(
             files.upload,
