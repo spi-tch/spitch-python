@@ -18,8 +18,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from ..pagination import SyncFilesCursor, AsyncFilesCursor
-from ..types.file import File
 from .._base_client import AsyncPaginator, make_request_options
+from ..types.file_meta import FileMeta
 from ..types.file_usage import FileUsage
 from ..types.file_delete_response import FileDeleteResponse
 
@@ -57,7 +57,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> SyncFilesCursor[File]:
+    ) -> SyncFilesCursor[FileMeta]:
         """
         Get Files
 
@@ -72,7 +72,7 @@ class FilesResource(SyncAPIResource):
         """
         return self._get_api_list(
             "/v1/files",
-            page=SyncFilesCursor[File],
+            page=SyncFilesCursor[FileMeta],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -86,7 +86,7 @@ class FilesResource(SyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            model=File,
+            model=FileMeta,
         )
 
     def delete(
@@ -170,7 +170,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
+    ) -> FileMeta:
         """
         Get File
 
@@ -190,7 +190,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=File,
+            cast_to=FileMeta,
         )
 
     def upload(
@@ -203,7 +203,7 @@ class FilesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
+    ) -> FileMeta:
         """
         Upload a file to your storage.
 
@@ -229,7 +229,7 @@ class FilesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=File,
+            cast_to=FileMeta,
         )
 
     def usage(
@@ -283,7 +283,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncPaginator[File, AsyncFilesCursor[File]]:
+    ) -> AsyncPaginator[FileMeta, AsyncFilesCursor[FileMeta]]:
         """
         Get Files
 
@@ -298,7 +298,7 @@ class AsyncFilesResource(AsyncAPIResource):
         """
         return self._get_api_list(
             "/v1/files",
-            page=AsyncFilesCursor[File],
+            page=AsyncFilesCursor[FileMeta],
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -312,7 +312,7 @@ class AsyncFilesResource(AsyncAPIResource):
                     file_list_params.FileListParams,
                 ),
             ),
-            model=File,
+            model=FileMeta,
         )
 
     async def delete(
@@ -396,7 +396,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
+    ) -> FileMeta:
         """
         Get File
 
@@ -416,7 +416,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=File,
+            cast_to=FileMeta,
         )
 
     async def upload(
@@ -429,7 +429,7 @@ class AsyncFilesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> File:
+    ) -> FileMeta:
         """
         Upload a file to your storage.
 
@@ -455,7 +455,7 @@ class AsyncFilesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=File,
+            cast_to=FileMeta,
         )
 
     async def usage(
