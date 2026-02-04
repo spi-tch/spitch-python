@@ -37,6 +37,5 @@ Methods:
 - <code title="get /v1/files">client.files.<a href="./src/spitch/resources/files.py">list</a>(\*\*<a href="src/spitch/types/file_list_params.py">params</a>) -> <a href="./src/spitch/types/file_meta.py">SyncFilesCursor[FileMeta]</a></code>
 - <code title="delete /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">delete</a>(file_id) -> <a href="./src/spitch/types/file_delete_response.py">FileDeleteResponse</a></code>
 - <code title="get /v1/files/{file_id}/url">client.files.<a href="./src/spitch/resources/files.py">download</a>(file_id, \*\*<a href="src/spitch/types/file_download_params.py">params</a>) -> object</code>
-- <code title="get /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">get</a>(file_id) -> <a href="./src/spitch/types/file_meta.py">FileMeta</a></code>
 - <code title="post /v1/files">client.files.<a href="./src/spitch/resources/files.py">upload</a>(\*\*<a href="src/spitch/types/file_upload_params.py">params</a>) -> <a href="./src/spitch/types/file_meta.py">FileMeta</a></code>
 - <code title="get /v1/files:usage">client.files.<a href="./src/spitch/resources/files.py">usage</a>() -> <a href="./src/spitch/types/file_usage.py">FileUsage</a></code>
