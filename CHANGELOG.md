@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.46.0 (2026-02-04)
+
+Full Changelog: [v1.45.0...v1.46.0](https://github.com/spi-tch/spitch-python/compare/v1.45.0...v1.46.0)
+
+### Features
+
+* **api:** manual updates ([802ca9d](https://github.com/spi-tch/spitch-python/commit/802ca9d8e04af1294f9cf8deef5a4bd887218322))
+* **client:** add custom JSON encoder for extended type support ([f88a1f7](https://github.com/spi-tch/spitch-python/commit/f88a1f79bbd91297b2e2959ab07f8cd02e2ffcd1))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([6e4d7d9](https://github.com/spi-tch/spitch-python/commit/6e4d7d92dcacdb0bd73fd947f258567330185865))
+
 ## 1.45.0 (2026-01-22)
 
 Full Changelog: [v1.44.0...v1.45.0](https://github.com/spi-tch/spitch-python/compare/v1.44.0...v1.45.0)
