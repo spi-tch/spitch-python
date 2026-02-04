@@ -5,10 +5,10 @@ from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["File"]
+__all__ = ["FileMeta"]
 
 
-class File(BaseModel):
+class FileMeta(BaseModel):
     """Metadata info for this file."""
 
     created_at: datetime

@@ -2,9 +2,8 @@
 
 from __future__ import annotations
 
-from .file import File as File
-from .files import Files as Files
 from .segment import Segment as Segment
+from .file_meta import FileMeta as FileMeta
 from .diacritics import Diacritics as Diacritics
 from .file_usage import FileUsage as FileUsage
 from .translation import Translation as Translation
