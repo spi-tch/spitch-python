@@ -1,7 +1,7 @@
 [project]
 name = "spitch"
 version = "1.45.0"
-description = "The official Python library for the spitch API"
+description = "The official Python library for the Spitch API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
