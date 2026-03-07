@@ -100,7 +100,7 @@ class TestSpeech:
     def test_method_transcribe_with_all_params(self, client: Spitch) -> None:
         speech = client.speech.transcribe(
             language="yo",
-            content=b"raw file contents",
+            content=b"Example data",
             model="mansa_v1",
             special_words="special_words",
             timestamp="sentence",
@@ -213,7 +213,7 @@ class TestAsyncSpeech:
     async def test_method_transcribe_with_all_params(self, async_client: AsyncSpitch) -> None:
         speech = await async_client.speech.transcribe(
             language="yo",
-            content=b"raw file contents",
+            content=b"Example data",
             model="mansa_v1",
             special_words="special_words",
             timestamp="sentence",
