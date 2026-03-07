@@ -180,14 +180,14 @@ class TestFiles:
     @parametrize
     def test_method_upload(self, client: Spitch) -> None:
         file = client.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
         )
         assert_matches_type(FileMeta, file, path=["response"])
 
     @parametrize
     def test_raw_response_upload(self, client: Spitch) -> None:
         response = client.files.with_raw_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
         )
 
         assert response.is_closed is True
@@ -198,7 +198,7 @@ class TestFiles:
     @parametrize
     def test_streaming_response_upload(self, client: Spitch) -> None:
         with client.files.with_streaming_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -397,14 +397,14 @@ class TestAsyncFiles:
     @parametrize
     async def test_method_upload(self, async_client: AsyncSpitch) -> None:
         file = await async_client.files.upload(
-            file=b"raw file contents",
+            file=b"Example data",
         )
         assert_matches_type(FileMeta, file, path=["response"])
 
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncSpitch) -> None:
         response = await async_client.files.with_raw_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
         )
 
         assert response.is_closed is True
@@ -415,7 +415,7 @@ class TestAsyncFiles:
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncSpitch) -> None:
         async with async_client.files.with_streaming_response.upload(
-            file=b"raw file contents",
+            file=b"Example data",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
