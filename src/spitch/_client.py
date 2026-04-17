@@ -97,7 +97,7 @@ class Spitch(SyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.spi-tch.com"
+            base_url = f"https://api.spitch.app"
 
         super().__init__(
             version=__version__,
@@ -293,7 +293,7 @@ class AsyncSpitch(AsyncAPIClient):
         if base_url is None:
             base_url = os.environ.get("SPITCH_BASE_URL")
         if base_url is None:
-            base_url = f"https://api.spi-tch.com"
+            base_url = f"https://api.spitch.app"
 
         super().__init__(
             version=__version__,
