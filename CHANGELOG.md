@@ -1,5 +1,51 @@
 # Changelog
 
+## 1.48.0 (2026-04-17)
+
+Full Changelog: [v1.47.0...v1.48.0](https://github.com/spi-tch/spitch-python/compare/v1.47.0...v1.48.0)
+
+### Features
+
+* **api:** manual updates ([d496d56](https://github.com/spi-tch/spitch-python/commit/d496d564422d7e85ec7286ee21ea8d9f6094d2f9))
+* **api:** manual updates ([7ff92d6](https://github.com/spi-tch/spitch-python/commit/7ff92d62b3cde84cd531cd772b18c1dbde760e03))
+* **internal:** implement indices array format for query and form serialization ([bb8bd74](https://github.com/spi-tch/spitch-python/commit/bb8bd749591c46fbce694b4584d54b118661650f))
+
+
+### Bug Fixes
+
+* **client:** use higher retry delay precision ([31c8979](https://github.com/spi-tch/spitch-python/commit/31c89791d77890a407bc4a4a1c87e9bf920f31fa))
+* **deps:** bump minimum typing-extensions version ([5dd56d5](https://github.com/spi-tch/spitch-python/commit/5dd56d53468e74f90798c09c6ffb9361d4a1bccb))
+* **pydantic:** do not pass `by_alias` unless set ([7263f0f](https://github.com/spi-tch/spitch-python/commit/7263f0f7b09065ad48350ccfee806c9410e415ce))
+* sanitize endpoint path params ([fec8b42](https://github.com/spi-tch/spitch-python/commit/fec8b423bebb41a00f68c054abf38ac764d12480))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([e3a14df](https://github.com/spi-tch/spitch-python/commit/e3a14dfaa859326dfc391ea4c699cba14994762c))
+* **ci:** skip uploading artifacts on stainless-internal branches ([073c3a8](https://github.com/spi-tch/spitch-python/commit/073c3a80e4f38b349e42c97f77ee696a82ac84cf))
+* format all `api.md` files ([16fa7ad](https://github.com/spi-tch/spitch-python/commit/16fa7adc0c7c69fd905648b7daa4b1ac657bac1e))
+* **internal:** add request options to SSE classes ([8223794](https://github.com/spi-tch/spitch-python/commit/8223794af02a8cedf6790fb935683640c1aee05c))
+* **internal:** bump dependencies ([a27288b](https://github.com/spi-tch/spitch-python/commit/a27288bf0e466f1fd9f2f966f66a148625b9beaf))
+* **internal:** fix lint error on Python 3.14 ([6402c25](https://github.com/spi-tch/spitch-python/commit/6402c25a860192407ea13491b22ccf4caa2525eb))
+* **internal:** make `test_proxy_environment_variables` more resilient ([68f518f](https://github.com/spi-tch/spitch-python/commit/68f518f549362388e25455a4ff9307136ad1a940))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([5949969](https://github.com/spi-tch/spitch-python/commit/5949969b1422a7c4de973849f6655feedd15a0f9))
+* **internal:** tweak CI branches ([a9798b4](https://github.com/spi-tch/spitch-python/commit/a9798b4a9e1fa58f7c23da203bc32a8fe88ebbee))
+* **internal:** update gitignore ([efbca32](https://github.com/spi-tch/spitch-python/commit/efbca32e52a218ad8d0c10cc4d4031bd1426e677))
+* **test:** do not count install time for mock server timeout ([139be9a](https://github.com/spi-tch/spitch-python/commit/139be9a4a4731dd982bab8fc5348b8863afea4e8))
+* **tests:** bump steady to v0.19.4 ([ad10e7c](https://github.com/spi-tch/spitch-python/commit/ad10e7cd72afd7c62f1d3e4d3051b51482aafb77))
+* **tests:** bump steady to v0.19.5 ([1c08f30](https://github.com/spi-tch/spitch-python/commit/1c08f30e74f6a3815db2165d704e918a8ef375da))
+* **tests:** bump steady to v0.19.6 ([43ca3f1](https://github.com/spi-tch/spitch-python/commit/43ca3f1e7f79301b9119dd49ddbab37029310398))
+* **tests:** bump steady to v0.19.7 ([4fdd05f](https://github.com/spi-tch/spitch-python/commit/4fdd05f3726b886b43bd6932e8a9c4d16f6427df))
+* **tests:** bump steady to v0.20.1 ([de869a3](https://github.com/spi-tch/spitch-python/commit/de869a3a8c3593c44ea2fcebe82bc0e673dbe053))
+* **tests:** bump steady to v0.20.2 ([005c482](https://github.com/spi-tch/spitch-python/commit/005c48221e9c6b1fad2a3326d77548b30ce54928))
+* update mock server docs ([b937d87](https://github.com/spi-tch/spitch-python/commit/b937d87c568fc694f2f15bed0e957d3cb08fb309))
+* update placeholder string ([05678f4](https://github.com/spi-tch/spitch-python/commit/05678f40c5895de5c582e4565e45f3b279c5d329))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([6b2d619](https://github.com/spi-tch/spitch-python/commit/6b2d61966924251a2dd582058f5294daad432575))
+
 ## 1.47.0 (2026-02-04)
 
 Full Changelog: [v1.46.0...v1.47.0](https://github.com/spi-tch/spitch-python/compare/v1.46.0...v1.47.0)

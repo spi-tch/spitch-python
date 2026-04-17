@@ -8,7 +8,7 @@ import httpx
 
 from ..types import file_list_params, file_upload_params, file_download_params
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from .._utils import extract_files, path_template, maybe_transform, deepcopy_minimal, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -115,7 +115,7 @@ class FilesResource(SyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return self._delete(
-            f"/v1/files/{file_id}",
+            path_template("/v1/files/{file_id}", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -149,7 +149,7 @@ class FilesResource(SyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return self._get(
-            f"/v1/files/{file_id}/url",
+            path_template("/v1/files/{file_id}/url", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -158,6 +158,39 @@ class FilesResource(SyncAPIResource):
                 query=maybe_transform({"ttl": ttl}, file_download_params.FileDownloadParams),
             ),
             cast_to=object,
+        )
+
+    def get(
+        self,
+        file_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FileMeta:
+        """
+        Get File
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not file_id:
+            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+        return self._get(
+            path_template("/v1/files/{file_id}", file_id=file_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FileMeta,
         )
 
     def upload(
@@ -308,7 +341,7 @@ class AsyncFilesResource(AsyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return await self._delete(
-            f"/v1/files/{file_id}",
+            path_template("/v1/files/{file_id}", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -342,7 +375,7 @@ class AsyncFilesResource(AsyncAPIResource):
         if not file_id:
             raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
         return await self._get(
-            f"/v1/files/{file_id}/url",
+            path_template("/v1/files/{file_id}/url", file_id=file_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -351,6 +384,39 @@ class AsyncFilesResource(AsyncAPIResource):
                 query=await async_maybe_transform({"ttl": ttl}, file_download_params.FileDownloadParams),
             ),
             cast_to=object,
+        )
+
+    async def get(
+        self,
+        file_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FileMeta:
+        """
+        Get File
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not file_id:
+            raise ValueError(f"Expected a non-empty value for `file_id` but received {file_id!r}")
+        return await self._get(
+            path_template("/v1/files/{file_id}", file_id=file_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FileMeta,
         )
 
     async def upload(
@@ -425,6 +491,9 @@ class FilesResourceWithRawResponse:
         self.download = to_raw_response_wrapper(
             files.download,
         )
+        self.get = to_raw_response_wrapper(
+            files.get,
+        )
         self.upload = to_raw_response_wrapper(
             files.upload,
         )
@@ -445,6 +514,9 @@ class AsyncFilesResourceWithRawResponse:
         )
         self.download = async_to_raw_response_wrapper(
             files.download,
+        )
+        self.get = async_to_raw_response_wrapper(
+            files.get,
         )
         self.upload = async_to_raw_response_wrapper(
             files.upload,
@@ -467,6 +539,9 @@ class FilesResourceWithStreamingResponse:
         self.download = to_streamed_response_wrapper(
             files.download,
         )
+        self.get = to_streamed_response_wrapper(
+            files.get,
+        )
         self.upload = to_streamed_response_wrapper(
             files.upload,
         )
@@ -487,6 +562,9 @@ class AsyncFilesResourceWithStreamingResponse:
         )
         self.download = async_to_streamed_response_wrapper(
             files.download,
+        )
+        self.get = async_to_streamed_response_wrapper(
+            files.get,
         )
         self.upload = async_to_streamed_response_wrapper(
             files.upload,
