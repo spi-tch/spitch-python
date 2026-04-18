@@ -8,8 +8,9 @@ from typing_extensions import Literal
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
+from .._files import deepcopy_with_paths
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
-from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from .._utils import extract_files, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -157,7 +158,7 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "language": language,
                 "content": content,
@@ -165,7 +166,8 @@ class SpeechResource(SyncAPIResource):
                 "special_words": special_words,
                 "timestamp": timestamp,
                 "url": url,
-            }
+            },
+            [["content"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
         # It should be noted that the actual Content-Type header that will be
@@ -308,7 +310,7 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_minimal(
+        body = deepcopy_with_paths(
             {
                 "language": language,
                 "content": content,
@@ -316,7 +318,8 @@ class AsyncSpeechResource(AsyncAPIResource):
                 "special_words": special_words,
                 "timestamp": timestamp,
                 "url": url,
-            }
+            },
+            [["content"]],
         )
         files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
         # It should be noted that the actual Content-Type header that will be
