@@ -30,7 +30,6 @@ class TestSpeech:
     def test_method_generate(self, client: Spitch, respx_mock: MockRouter) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = client.speech.generate(
-            language="yo",
             text="text",
             voice="sade",
         )
@@ -44,11 +43,11 @@ class TestSpeech:
     def test_method_generate_with_all_params(self, client: Spitch, respx_mock: MockRouter) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = client.speech.generate(
-            language="yo",
             text="text",
             voice="sade",
             format="mp3",
-            model="model",
+            language="language",
+            speed=0.7,
         )
         assert speech.is_closed
         assert speech.json() == {"foo": "bar"}
@@ -61,7 +60,6 @@ class TestSpeech:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         speech = client.speech.with_raw_response.generate(
-            language="yo",
             text="text",
             voice="sade",
         )
@@ -76,7 +74,6 @@ class TestSpeech:
     def test_streaming_response_generate(self, client: Spitch, respx_mock: MockRouter) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         with client.speech.with_streaming_response.generate(
-            language="yo",
             text="text",
             voice="sade",
         ) as speech:
@@ -92,26 +89,25 @@ class TestSpeech:
     @parametrize
     def test_method_transcribe(self, client: Spitch) -> None:
         speech = client.speech.transcribe(
-            language="yo",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
         )
         assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     def test_method_transcribe_with_all_params(self, client: Spitch) -> None:
         speech = client.speech.transcribe(
-            language="yo",
-            content=b"Example data",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
+            language="language",
             model="mansa_v1",
             special_words="special_words",
             timestamp="sentence",
-            url="url",
         )
         assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     def test_raw_response_transcribe(self, client: Spitch) -> None:
         response = client.speech.with_raw_response.transcribe(
-            language="yo",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
         )
 
         assert response.is_closed is True
@@ -122,7 +118,7 @@ class TestSpeech:
     @parametrize
     def test_streaming_response_transcribe(self, client: Spitch) -> None:
         with client.speech.with_streaming_response.transcribe(
-            language="yo",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -143,7 +139,6 @@ class TestAsyncSpeech:
     async def test_method_generate(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = await async_client.speech.generate(
-            language="yo",
             text="text",
             voice="sade",
         )
@@ -157,11 +152,11 @@ class TestAsyncSpeech:
     async def test_method_generate_with_all_params(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         speech = await async_client.speech.generate(
-            language="yo",
             text="text",
             voice="sade",
             format="mp3",
-            model="model",
+            language="language",
+            speed=0.7,
         )
         assert speech.is_closed
         assert await speech.json() == {"foo": "bar"}
@@ -174,7 +169,6 @@ class TestAsyncSpeech:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
         speech = await async_client.speech.with_raw_response.generate(
-            language="yo",
             text="text",
             voice="sade",
         )
@@ -189,7 +183,6 @@ class TestAsyncSpeech:
     async def test_streaming_response_generate(self, async_client: AsyncSpitch, respx_mock: MockRouter) -> None:
         respx_mock.post("/v1/speech").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
         async with async_client.speech.with_streaming_response.generate(
-            language="yo",
             text="text",
             voice="sade",
         ) as speech:
@@ -205,26 +198,25 @@ class TestAsyncSpeech:
     @parametrize
     async def test_method_transcribe(self, async_client: AsyncSpitch) -> None:
         speech = await async_client.speech.transcribe(
-            language="yo",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
         )
         assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     async def test_method_transcribe_with_all_params(self, async_client: AsyncSpitch) -> None:
         speech = await async_client.speech.transcribe(
-            language="yo",
-            content=b"Example data",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
+            language="language",
             model="mansa_v1",
             special_words="special_words",
             timestamp="sentence",
-            url="url",
         )
         assert_matches_type(Transcription, speech, path=["response"])
 
     @parametrize
     async def test_raw_response_transcribe(self, async_client: AsyncSpitch) -> None:
         response = await async_client.speech.with_raw_response.transcribe(
-            language="yo",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
         )
 
         assert response.is_closed is True
@@ -235,7 +227,7 @@ class TestAsyncSpeech:
     @parametrize
     async def test_streaming_response_transcribe(self, async_client: AsyncSpitch) -> None:
         async with async_client.speech.with_streaming_response.transcribe(
-            language="yo",
+            content=b"3c90cdcc-0d14-4b50-8038-8dd25796052a",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

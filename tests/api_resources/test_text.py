@@ -20,7 +20,7 @@ class TestText:
     @parametrize
     def test_method_tone_mark(self, client: Spitch) -> None:
         text = client.text.tone_mark(
-            language="yo",
+            language="language",
             text="text",
         )
         assert_matches_type(Diacritics, text, path=["response"])
@@ -28,7 +28,7 @@ class TestText:
     @parametrize
     def test_raw_response_tone_mark(self, client: Spitch) -> None:
         response = client.text.with_raw_response.tone_mark(
-            language="yo",
+            language="language",
             text="text",
         )
 
@@ -40,7 +40,7 @@ class TestText:
     @parametrize
     def test_streaming_response_tone_mark(self, client: Spitch) -> None:
         with client.text.with_streaming_response.tone_mark(
-            language="yo",
+            language="language",
             text="text",
         ) as response:
             assert not response.is_closed
@@ -54,17 +54,26 @@ class TestText:
     @parametrize
     def test_method_translate(self, client: Spitch) -> None:
         text = client.text.translate(
-            source="yo",
-            target="yo",
+            target="target",
             text="text",
+        )
+        assert_matches_type(Translation, text, path=["response"])
+
+    @parametrize
+    def test_method_translate_with_all_params(self, client: Spitch) -> None:
+        text = client.text.translate(
+            target="target",
+            text="text",
+            formality="casual",
+            source="source",
+            tone="neutral",
         )
         assert_matches_type(Translation, text, path=["response"])
 
     @parametrize
     def test_raw_response_translate(self, client: Spitch) -> None:
         response = client.text.with_raw_response.translate(
-            source="yo",
-            target="yo",
+            target="target",
             text="text",
         )
 
@@ -76,8 +85,7 @@ class TestText:
     @parametrize
     def test_streaming_response_translate(self, client: Spitch) -> None:
         with client.text.with_streaming_response.translate(
-            source="yo",
-            target="yo",
+            target="target",
             text="text",
         ) as response:
             assert not response.is_closed
@@ -97,7 +105,7 @@ class TestAsyncText:
     @parametrize
     async def test_method_tone_mark(self, async_client: AsyncSpitch) -> None:
         text = await async_client.text.tone_mark(
-            language="yo",
+            language="language",
             text="text",
         )
         assert_matches_type(Diacritics, text, path=["response"])
@@ -105,7 +113,7 @@ class TestAsyncText:
     @parametrize
     async def test_raw_response_tone_mark(self, async_client: AsyncSpitch) -> None:
         response = await async_client.text.with_raw_response.tone_mark(
-            language="yo",
+            language="language",
             text="text",
         )
 
@@ -117,7 +125,7 @@ class TestAsyncText:
     @parametrize
     async def test_streaming_response_tone_mark(self, async_client: AsyncSpitch) -> None:
         async with async_client.text.with_streaming_response.tone_mark(
-            language="yo",
+            language="language",
             text="text",
         ) as response:
             assert not response.is_closed
@@ -131,17 +139,26 @@ class TestAsyncText:
     @parametrize
     async def test_method_translate(self, async_client: AsyncSpitch) -> None:
         text = await async_client.text.translate(
-            source="yo",
-            target="yo",
+            target="target",
             text="text",
+        )
+        assert_matches_type(Translation, text, path=["response"])
+
+    @parametrize
+    async def test_method_translate_with_all_params(self, async_client: AsyncSpitch) -> None:
+        text = await async_client.text.translate(
+            target="target",
+            text="text",
+            formality="casual",
+            source="source",
+            tone="neutral",
         )
         assert_matches_type(Translation, text, path=["response"])
 
     @parametrize
     async def test_raw_response_translate(self, async_client: AsyncSpitch) -> None:
         response = await async_client.text.with_raw_response.translate(
-            source="yo",
-            target="yo",
+            target="target",
             text="text",
         )
 
@@ -153,8 +170,7 @@ class TestAsyncText:
     @parametrize
     async def test_streaming_response_translate(self, async_client: AsyncSpitch) -> None:
         async with async_client.text.with_streaming_response.translate(
-            source="yo",
-            target="yo",
+            target="target",
             text="text",
         ) as response:
             assert not response.is_closed

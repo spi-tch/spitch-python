@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.50.0 (2026-04-30)
+
+Full Changelog: [v1.49.0...v1.50.0](https://github.com/spi-tch/spitch-python/compare/v1.49.0...v1.50.0)
+
+### Features
+
+* **api:** new features ([8e5269c](https://github.com/spi-tch/spitch-python/commit/8e5269c076f657e707a7c529a327ab0a733be2ee))
+* support setting headers via env ([b336720](https://github.com/spi-tch/spitch-python/commit/b336720f74e2a20cae8e649e779dc5cbeb2f524b))
+
+
+### Bug Fixes
+
+* use correct field name format for multipart file arrays ([43c3a1c](https://github.com/spi-tch/spitch-python/commit/43c3a1ce9cc40e896f1ae743a6b49fa069b0e3b9))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([b8e6df4](https://github.com/spi-tch/spitch-python/commit/b8e6df4a4673273d1a504b3d4e606d6ff000b5e8))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([16ca51e](https://github.com/spi-tch/spitch-python/commit/16ca51e07f4ded593db3968f54b385229dc9bfca))
+* **tests:** bump steady to v0.22.1 ([28d894c](https://github.com/spi-tch/spitch-python/commit/28d894cbe991bce9af08b234501566de15a9855c))
+
 ## 1.49.0 (2026-04-17)
 
 Full Changelog: [v1.48.0...v1.49.0](https://github.com/spi-tch/spitch-python/compare/v1.48.0...v1.49.0)

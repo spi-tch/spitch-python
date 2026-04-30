@@ -33,9 +33,9 @@ client = Spitch(
 )
 
 response = client.speech.generate(
-    language="yo",
     text="Bawo ni, ololufe?",
     voice="femi",
+    language="yo",
 )
 ```
 
@@ -60,9 +60,9 @@ client = AsyncSpitch(
 
 async def main() -> None:
     response = await client.speech.generate(
-        language="yo",
         text="Bawo ni, ololufe?",
         voice="femi",
+        language="yo",
     )
 
 
@@ -97,9 +97,9 @@ async def main() -> None:
         http_client=DefaultAioHttpClient(),
     ) as client:
         response = await client.speech.generate(
-            language="yo",
             text="Bawo ni, ololufe?",
             voice="femi",
+            language="yo",
         )
 
 
@@ -197,7 +197,6 @@ from spitch import Spitch
 client = Spitch()
 
 client.speech.transcribe(
-    language="yo",
     content=Path("/path/to/file"),
 )
 ```
@@ -221,9 +220,9 @@ client = Spitch()
 
 try:
     client.speech.generate(
-        language="yo",
         text="Bawo ni, ololufe?",
         voice="sade",
+        language="yo",
     )
 except spitch.APIConnectionError as e:
     print("The server could not be reached")
@@ -268,9 +267,9 @@ client = Spitch(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).speech.generate(
-    language="yo",
     text="Bawo ni, ololufe?",
     voice="sade",
+    language="yo",
 )
 ```
 
@@ -295,9 +294,9 @@ client = Spitch(
 
 # Override per-request:
 client.with_options(timeout=5.0).speech.generate(
-    language="yo",
     text="Bawo ni, ololufe?",
     voice="sade",
+    language="yo",
 )
 ```
 
@@ -338,9 +337,9 @@ from spitch import Spitch
 
 client = Spitch()
 response = client.speech.with_raw_response.generate(
-    language="yo",
     text="Bawo ni, ololufe?",
     voice="sade",
+    language="yo",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -360,9 +359,9 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.speech.with_streaming_response.generate(
-    language="yo",
     text="Bawo ni, ololufe?",
     voice="sade",
+    language="yo",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
