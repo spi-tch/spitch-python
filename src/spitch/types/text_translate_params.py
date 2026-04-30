@@ -2,14 +2,24 @@
 
 from __future__ import annotations
 
+from typing import Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["TextTranslateParams"]
 
 
 class TextTranslateParams(TypedDict, total=False):
-    source: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
-
-    target: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
+    target: Required[str]
+    """An ISO 639 code of the language you want to translate to."""
 
     text: Required[str]
+    """The text to be translated."""
+
+    formality: Literal["casual", "formal"]
+    """Whether to be `formal` or `casual`."""
+
+    source: Optional[str]
+    """An ISO 639 code of the language you're translating from"""
+
+    tone: Literal["neutral", "warm", "professional", "narration"]
+    """The tone of the translated text."""

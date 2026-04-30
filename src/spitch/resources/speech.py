@@ -58,7 +58,6 @@ class SpeechResource(SyncAPIResource):
     def generate(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
         text: str,
         voice: Literal[
             "sade",
@@ -75,17 +74,24 @@ class SpeechResource(SyncAPIResource):
             "lucy",
             "henry",
             "kani",
+            "remi",
+            "kingsley",
             "ngozi",
             "amara",
             "obinna",
             "ebuka",
             "hana",
-            "selam",
+            "haile",
             "tena",
             "tesfaye",
+            "ufoma",
+            "tega",
+            "justice",
+            "boma",
         ],
         format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"] | Omit = omit,
-        model: Optional[str] | Omit = omit,
+        language: str | Omit = omit,
+        speed: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -93,13 +99,19 @@ class SpeechResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BinaryAPIResponse:
-        """Convert text to speech.
-
-        Select a voice and use that to generate audio in any
-        format. Audio is retured in chunks.
+        """
+        Generate audio
 
         Args:
-          format: the audio format for the returned audio bytes.
+          text: The text for which you want to generate audio.
+
+          voice: The voice you want to be used for audio generation.
+
+          format: The audio format for the returned audio data, defaults to `wav`.
+
+          language: This is optional; an ISO 639 language code to be used for the generation.
+
+          speed: The speed of the voice, defaults to `1.0`
 
           extra_headers: Send extra headers
 
@@ -114,11 +126,11 @@ class SpeechResource(SyncAPIResource):
             "/v1/speech",
             body=maybe_transform(
                 {
-                    "language": language,
                     "text": text,
                     "voice": voice,
                     "format": format,
-                    "model": model,
+                    "language": language,
+                    "speed": speed,
                 },
                 speech_generate_params.SpeechGenerateParams,
             ),
@@ -131,12 +143,11 @@ class SpeechResource(SyncAPIResource):
     def transcribe(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
-        content: Union[FileTypes, str, None] | Omit = omit,
+        content: Union[FileTypes, str],
+        language: Optional[str] | Omit = omit,
         model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
-        timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
-        url: Optional[str] | Omit = omit,
+        timestamp: Optional[Literal["sentence", "word"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -150,6 +161,16 @@ class SpeechResource(SyncAPIResource):
         that represents the content of the audio file.
 
         Args:
+          content: The audio file or content that you want to transcribe. This could be;
+              `file bytes`, a `url to an audio file` (ensure the link does not require
+              authentication to access the file) or a `file UUID`.
+
+          language: This is optional, an ISO-639 language code that corresponds to the language in
+              the `content`.
+
+          model: Select the model to be used to perform the transcription, this param has been
+              deprecated.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -160,12 +181,11 @@ class SpeechResource(SyncAPIResource):
         """
         body = deepcopy_with_paths(
             {
-                "language": language,
                 "content": content,
+                "language": language,
                 "model": model,
                 "special_words": special_words,
                 "timestamp": timestamp,
-                "url": url,
             },
             [["content"]],
         )
@@ -210,7 +230,6 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def generate(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
         text: str,
         voice: Literal[
             "sade",
@@ -227,17 +246,24 @@ class AsyncSpeechResource(AsyncAPIResource):
             "lucy",
             "henry",
             "kani",
+            "remi",
+            "kingsley",
             "ngozi",
             "amara",
             "obinna",
             "ebuka",
             "hana",
-            "selam",
+            "haile",
             "tena",
             "tesfaye",
+            "ufoma",
+            "tega",
+            "justice",
+            "boma",
         ],
         format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"] | Omit = omit,
-        model: Optional[str] | Omit = omit,
+        language: str | Omit = omit,
+        speed: float | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -245,13 +271,19 @@ class AsyncSpeechResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncBinaryAPIResponse:
-        """Convert text to speech.
-
-        Select a voice and use that to generate audio in any
-        format. Audio is retured in chunks.
+        """
+        Generate audio
 
         Args:
-          format: the audio format for the returned audio bytes.
+          text: The text for which you want to generate audio.
+
+          voice: The voice you want to be used for audio generation.
+
+          format: The audio format for the returned audio data, defaults to `wav`.
+
+          language: This is optional; an ISO 639 language code to be used for the generation.
+
+          speed: The speed of the voice, defaults to `1.0`
 
           extra_headers: Send extra headers
 
@@ -266,11 +298,11 @@ class AsyncSpeechResource(AsyncAPIResource):
             "/v1/speech",
             body=await async_maybe_transform(
                 {
-                    "language": language,
                     "text": text,
                     "voice": voice,
                     "format": format,
-                    "model": model,
+                    "language": language,
+                    "speed": speed,
                 },
                 speech_generate_params.SpeechGenerateParams,
             ),
@@ -283,12 +315,11 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def transcribe(
         self,
         *,
-        language: Literal["yo", "en", "ha", "ig", "am", "pcm"],
-        content: Union[FileTypes, str, None] | Omit = omit,
+        content: Union[FileTypes, str],
+        language: Optional[str] | Omit = omit,
         model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
-        timestamp: Optional[Literal["sentence", "word", "none"]] | Omit = omit,
-        url: Optional[str] | Omit = omit,
+        timestamp: Optional[Literal["sentence", "word"]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -302,6 +333,16 @@ class AsyncSpeechResource(AsyncAPIResource):
         that represents the content of the audio file.
 
         Args:
+          content: The audio file or content that you want to transcribe. This could be;
+              `file bytes`, a `url to an audio file` (ensure the link does not require
+              authentication to access the file) or a `file UUID`.
+
+          language: This is optional, an ISO-639 language code that corresponds to the language in
+              the `content`.
+
+          model: Select the model to be used to perform the transcription, this param has been
+              deprecated.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -312,12 +353,11 @@ class AsyncSpeechResource(AsyncAPIResource):
         """
         body = deepcopy_with_paths(
             {
-                "language": language,
                 "content": content,
+                "language": language,
                 "model": model,
                 "special_words": special_words,
                 "timestamp": timestamp,
-                "url": url,
             },
             [["content"]],
         )
