@@ -11,19 +11,13 @@ __all__ = ["Transcription"]
 class Transcription(BaseModel):
     """Response from speech-to-text."""
 
-    request_id: str
+    request_id: Optional[str] = None
     """for audit purposes."""
 
-    text: str
-
     segments: Optional[List[Segment]] = None
-    """sentence-level or word-level groupings of your transcript.
+    """Either `sentence-level` or `word-level` groupings of your transcript.
 
     Each sentence (or word) will fall within a time range.
     """
 
-    timestamps: Optional[List[Segment]] = None
-    """sentence-level or word-level groupings of your transcript.
-
-    Each sentence (or word) will fall within a time range.
-    """
+    text: Optional[str] = None

@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, TypedDict
+from typing_extensions import Required, TypedDict
 
 __all__ = ["TextToneMarkParams"]
 
 
 class TextToneMarkParams(TypedDict, total=False):
-    language: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
+    language: Required[str]
+    """Only Yoruba is supported at the moment."""
 
     text: Required[str]

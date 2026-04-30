@@ -2,16 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["SpeechGenerateParams"]
 
 
 class SpeechGenerateParams(TypedDict, total=False):
-    language: Required[Literal["yo", "en", "ha", "ig", "am", "pcm"]]
-
     text: Required[str]
+    """The text for which you want to generate audio."""
 
     voice: Required[
         Literal[
@@ -29,18 +27,29 @@ class SpeechGenerateParams(TypedDict, total=False):
             "lucy",
             "henry",
             "kani",
+            "remi",
+            "kingsley",
             "ngozi",
             "amara",
             "obinna",
             "ebuka",
             "hana",
-            "selam",
+            "haile",
             "tena",
             "tesfaye",
+            "ufoma",
+            "tega",
+            "justice",
+            "boma",
         ]
     ]
+    """The voice you want to be used for audio generation."""
 
     format: Literal["mp3", "wav", "ogg_opus", "webm_opus", "mulaw", "alaw", "flac", "pcm_s16le"]
-    """the audio format for the returned audio bytes."""
+    """The audio format for the returned audio data, defaults to `wav`."""
 
-    model: Optional[str]
+    language: str
+    """This is optional; an ISO 639 language code to be used for the generation."""
+
+    speed: float
+    """The speed of the voice, defaults to `1.0`"""
