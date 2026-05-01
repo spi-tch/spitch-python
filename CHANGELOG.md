@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.51.0 (2026-05-01)
+
+Full Changelog: [v1.50.0...v1.51.0](https://github.com/spi-tch/spitch-python/compare/v1.50.0...v1.51.0)
+
+### Features
+
+* **api:** manual updates ([f4907bd](https://github.com/spi-tch/spitch-python/commit/f4907bda22d6c7ea6d1ce40cd9a28483ce090b45))
+
+
+### Chores
+
+* **internal:** reformat pyproject.toml ([33622a9](https://github.com/spi-tch/spitch-python/commit/33622a9217aa432ee7107c87cb4d6942bde32ec5))
+
 ## 1.50.0 (2026-04-30)
 
 Full Changelog: [v1.49.0...v1.50.0](https://github.com/spi-tch/spitch-python/compare/v1.49.0...v1.50.0)
