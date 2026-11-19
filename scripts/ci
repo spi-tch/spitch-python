@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+python3 -B scripts/test-release
+./scripts/lint
+./scripts/test
+rm -rf dist
+uv build --out-dir dist
+scratch=$(mktemp -d)
+trap 'rm -rf "$scratch"' EXIT
+for artifact in dist/*.whl dist/*.tar.gz; do
+  uv venv --clear "$scratch/env"
+  uv pip install --python "$scratch/env/bin/python" "$artifact"
+  "$scratch/env/bin/python" -I -c 'from importlib.metadata import version; import spitch; assert spitch.__version__ == version("spitch"); from spitch import Spitch, AsyncSpitch'
+done

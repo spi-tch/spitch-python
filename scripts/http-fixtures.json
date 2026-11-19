@@ -1,0 +1,105 @@
+{
+  "GET /v1/files": {
+    "query": [
+      "cursor",
+      "limit"
+    ],
+    "response": {
+      "items": [
+        {
+          "created_at": "2026-01-01T00:00:00Z",
+          "file_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+          "original_name": "sample.txt",
+          "size_bytes": 4,
+          "status": "ready"
+        }
+      ],
+      "next_cursor": null
+    }
+  },
+  "GET /v1/files/{id}": {
+    "response": {
+      "created_at": "2026-01-01T00:00:00Z",
+      "file_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "original_name": "sample.txt",
+      "size_bytes": 4,
+      "status": "ready"
+    }
+  },
+  "DELETE /v1/files/{id}": {
+    "response": {
+      "status": true
+    }
+  },
+  "GET /v1/files/{id}/url": {
+    "query": [
+      "ttl"
+    ],
+    "response": {
+      "url": "https://example.invalid/sample"
+    }
+  },
+  "POST /v1/files": {
+    "required": [
+      "file"
+    ],
+    "multipart": true,
+    "response": {
+      "created_at": "2026-01-01T00:00:00Z",
+      "file_id": "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      "original_name": "sample.txt",
+      "size_bytes": 4,
+      "status": "ready"
+    }
+  },
+  "GET /v1/files:usage": {
+    "response": {
+      "num_files": 1,
+      "used_bytes": 4
+    }
+  },
+  "POST /v1/speech": {
+    "required": [
+      "voice",
+      "text"
+    ],
+    "audio": true
+  },
+  "POST /v1/transcriptions": {
+    "required": [
+      "content"
+    ],
+    "multipart": true,
+    "response": {
+      "request_id": "test-request",
+      "text": "Hello",
+      "segments": [
+        {
+          "start": 0,
+          "end": 1,
+          "text": "Hello"
+        }
+      ]
+    }
+  },
+  "POST /v1/diacritics": {
+    "required": [
+      "language",
+      "text"
+    ],
+    "response": {
+      "request_id": "test-request",
+      "text": "Hello"
+    }
+  },
+  "POST /v1/translate": {
+    "required": [
+      "target",
+      "text"
+    ],
+    "response": {
+      "request_id": "test-request",
+      "text": "Hello"
+    }
+  }
+}
