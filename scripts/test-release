@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""Exercise release gates without registry or GitHub writes."""
+import json
+from importlib.machinery import SourceFileLoader
+from pathlib import Path
+import unittest
+from unittest.mock import patch
+from importlib.util import module_from_spec, spec_from_loader
+
+loader = SourceFileLoader("sdk_release", str(Path(__file__).with_name("release")))
+release = module_from_spec(spec_from_loader(loader.name, loader))
+loader.exec_module(release)
+
+
+class ReleaseGateTests(unittest.TestCase):
+    def test_tag_must_match_source_versions(self):
+        with self.assertRaises(SystemExit):
+            release.check_version(Path(__file__).resolve().parents[1], "0.0.0-test")
+
+    def test_failed_github_status_blocks_release(self):
+        response = {"statuses": [{"context": release.CONTEXT, "state": "failure"}]}
+        with patch.object(release, "output", return_value=json.dumps(response)), self.assertRaises(SystemExit):
+            release.verify_ci("tagged-commit")
+
+    def test_other_revision_cannot_authorize_release(self):
+        link = release.PROJECT + ":" + "a" * 36
+        status = {"statuses": [{"context": release.CONTEXT, "state": "success", "target_url": link}]}
+        builds = {"builds": [{"projectName": release.PROJECT, "resolvedSourceVersion": "other",
+                              "buildStatus": "SUCCEEDED"}]}
+        with patch.object(release, "output", side_effect=map(json.dumps, [status, builds])), self.assertRaises(SystemExit):
+            release.verify_ci("tagged-commit")
+
+
+if __name__ == "__main__":
+    unittest.main()

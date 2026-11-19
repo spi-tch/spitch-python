@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""Publish tested distributions from a reviewed, tagged commit."""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import tempfile
+import time
+from urllib.error import HTTPError
+from urllib.parse import unquote
+from urllib.request import urlopen
+
+REPO = "spi-tch/spitch-python"
+PROJECT = "spitch-native-spitch-python-ci"
+CONTEXT = "codebuild/spitch-python-ci"
+
+
+def run(*args, cwd=None):
+    subprocess.run(args, cwd=cwd, check=True)
+
+
+def output(*args, cwd=None):
+    return subprocess.check_output(args, cwd=cwd, text=True).strip()
+
+
+def metadata(url):
+    try:
+        with urlopen(url, timeout=30) as response:
+            return json.load(response)
+    except HTTPError as error:
+        if error.code == 404:
+            return None
+        raise
+
+
+def verify_ci(sha):
+    statuses = json.loads(output("gh", "api", f"repos/{REPO}/commits/{sha}/status"))["statuses"]
+    status = next((entry for entry in statuses if entry["context"] == CONTEXT), {})
+    if status.get("state") != "success":
+        raise SystemExit(f"{CONTEXT} has not passed for {sha}")
+    # Validate the linked build independently of GitHub's status label.
+    match = re.search(re.escape(PROJECT) + r":[a-f0-9-]{36}", unquote(status.get("target_url") or ""))
+    if not match:
+        raise SystemExit("The commit status does not link to the expected AWS build")
+    builds = json.loads(output("aws", "codebuild", "batch-get-builds", "--region", "eu-south-2",
+                               "--ids", match.group(), "--output", "json"))["builds"]
+    if len(builds) != 1 or (builds[0]["projectName"], builds[0]["resolvedSourceVersion"],
+                            builds[0]["buildStatus"]) != (PROJECT, sha, "SUCCEEDED"):
+        raise SystemExit("CodeBuild project, tested revision, or result differs")
+
+
+def check_version(repo, version):
+    import tomllib
+    manifest = tomllib.loads((repo / "pyproject.toml").read_text())["project"]
+    runtime = (repo / "src/spitch/_version.py").read_text()
+    if manifest["name"] != "spitch" or manifest["version"] != version or not re.search(
+        rf'^__version__ = "{re.escape(version)}"', runtime, flags=re.MULTILINE
+    ):
+        raise SystemExit("Tag, Python distribution and runtime versions must match")
+
+
+def distributions(repo, version):
+    return [repo / "dist" / f"spitch-{version}{suffix}" for suffix in ("-py3-none-any.whl", ".tar.gz")]
+
+
+def verified(path, version):
+    project = metadata(f"https://pypi.org/pypi/spitch/{version}/json")
+    for entry in (project or {}).get("urls", []):
+        if entry["filename"] == path.name:
+            if hashlib.sha256(path.read_bytes()).hexdigest() != entry["digests"]["sha256"]:
+                raise SystemExit(f"PyPI already has different bytes for {path.name}")
+            return True
+    return False
+
+
+def publish(path, repo):
+    run("uv", "publish", "--publish-url", "https://upload.pypi.org/legacy/", str(path), cwd=repo)
+
+
+def release(tag, dry_run):
+    if not re.fullmatch(r"v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)", tag):
+        raise SystemExit("Expected a stable vX.Y.Z tag")
+    version = tag[1:]
+    with tempfile.TemporaryDirectory(prefix="spitch-release-") as tmp:
+        repo = Path(tmp) / "source"
+        run("git", "clone", "--quiet", "--branch", "main", f"https://github.com/{REPO}.git", str(repo))
+        sha = output("git", "rev-parse", "--verify", f"refs/tags/{tag}^{{commit}}", cwd=repo)
+        run("git", "merge-base", "--is-ancestor", sha, "origin/main", cwd=repo)
+        run("git", "checkout", "--quiet", "--detach", sha, cwd=repo)
+        check_version(repo, version)
+        verify_ci(sha)
+        os.environ["SOURCE_DATE_EPOCH"] = output("git", "show", "-s", "--format=%ct", sha, cwd=repo)
+        run("./scripts/ci", cwd=repo)
+        files = distributions(repo, version)
+        if not all(f.is_file() for f in files):
+            raise SystemExit("Expected distribution missing")
+        if dry_run:
+            for f in files:
+                print(f.name, hashlib.sha256(f.read_bytes()).hexdigest())
+            return
+        for f in files:
+            if not verified(f, version):
+                publish(f, repo)
+            for attempt in range(6):
+                if verified(f, version):
+                    break
+                time.sleep(2 ** attempt)
+            else:
+                raise SystemExit(f"Registry has not confirmed {f.name}. Retry the same tag.")
+        if metadata(f"https://api.github.com/repos/{REPO}/releases/tags/{tag}") is None:
+            run("gh", "release", "create", tag, "--repo", REPO, "--verify-tag", "--title", tag, "--generate-notes")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("tag")
+    parser.add_argument("--dry-run", action="store_true")
+    args = parser.parse_args()
+    release(args.tag, args.dry_run)

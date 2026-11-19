@@ -25,6 +25,12 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestSpeech:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
+    def test_chunked_wav(self, client: Spitch) -> None:
+        with client.speech.with_streaming_response.generate(text="Hello", voice="sade") as speech:
+            assert speech.headers["content-type"] == "audio/wav"
+            assert speech.headers["transfer-encoding"] == "chunked"
+            assert b"".join(speech.iter_bytes()).startswith(b"RIFF")
+
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_method_generate(self, client: Spitch, respx_mock: MockRouter) -> None:

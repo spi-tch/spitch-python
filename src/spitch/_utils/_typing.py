@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-import typing_extensions, typing
+import typing
+import typing_extensions
 from typing import Any, TypeVar, Iterable, cast
 from collections import abc as _c_abc
 from typing_extensions import Required, Annotated, get_args, get_origin
