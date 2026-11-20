@@ -225,7 +225,7 @@ StrBytesIntFloat = Union[str, bytes, int, float]
 # Note: copied from Pydantic
 # https://github.com/pydantic/pydantic/blob/32ea570bf96e84234d2992e1ddf40ab8a565925a/pydantic/main.py#L49
 IncEx: TypeAlias = Union[
-    Set[int], Set[str], Mapping[int, Union["IncEx", Literal[True]]], Mapping[str, Union["IncEx", Literal[True]]]
+    Set[int], Set[str], Mapping[int, Union["IncEx", bool]], Mapping[str, Union["IncEx", bool]]
 ]
 
 PostParser = Callable[[Any], Any]

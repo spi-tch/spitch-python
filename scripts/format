@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-
-set -e
-
+set -euo pipefail
 cd "$(dirname "$0")/.."
-
-echo "==> Running formatters"
-rye run format
+./scripts/bootstrap
+.venv/bin/python scripts/utils/ruffen-docs.py README.md api.md
+.venv/bin/ruff check --fix .
+.venv/bin/ruff format .

@@ -2,7 +2,7 @@ import json
 from typing import TYPE_CHECKING, Any, Dict, List, Union, Iterable, Optional, cast
 from datetime import datetime, timezone
 from collections import deque
-from typing_extensions import Literal, Annotated, TypedDict
+from typing_extensions import Literal, Annotated, TypedDict, TypeAliasType
 
 import pytest
 import pydantic
@@ -825,9 +825,12 @@ def test_discriminated_unions_invalid_data_uses_cache() -> None:
     # we hit the cache
     assert DISCRIMINATOR_CACHE.get(UnionType) is discriminator
 
+
+Alias = TypeAliasType("Alias", str)
+
+
 @pytest.mark.skipif(PYDANTIC_V1, reason="TypeAliasType is not supported in Pydantic v1")
 def test_type_alias_type() -> None:
-    Alias = TypeAliasType("Alias", str)  # pyright: ignore
 
     class Model(BaseModel):
         alias: Alias
