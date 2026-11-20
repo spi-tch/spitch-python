@@ -1,10 +1,12 @@
 # Changelog
 
-## 1.51.0 (2026-05-13)
+## 1.51.0 (unreleased)
 
 Full Changelog: [v1.50.0...v1.51.0](https://github.com/spi-tch/spitch-python/compare/v1.50.0...v1.51.0)
 
 ### Features
+
+* Check prepaid USD credit with `client.balance.get()` in synchronous and asynchronous clients. The response preserves the exact decimal amount. [Balance example](examples/check_balance.py)
 
 * **api:** manual updates ([f4907bd](https://github.com/spi-tch/spitch-python/commit/f4907bda22d6c7ea6d1ce40cd9a28483ce090b45))
 * **internal/types:** support eagerly validating pydantic iterators ([0d8ac8e](https://github.com/spi-tch/spitch-python/commit/0d8ac8e3675acf6dd9164a5a6be076ebe15047aa))
