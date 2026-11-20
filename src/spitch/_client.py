@@ -35,10 +35,11 @@ from ._base_client import (
 )
 
 if TYPE_CHECKING:
-    from .resources import text, files, speech
+    from .resources import text, files, speech, balance
     from .resources.text import TextResource, AsyncTextResource
     from .resources.files import FilesResource, AsyncFilesResource
     from .resources.speech import SpeechResource, AsyncSpeechResource
+    from .resources.balance import BalanceResource, AsyncBalanceResource
 
 __all__ = [
     "Timeout",
@@ -141,6 +142,12 @@ class Spitch(SyncAPIClient):
         from .resources.files import FilesResource
 
         return FilesResource(self)
+
+    @cached_property
+    def balance(self) -> BalanceResource:
+        from .resources.balance import BalanceResource
+
+        return BalanceResource(self)
 
     @cached_property
     def with_raw_response(self) -> SpitchWithRawResponse:
@@ -348,6 +355,12 @@ class AsyncSpitch(AsyncAPIClient):
         return AsyncFilesResource(self)
 
     @cached_property
+    def balance(self) -> AsyncBalanceResource:
+        from .resources.balance import AsyncBalanceResource
+
+        return AsyncBalanceResource(self)
+
+    @cached_property
     def with_raw_response(self) -> AsyncSpitchWithRawResponse:
         return AsyncSpitchWithRawResponse(self)
 
@@ -488,6 +501,12 @@ class SpitchWithRawResponse:
 
         return FilesResourceWithRawResponse(self._client.files)
 
+    @cached_property
+    def balance(self) -> balance.BalanceResourceWithRawResponse:
+        from .resources.balance import BalanceResourceWithRawResponse
+
+        return BalanceResourceWithRawResponse(self._client.balance)
+
 
 class AsyncSpitchWithRawResponse:
     _client: AsyncSpitch
@@ -513,6 +532,12 @@ class AsyncSpitchWithRawResponse:
         from .resources.files import AsyncFilesResourceWithRawResponse
 
         return AsyncFilesResourceWithRawResponse(self._client.files)
+
+    @cached_property
+    def balance(self) -> balance.AsyncBalanceResourceWithRawResponse:
+        from .resources.balance import AsyncBalanceResourceWithRawResponse
+
+        return AsyncBalanceResourceWithRawResponse(self._client.balance)
 
 
 class SpitchWithStreamedResponse:
@@ -540,6 +565,12 @@ class SpitchWithStreamedResponse:
 
         return FilesResourceWithStreamingResponse(self._client.files)
 
+    @cached_property
+    def balance(self) -> balance.BalanceResourceWithStreamingResponse:
+        from .resources.balance import BalanceResourceWithStreamingResponse
+
+        return BalanceResourceWithStreamingResponse(self._client.balance)
+
 
 class AsyncSpitchWithStreamedResponse:
     _client: AsyncSpitch
@@ -565,6 +596,12 @@ class AsyncSpitchWithStreamedResponse:
         from .resources.files import AsyncFilesResourceWithStreamingResponse
 
         return AsyncFilesResourceWithStreamingResponse(self._client.files)
+
+    @cached_property
+    def balance(self) -> balance.AsyncBalanceResourceWithStreamingResponse:
+        from .resources.balance import AsyncBalanceResourceWithStreamingResponse
+
+        return AsyncBalanceResourceWithStreamingResponse(self._client.balance)
 
 
 Client = Spitch

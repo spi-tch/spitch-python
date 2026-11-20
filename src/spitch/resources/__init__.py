@@ -24,6 +24,14 @@ from .speech import (
     SpeechResourceWithStreamingResponse,
     AsyncSpeechResourceWithStreamingResponse,
 )
+from .balance import (
+    BalanceResource,
+    AsyncBalanceResource,
+    BalanceResourceWithRawResponse,
+    AsyncBalanceResourceWithRawResponse,
+    BalanceResourceWithStreamingResponse,
+    AsyncBalanceResourceWithStreamingResponse,
+)
 
 __all__ = [
     "SpeechResource",
@@ -38,6 +46,12 @@ __all__ = [
     "AsyncTextResourceWithRawResponse",
     "TextResourceWithStreamingResponse",
     "AsyncTextResourceWithStreamingResponse",
+    "BalanceResource",
+    "AsyncBalanceResource",
+    "BalanceResourceWithRawResponse",
+    "AsyncBalanceResourceWithRawResponse",
+    "BalanceResourceWithStreamingResponse",
+    "AsyncBalanceResourceWithStreamingResponse",
     "FilesResource",
     "AsyncFilesResource",
     "FilesResourceWithRawResponse",

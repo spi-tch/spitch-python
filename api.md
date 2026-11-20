@@ -40,3 +40,7 @@ Methods:
 - <code title="get /v1/files/{file_id}">client.files.<a href="./src/spitch/resources/files.py">get</a>(file_id) -> <a href="./src/spitch/types/file_meta.py">FileMeta</a></code>
 - <code title="post /v1/files">client.files.<a href="./src/spitch/resources/files.py">upload</a>(\*\*<a href="src/spitch/types/file_upload_params.py">params</a>) -> <a href="./src/spitch/types/file_meta.py">FileMeta</a></code>
 - <code title="get /v1/files:usage">client.files.<a href="./src/spitch/resources/files.py">usage</a>() -> <a href="./src/spitch/types/file_usage.py">FileUsage</a></code>
+
+# Balance
+
+Read the prepaid USD credit for the account that owns the API key with `client.balance.get()` or `await async_client.balance.get()`. The amount is an exact decimal string. An unsuccessful lookup raises an SDK error. [Endpoint reference](https://spitch.app/docs/api-reference/billing/check-balance) · [Runnable batch credit check](examples/check_balance.py)

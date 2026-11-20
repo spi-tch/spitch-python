@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from .balance import Balance as Balance
 from .segment import Segment as Segment
 from .file_meta import FileMeta as FileMeta
 from .diacritics import Diacritics as Diacritics
