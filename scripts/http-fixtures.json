@@ -1,4 +1,10 @@
 {
+  "GET /v1/balance": {
+    "response": {
+      "amount": "12.34567890123456789",
+      "currency": "USD"
+    }
+  },
   "GET /v1/files": {
     "query": [
       "cursor",
