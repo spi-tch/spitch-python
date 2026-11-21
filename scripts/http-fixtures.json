@@ -72,9 +72,8 @@
     "audio": true
   },
   "POST /v1/transcriptions": {
-    "required": [
-      "content"
-    ],
+    "required": [],
+    "audio_source": true,
     "multipart": true,
     "response": {
       "request_id": "test-request",

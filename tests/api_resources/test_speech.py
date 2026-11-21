@@ -242,3 +242,15 @@ class TestAsyncSpeech:
             assert_matches_type(Transcription, speech, path=["response"])
 
         assert cast(Any, response.is_closed) is True
+
+def test_transcription_url(client: Spitch) -> None:
+    assert client.speech.transcribe(url="https://example.org/audio.wav").text == "Hello"
+    assert client.speech.transcribe(content="https://example.org/audio.wav").text == "Hello"
+    with pytest.raises(ValueError, match="exactly one"):
+        client.speech.transcribe()
+    with pytest.raises(ValueError, match="exactly one"):
+        client.speech.transcribe(content=b"audio", url="https://example.org/audio.wav")
+
+
+async def test_async_transcription_url(async_client: AsyncSpitch) -> None:
+    assert (await async_client.speech.transcribe(url="https://example.org/audio.wav")).text == "Hello"

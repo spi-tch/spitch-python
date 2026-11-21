@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Union, Mapping, Optional, cast
+from typing import Union, Optional
 from typing_extensions import Literal
 
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
-from .._files import deepcopy_with_paths
 from .._types import Body, Omit, Query, Headers, NotGiven, FileTypes, omit, not_given
 from .._utils import extract_files, maybe_transform, async_maybe_transform
 from .._compat import cached_property
@@ -31,6 +30,20 @@ from .._base_client import make_request_options
 from ..types.transcription import Transcription
 
 __all__ = ["SpeechResource", "AsyncSpeechResource"]
+
+
+def _transcription_source(content: FileTypes | str | Omit, url: str | Omit) -> dict[str, object]:
+    if isinstance(content, Omit) == isinstance(url, Omit):
+        raise ValueError("Supply exactly one audio source: content for a file or url for a public audio URL.")
+    if not isinstance(content, (Omit, str)):
+        return {"content": content}
+    address = content if isinstance(content, str) else url
+    if not isinstance(address, str) or not address.strip():
+        raise ValueError("Supply a public HTTP(S) audio URL in url.")
+    parsed = httpx.URL(address)
+    if parsed.scheme not in {"http", "https"} or not parsed.host:
+        raise ValueError("Supply a public HTTP(S) audio URL in url.")
+    return {"url": address}
 
 
 class SpeechResource(SyncAPIResource):
@@ -143,7 +156,8 @@ class SpeechResource(SyncAPIResource):
     def transcribe(
         self,
         *,
-        content: Union[FileTypes, str],
+        content: Union[FileTypes, str] | Omit = omit,
+        url: str | Omit = omit,
         language: Optional[str] | Omit = omit,
         model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
@@ -161,9 +175,9 @@ class SpeechResource(SyncAPIResource):
         that represents the content of the audio file.
 
         Args:
-          content: The audio file or content that you want to transcribe. This could be;
-              `file bytes`, a `url to an audio file` (ensure the link does not require
-              authentication to access the file) or a `file UUID`.
+          content: Audio to upload. Supply exactly one of content or url.
+
+          url: Public HTTP(S) URL of the recording.
 
           language: This is optional, an ISO-639 language code that corresponds to the language in
               the `content`.
@@ -179,17 +193,14 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_with_paths(
-            {
-                "content": content,
-                "language": language,
-                "model": model,
-                "special_words": special_words,
-                "timestamp": timestamp,
-            },
-            [["content"]],
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
+        body = {
+            **_transcription_source(content, url),
+            "language": language,
+            "model": model,
+            "special_words": special_words,
+            "timestamp": timestamp,
+        }
+        files = extract_files(body, paths=[["content"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -315,7 +326,8 @@ class AsyncSpeechResource(AsyncAPIResource):
     async def transcribe(
         self,
         *,
-        content: Union[FileTypes, str],
+        content: Union[FileTypes, str] | Omit = omit,
+        url: str | Omit = omit,
         language: Optional[str] | Omit = omit,
         model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
         special_words: Optional[str] | Omit = omit,
@@ -333,9 +345,9 @@ class AsyncSpeechResource(AsyncAPIResource):
         that represents the content of the audio file.
 
         Args:
-          content: The audio file or content that you want to transcribe. This could be;
-              `file bytes`, a `url to an audio file` (ensure the link does not require
-              authentication to access the file) or a `file UUID`.
+          content: Audio to upload. Supply exactly one of content or url.
+
+          url: Public HTTP(S) URL of the recording.
 
           language: This is optional, an ISO-639 language code that corresponds to the language in
               the `content`.
@@ -351,17 +363,14 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = deepcopy_with_paths(
-            {
-                "content": content,
-                "language": language,
-                "model": model,
-                "special_words": special_words,
-                "timestamp": timestamp,
-            },
-            [["content"]],
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["content"]])
+        body = {
+            **_transcription_source(content, url),
+            "language": language,
+            "model": model,
+            "special_words": special_words,
+            "timestamp": timestamp,
+        }
+        files = extract_files(body, paths=[["content"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
