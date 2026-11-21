@@ -11,6 +11,8 @@ Methods:
 - <code title="post /v1/speech">client.speech.<a href="./src/spitch/resources/speech.py">generate</a>(\*\*<a href="src/spitch/types/speech_generate_params.py">params</a>) -> BinaryAPIResponse</code>
 - <code title="post /v1/transcriptions">client.speech.<a href="./src/spitch/resources/speech.py">transcribe</a>(\*\*<a href="src/spitch/types/speech_transcribe_params.py">params</a>) -> <a href="./src/spitch/types/transcription.py">Transcription</a></code>
 
+Pass one source to `speech.transcribe`: `content` for an upload or `url` for a public HTTP(S) audio URL. [Run the transcription example](examples/transcribe.py) with `SPITCH_API_KEY` set.
+
 # Text
 
 Types:
