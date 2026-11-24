@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from typing import Union, Optional
-from typing_extensions import Literal, Required, TypedDict
+from typing_extensions import Literal, TypedDict
 
 from .._types import FileTypes
 
@@ -11,12 +11,11 @@ __all__ = ["SpeechTranscribeParams"]
 
 
 class SpeechTranscribeParams(TypedDict, total=False):
-    content: Required[Union[FileTypes, str]]
-    """The audio file or content that you want to transcribe.
+    content: Union[FileTypes, str]
+    """Audio file or bytes to upload. Supply exactly one of content or url."""
 
-    This could be; `file bytes`, a `url to an audio file` (ensure the link does not
-    require authentication to access the file) or a `file UUID`.
-    """
+    url: str
+    """Public HTTP(S) URL of the recording."""
 
     language: Optional[str]
     """

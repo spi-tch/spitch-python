@@ -43,6 +43,16 @@ class Handler(BaseHTTPRequestHandler):
                 if media.startswith("multipart/form-data") and fixture.get("multipart"):
                     msg = BytesParser(policy=policy.default).parsebytes(b"Content-Type: " + media.encode() + b"\r\n\r\n" + raw)
                     fields = {part.get_param("name", header="content-disposition"): part.get_payload(decode=True) for part in msg.iter_parts()}
+                    if fixture.get("audio_source"):
+                        parts = [part for part in msg.iter_parts() if part.get_param("name", header="content-disposition") in {"content", "url"}]
+                        if len(parts) != 1:
+                            raise ValueError("expected exactly one audio source")
+                        part = parts[0]
+                        if part.get_param("name", header="content-disposition") == "url":
+                            if part.get_filename() is not None or not part.get_payload(decode=True).startswith((b"http://", b"https://")):
+                                raise ValueError("expected a URL text field")
+                        elif part.get_filename() is None:
+                            raise ValueError("expected an uploaded file")
                 elif media.startswith("application/json") and not fixture.get("multipart"):
                     fields = json.loads(raw)
                 else:

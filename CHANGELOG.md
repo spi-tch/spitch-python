@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.52.0 (2026-11-24)
+
+* Transcribe a public audio URL with `client.speech.transcribe` or pass `content` to upload a recording.
+
 ## 1.51.0 (unreleased)
 
 Full Changelog: [v1.50.0...v1.51.0](https://github.com/spi-tch/spitch-python/compare/v1.50.0...v1.51.0)
