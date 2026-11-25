@@ -10,6 +10,7 @@ from .file_usage import FileUsage as FileUsage
 from .translation import Translation as Translation
 from .transcription import Transcription as Transcription
 from .file_list_params import FileListParams as FileListParams
+from .transcription_job import TranscriptionJob as TranscriptionJob
 from .file_upload_params import FileUploadParams as FileUploadParams
 from .file_delete_response import FileDeleteResponse as FileDeleteResponse
 from .file_download_params import FileDownloadParams as FileDownloadParams

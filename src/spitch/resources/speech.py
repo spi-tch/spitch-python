@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import math
+import time
 from typing import Union, Optional
+from urllib.parse import quote
 from typing_extensions import Literal
 
+import anyio
 import httpx
 
 from ..types import speech_generate_params, speech_transcribe_params
@@ -26,8 +30,10 @@ from .._response import (
     async_to_custom_raw_response_wrapper,
     async_to_custom_streamed_response_wrapper,
 )
+from .._exceptions import APITimeoutError
 from .._base_client import make_request_options
 from ..types.transcription import Transcription
+from ..types.transcription_job import TranscriptionJob
 
 __all__ = ["SpeechResource", "AsyncSpeechResource"]
 
@@ -44,6 +50,42 @@ def _transcription_source(content: FileTypes | str | Omit, url: str | Omit) -> d
     if parsed.scheme not in {"http", "https"} or not parsed.host:
         raise ValueError("Supply a public HTTP(S) audio URL in url.")
     return {"url": address}
+
+
+def _job_path(job_id: str) -> str:
+    if not job_id or job_id in {".", ".."}:
+        raise ValueError("Provide a transcription job ID.")
+    return "/v1/transcriptions/" + quote(job_id, safe="")
+
+
+def _deadline(timeout: float, poll_interval: float) -> float:
+    if not all(math.isfinite(value) and value > 0 for value in (timeout, poll_interval)):
+        raise ValueError("timeout and poll_interval must be positive and finite.")
+    return time.monotonic() + timeout
+
+
+def _remaining(deadline: float, job_id: str) -> float:
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise TimeoutError(f"Timed out waiting for transcription {job_id}. Resume with the same job ID.")
+    return remaining
+
+
+def _transcription_body(
+    content: FileTypes | str | Omit,
+    url: str | Omit,
+    language: str | None | Omit,
+    model: str | None | Omit,
+    special_words: str | None | Omit,
+    timestamp: str | None | Omit,
+) -> dict[str, object]:
+    return {
+        **_transcription_source(content, url),
+        "language": language,
+        "model": model,
+        "special_words": special_words,
+        "timestamp": timestamp,
+    }
 
 
 class SpeechResource(SyncAPIResource):
@@ -193,13 +235,7 @@ class SpeechResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = {
-            **_transcription_source(content, url),
-            "language": language,
-            "model": model,
-            "special_words": special_words,
-            "timestamp": timestamp,
-        }
+        body = _transcription_body(content, url, language, model, special_words, timestamp)
         files = extract_files(body, paths=[["content"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
@@ -214,6 +250,58 @@ class SpeechResource(SyncAPIResource):
             ),
             cast_to=Transcription,
         )
+
+    def submit_transcription(
+        self,
+        *,
+        content: Union[FileTypes, str] | Omit = omit,
+        url: str | Omit = omit,
+        language: Optional[str] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
+        special_words: Optional[str] | Omit = omit,
+        timestamp: Optional[Literal["sentence", "word"]] | Omit = omit,
+        extra_headers: Headers | None = None,
+    ) -> TranscriptionJob:
+        """Submit one background job. Save the returned ID to resume later."""
+        body = _transcription_body(content, url, language, model, special_words, timestamp)
+        files = extract_files(body, paths=[["content"]])
+        # The API creates a new job for each POST. Never replay an ambiguous submission.
+        return self._post(
+            "/v1/transcriptions",
+            body=maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
+            files=files,
+            options={
+                "headers": {"Content-Type": "multipart/form-data", **(extra_headers or {})},
+                "params": {"async": "true"},
+                "max_retries": 0,
+            },
+            cast_to=TranscriptionJob,
+        )
+
+    def get_transcription(self, job_id: str, *, extra_headers: Headers | None = None) -> TranscriptionJob:
+        """Read the current state, transcript or failure for a saved job ID."""
+        return self._get(
+            _job_path(job_id), cast_to=TranscriptionJob, options=make_request_options(extra_headers=extra_headers)
+        )
+
+    def wait_for_transcription(
+        self, job_id: str, *, timeout: float = 300, poll_interval: float = 2
+    ) -> TranscriptionJob:
+        """Poll by ID until succeeded or failed. Both timing arguments are in seconds."""
+        path = _job_path(job_id)
+        deadline = _deadline(timeout, poll_interval)
+        while True:
+            remaining = _remaining(deadline, job_id)
+            try:
+                job = self._get(path, cast_to=TranscriptionJob, options={"timeout": remaining, "max_retries": 0})
+            except APITimeoutError as exc:
+                raise TimeoutError(
+                    f"Timed out waiting for transcription {job_id}. Resume with the same job ID."
+                ) from exc
+            remaining = _remaining(deadline, job_id)
+            if job.status in ("succeeded", "failed"):
+                return job
+            self._sleep(min(poll_interval, remaining))
 
 
 class AsyncSpeechResource(AsyncAPIResource):
@@ -363,13 +451,7 @@ class AsyncSpeechResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        body = {
-            **_transcription_source(content, url),
-            "language": language,
-            "model": model,
-            "special_words": special_words,
-            "timestamp": timestamp,
-        }
+        body = _transcription_body(content, url, language, model, special_words, timestamp)
         files = extract_files(body, paths=[["content"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
@@ -385,6 +467,61 @@ class AsyncSpeechResource(AsyncAPIResource):
             cast_to=Transcription,
         )
 
+    async def submit_transcription(
+        self,
+        *,
+        content: Union[FileTypes, str] | Omit = omit,
+        url: str | Omit = omit,
+        language: Optional[str] | Omit = omit,
+        model: Optional[Literal["mansa_v1", "legacy"]] | Omit = omit,
+        special_words: Optional[str] | Omit = omit,
+        timestamp: Optional[Literal["sentence", "word"]] | Omit = omit,
+        extra_headers: Headers | None = None,
+    ) -> TranscriptionJob:
+        """Submit one background job. Save the returned ID to resume later."""
+        body = _transcription_body(content, url, language, model, special_words, timestamp)
+        files = extract_files(body, paths=[["content"]])
+        # The API creates a new job for each POST. Never replay an ambiguous submission.
+        return await self._post(
+            "/v1/transcriptions",
+            body=await async_maybe_transform(body, speech_transcribe_params.SpeechTranscribeParams),
+            files=files,
+            options={
+                "headers": {"Content-Type": "multipart/form-data", **(extra_headers or {})},
+                "params": {"async": "true"},
+                "max_retries": 0,
+            },
+            cast_to=TranscriptionJob,
+        )
+
+    async def get_transcription(self, job_id: str, *, extra_headers: Headers | None = None) -> TranscriptionJob:
+        """Read the current state, transcript or failure for a saved job ID."""
+        return await self._get(
+            _job_path(job_id), cast_to=TranscriptionJob, options=make_request_options(extra_headers=extra_headers)
+        )
+
+    async def wait_for_transcription(
+        self, job_id: str, *, timeout: float = 300, poll_interval: float = 2
+    ) -> TranscriptionJob:
+        """Poll by ID until succeeded or failed. Both timing arguments are in seconds."""
+        path = _job_path(job_id)
+        deadline = _deadline(timeout, poll_interval)
+        with anyio.fail_after(timeout):
+            while True:
+                remaining = _remaining(deadline, job_id)
+                try:
+                    job = await self._get(
+                        path, cast_to=TranscriptionJob, options={"timeout": remaining, "max_retries": 0}
+                    )
+                except APITimeoutError as exc:
+                    raise TimeoutError(
+                        f"Timed out waiting for transcription {job_id}. Resume with the same job ID."
+                    ) from exc
+                remaining = _remaining(deadline, job_id)
+                if job.status in ("succeeded", "failed"):
+                    return job
+                await self._sleep(min(poll_interval, remaining))
+
 
 class SpeechResourceWithRawResponse:
     def __init__(self, speech: SpeechResource) -> None:
@@ -394,6 +531,8 @@ class SpeechResourceWithRawResponse:
             speech.generate,
             BinaryAPIResponse,
         )
+        self.submit_transcription = to_raw_response_wrapper(speech.submit_transcription)
+        self.get_transcription = to_raw_response_wrapper(speech.get_transcription)
         self.transcribe = to_raw_response_wrapper(
             speech.transcribe,
         )
@@ -407,6 +546,8 @@ class AsyncSpeechResourceWithRawResponse:
             speech.generate,
             AsyncBinaryAPIResponse,
         )
+        self.submit_transcription = async_to_raw_response_wrapper(speech.submit_transcription)
+        self.get_transcription = async_to_raw_response_wrapper(speech.get_transcription)
         self.transcribe = async_to_raw_response_wrapper(
             speech.transcribe,
         )
@@ -420,6 +561,8 @@ class SpeechResourceWithStreamingResponse:
             speech.generate,
             StreamedBinaryAPIResponse,
         )
+        self.submit_transcription = to_streamed_response_wrapper(speech.submit_transcription)
+        self.get_transcription = to_streamed_response_wrapper(speech.get_transcription)
         self.transcribe = to_streamed_response_wrapper(
             speech.transcribe,
         )
@@ -433,6 +576,8 @@ class AsyncSpeechResourceWithStreamingResponse:
             speech.generate,
             AsyncStreamedBinaryAPIResponse,
         )
+        self.submit_transcription = async_to_streamed_response_wrapper(speech.submit_transcription)
+        self.get_transcription = async_to_streamed_response_wrapper(speech.get_transcription)
         self.transcribe = async_to_streamed_response_wrapper(
             speech.transcribe,
         )

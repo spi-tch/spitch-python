@@ -46,3 +46,7 @@ Methods:
 # Balance
 
 Read the prepaid USD credit for the account that owns the API key with `client.balance.get()` or `await async_client.balance.get()`. The amount is an exact decimal string. An unsuccessful lookup raises an SDK error. [Endpoint reference](https://spitch.app/docs/api-reference/billing/check-balance) · [Runnable batch credit check](examples/check_balance.py)
+
+## Background transcription
+
+`client.speech.submit_transcription()`, `client.speech.get_transcription()`, `client.speech.wait_for_transcription()`. See the [two-process example](examples/transcription_job.py).

@@ -1,4 +1,4 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 __title__ = "spitch"
-__version__ = "1.52.0"
+__version__ = "1.53.0"

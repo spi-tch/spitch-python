@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.53.0 (unreleased)
+
+* Submit background transcription jobs, retrieve their status by ID, and wait with a configurable deadline.
+
 ## 1.52.0 (2026-11-24)
 
 * Transcribe a public audio URL with `client.speech.transcribe` or pass `content` to upload a recording.
