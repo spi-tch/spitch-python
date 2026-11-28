@@ -11,7 +11,7 @@ Spitch maintains this SDK. See [CONTRIBUTING.md](CONTRIBUTING.md) for developmen
 
 ## Documentation
 
-The REST API documentation can be found on [docs.spitch.app](https://docs.spitch.app). The full API of this library can be found in [api.md](api.md).
+See the REST API documentation and the full Python interface. [Spitch documentation](https://spitch.app/docs) · [Python API reference](api.md)
 
 ## Installation
 
@@ -20,54 +20,58 @@ The REST API documentation can be found on [docs.spitch.app](https://docs.spitch
 pip install spitch
 ```
 
-## Usage
+## First speech request
 
-The full API of this library can be found in [api.md](api.md).
+Create an API key in the workspace you want to use. Set `SPITCH_API_KEY` in the shell that will run the example. In Bash or zsh, these commands read the key with input hidden. [Studio API keys](https://spitch.app/api/keys)
 
-```python
-import os
-from spitch import Spitch
-
-client = Spitch(
-    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
-)
-
-response = client.speech.generate(
-    text="Bawo ni, ololufe?",
-    voice="femi",
-)
+```sh
+printf 'Spitch API key: '
+IFS= read -rs SPITCH_API_KEY
+printf '\n'
+export SPITCH_API_KEY
 ```
 
-While you can provide an `api_key` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `SPITCH_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
+To start in a clean Python environment, run the following in your project directory.
+
+```sh
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install spitch==1.52.0
+```
+
+Save the example as `first_request.py` and run `python first_request.py`. It makes one speech request with retries disabled and writes the Igbo greeting to `hello.wav` in the current directory. [Runnable starter](examples/first_request.py)
+
+```python
+from spitch import Spitch
+
+with Spitch(max_retries=0) as client:
+    response = client.speech.generate(
+        text="Nnọọ na Spitch. Ọ dị ezigbo mma inwe gị ebe a.",
+        voice="ngozi",
+        language="ig",
+        format="wav",
+    )
+    response.write_to_file("hello.wav")
+
+print("Saved hello.wav")
+request_id = response.headers.get("x-request-id")
+if not request_id:
+    raise SystemExit("The response did not include a request ID.")
+print(f"Request ID: {request_id}")
+```
+
+The second line contains the ID returned for your call.
+
+```text
+Saved hello.wav
+Request ID: <your request ID>
+```
+
+Open Logs in the workspace that owns the key. Select the recent successful `POST /v1/speech` and compare the request ID in its details with the one printed above. [Studio Logs](https://spitch.app/api/logs)
 
 ## Async usage
 
-Simply import `AsyncSpitch` instead of `Spitch` and use `await` with each API call:
-
-```python
-import os
-import asyncio
-from spitch import AsyncSpitch
-
-client = AsyncSpitch(
-    api_key=os.environ.get("SPITCH_API_KEY"),  # This is the default and can be omitted
-)
-
-
-async def main() -> None:
-    response = await client.speech.generate(
-        text="Bawo ni, ololufe?",
-        voice="femi",
-    )
-
-
-asyncio.run(main())
-```
-
-Functionality between the synchronous and asynchronous clients is otherwise identical.
+The async starter makes the same request with `AsyncSpitch`, awaits the response and writes `hello.wav`. Run it with `python first_request_async.py` after saving the example. [Async starter](examples/first_request_async.py)
 
 ### With aiohttp
 
@@ -463,7 +467,7 @@ print(spitch.__version__)
 
 ## Requirements
 
-Python 3.9 or higher.
+The published `spitch==1.52.0` wheel requires Python 3.9 or higher and declares `httpx>=0.23.0,<1`. The synchronous and asynchronous speech starters were verified with HTTPX 0.28.0 and 0.28.1 on CPython 3.12.7. Each made one request to a local HTTP fixture, saved its WAV response, and printed the matching request ID. [PyPI release metadata](https://pypi.org/pypi/spitch/1.52.0/json) · [HTTPX compatibility issue #162](https://github.com/spi-tch/spitch-python/issues/162)
 
 ## Contributing
 
