@@ -467,7 +467,7 @@ print(spitch.__version__)
 
 ## Requirements
 
-The published `spitch==1.52.0` wheel requires Python 3.9 or higher and declares `httpx>=0.23.0,<1`. The synchronous and asynchronous speech starters were verified with HTTPX 0.28.0 and 0.28.1 on CPython 3.12.7. Each made one request to a local HTTP fixture, saved its WAV response, and printed the matching request ID. [PyPI release metadata](https://pypi.org/pypi/spitch/1.52.0/json) · [HTTPX compatibility issue #162](https://github.com/spi-tch/spitch-python/issues/162)
+The published `spitch==1.52.0` wheel requires Python 3.9 or higher and declares `httpx>=0.23.0,<1`. The synchronous and asynchronous speech starters were verified on CPython 3.12.7 with HTTPX 0.28.0, 0.28.1 and 0.29.0. A clean install of the SDK on November 28, 2026 resolved HTTPX 0.29.0 by default. Each made one request to a local HTTP fixture, saved its WAV response, and printed the matching request ID. [PyPI release metadata](https://pypi.org/pypi/spitch/1.52.0/json) · [HTTPX compatibility issue #162](https://github.com/spi-tch/spitch-python/issues/162)
 
 ## Contributing
 
